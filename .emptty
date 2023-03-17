@@ -1,0 +1,6 @@
+#!/bin/sh
+Selection=true
+
+. ~/.xprofile
+
+exec dbus-launch $@

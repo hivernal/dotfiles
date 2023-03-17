@@ -1,0 +1,32 @@
+* {
+  font-size: 16px;
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: 700;
+}
+
+window#waybar {
+    background: #282c34;
+    color: #fcfcfc;
+}
+
+#workspaces button {
+    padding: 0 5px;
+    background: #282c34;
+    color: #fcfcfc;
+}
+
+/* #workspaces, #tags button.occupied {
+    background: #282c34;
+    color: #fcfcfc;
+} */
+
+#workspaces button.focused {
+    background: #5c6667;
+    color: #fcfcfc;
+}
+
+#mode {
+    padding: 0 5px;
+    background: #5c6667;
+    color: #fcfcfc;
+}

@@ -1,0 +1,45 @@
+super + p
+  dmenu_run -nf '#fcfcfc' -nb '#282c34' -sb '#646870' -sf '#fcfcfc' -fn 'JetBrainsMonoMedium Nerd Font-13'
+super + shift + Return
+  alacritty
+super + shift + q
+  shutdown -h now
+Print
+  flameshot gui
+
+super + shift + {h,l}
+  bspc node -s {west,east}
+super + Return
+  bspc node -s biggest.local
+super + q
+  bspc node -c
+super + shift + {e,r}
+  bspc {quit,wm -r}
+super + {_,shift} + {j,k}
+  bspc node -{f,s} {next,prev}.local.window
+super + {h,l}
+  n=50; \
+  { d1=left;   d2=right;  dx=-$n; dy=0;   \
+  , d1=right;  d2=left;   dx=$n;  dy=0;   \
+  } \
+  bspc node --resize $d1 $dx $dy || bspc node --resize $d2 $dx $dy
+
+super + f
+    if [ -z "$(bspc query -N -n focused.floating)" ]; then \
+        bspc node focused -t floating; \
+    else \
+        bspc node focused -t tiled; \
+    fi
+
+super + {_,shift} + {1-9} 
+  bspc {desktop -f,node -d} {1-9}
+super + Tab
+  bspc desktop -l next
+
+
+XF86Audio{Raise,Lower}Volume
+  pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
+XF86AudioMute
+  pactl set-sink-mute @DEFAULT_SINK@ toggle
+XF86MonBrightness{Up,Down}
+  xbacklight -{inc,dec} 5
