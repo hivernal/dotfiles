@@ -1,0 +1,56 @@
+{
+  "spacing": 10,
+  "layer": "bottom",
+  "height": 33,
+  "modules-left": ["wlr/workspaces", "hyprland/window"],
+  "modules-center": ["clock"],
+  "modules-right": ["hyprland/language", "pulseaudio",  "battery", "custom/mem", "network"],
+
+  "sway/window": {
+    "max-length": 45
+  },
+
+  "hyprland/language": {
+    "format": "<span font_desc='JetBrainsMono Nerd Font Medium 16'>󰌌 </span><span rise='2000'>{}  </span>",
+    "format-ru": "RU",
+    "format-en": "EN"
+  },
+
+  "pulseaudio": {
+    "format-muted": "<span font_desc='JetBrainsMono Nerd Font Medium 18'>{icon}</span> <span rise='2700'>muted</span>",
+    "format-icons": ["󰕿", "󰖀", "󰕾"],
+    "format": "<span font_desc='JetBrainsMono Nerd Font Medium 18'>{icon}</span> <span rise='2700'>{volume}%  </span>"
+  },
+
+  "battery": {
+    "format": "<span font_desc='JetBrainsMono Nerd Font Medium 14' letter_spacing='-1000'>{icon}  </span>{capacity}%  ",
+    "format-icons": ["", "", "", "", ""]
+  },
+
+  "clock": {
+    "format": "<span font_desc='JetBrainsMono Nerd Font Medium 16'> </span><span rise='2000'>{:%H:%M}  </span>",
+    "timezone": "Asia/Krasnoyarsk"
+  },
+
+  "sway/language": {
+    "format": "<span font_desc='JetBrainsMono Nerd Font Medium 16'>󰌌 </span><span rise='2000'>{short}  </span>" 
+  },
+
+  "network": {
+    "format": "<span font_desc='JetBrainsMono Nerd Font Medium 15' letter_spacing='-1000' rise='-1500'>{icon} </span>{essid} ",
+    "format-icons": ["󰣾", "󰣴", "󰣶", "󰣸", "󰣺"],
+    "format-disconnected": "<span font_desc='JetBrainsMono Nerd Font Medium 15' letter_spacing='-1000' rise='-1500'>󰣽 </span>disconnected ",
+    "interval": 2
+  },
+
+  "memory": {
+    "format": "<span font_desc='JetBrainsMono Nerd Font Medium 14' letter_spacing='1000'> </span>{used}Gi  ",
+    "interval": 2
+  },
+
+  "custom/mem": {
+    "exec": "free -h | awk '(NR==2) {print $3}'",
+    "format": "<span font_desc='JetBrainsMono Nerd Font Medium 15' letter_spacing='-1000' rise='-1500'> </span>{}  ",
+    "interval": 2
+  }
+}

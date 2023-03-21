@@ -2,5 +2,6 @@
 Selection=true
 
 . ~/.xprofile
+export LD_LIBRARY_PATH=/home/nikita/.local/lib/
 
 exec dbus-launch $@
