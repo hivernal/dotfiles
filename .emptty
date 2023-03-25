@@ -2,6 +2,9 @@
 Selection=true
 
 . ~/.xprofile
-export LD_LIBRARY_PATH=/home/nikita/.local/lib/
+export QT_QPA_PLATFORM=wayland
+export BEMENU_BACKEND=wayland
+export BEMENU_OPTS='-p ">" -n -H 26 --fn "JetBrainsMono Nerd Font Medium 13" --tb #282c34 --tf #fcfcfc --fb #282c34 --ff #fcfcfc --nf #fcfcfc --nb #282c34 --hf #fcfcfc --hb #5c6667 --sb #282c34 --sf #fcfcfc --af #fcfcfc --ab #282c34'
+
 
 exec dbus-launch $@

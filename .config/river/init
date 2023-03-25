@@ -10,9 +10,9 @@
 
 # Autostart
 riverctl spawn "swaybg -m fill -i /home/nikita/pictures/neboskreb.jpg"
-riverctl spawn waybar
+riverctl spawn "waybar -s .config/river/waybar/style.css -c .config/river/waybar/config.jsonc"
 # Note: the "Super" modifier is also known as Logo, GUI, Windows, Mod4, etc.
-riverctl map normal Super P spawn "dmenu_run"
+riverctl map normal Super P spawn "bemenu-run"
 
 # Super+Shift+Return to start an instance of foot (https://codeberg.org/dnkl/foot)
 riverctl map normal Super+Shift Return spawn alacritty
@@ -132,7 +132,7 @@ do
     riverctl map $mode None XF86Eject spawn 'eject -T'
 
     # Control pulse audio volume with pamixer (https://github.com/cdemoulins/pamixer)
-    riverctl map $mode None XF86AudioRaiseVolume  spawn 'pactl set-sink-volume @DEFAULT_SINK@ -5%'
+    riverctl map $mode None XF86AudioRaiseVolume  spawn 'pactl set-sink-volume @DEFAULT_SINK@ +5%'
     riverctl map $mode None XF86AudioLowerVolume  spawn 'pactl set-sink-volume @DEFAULT_SINK@ -5%'
     riverctl map $mode None XF86AudioMute         spawn 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
 
@@ -145,17 +145,19 @@ do
     # Control screen backlight brightness with light (https://github.com/haikarainen/light)
     riverctl map $mode None XF86MonBrightnessUp   spawn 'brightnessctl s +5%'
     riverctl map $mode None XF86MonBrightnessDown spawn 'brightnessctl s 5%-'
+    riverctl map $mode None Print spawn 'grimblast copy area'
+    riverctl map $mode Shift Print spawn 'grimblast copy active'
 done
 
 # Set background and border color
 # riverctl background-color 0x002b36
 riverctl border-color-focused 0xa4c3c3 #0xfcfcfc
 riverctl border-color-unfocused 0x586e75
-riverctl border-width 3
+riverctl border-width 4
 riverctl focus-follows-cursor always
 
 # Set keyboard repeat rate
-riverctl set-repeat 50 300
+riverctl set-repeat 25 300
 
 # Make certain views start floating
 riverctl float-filter-add app-id float
@@ -172,6 +174,6 @@ rivertile -outer-padding 5 &
 
 #
 riverctl keyboard-layout -options grp:win_space_toggle us,ru
-riverctl input pointer-1267-12541-ELAN0712:00_04F3:30FD_Touchpad pointer-accel 0.2
+riverctl input pointer-1267-12541-ELAN0712:00_04F3:30FD_Touchpad pointer-accel 0.4
 riverctl input pointer-1267-12541-ELAN0712:00_04F3:30FD_Touchpad tap enabled
 riverctl input pointer-1267-12541-ELAN0712:00_04F3:30FD_Touchpad natural-scroll enabled

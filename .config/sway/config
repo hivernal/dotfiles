@@ -29,7 +29,7 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_run
+set $menu bemenu-run
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -73,7 +73,7 @@ input type:keyboard {
 input type:touchpad {
     tap enabled
     natural_scroll enabled
-    pointer_accel 0.2
+    pointer_accel 0.4
   }
 
 #
@@ -242,6 +242,6 @@ bindsym $mod+r mode "resize"
 #     }
 # }
 
-exec waybar
+exec waybar -c ~/.config/sway/waybar/config.jsonc -s ~/.config/sway/waybar/style.css
 
 include /etc/sway/config.d/*
