@@ -30,7 +30,7 @@ for number in $numbers; do
   fi
 
    if [[ $number = 4 ]]; then
-     sudo pacman -S bemenu-wayland grim slurp jq brightnessctl wayland wlroots qt5-wayland qt6-wayland imv wl-clipboard --needed
+     sudo pacman -S bemenu-wayland grim slurp jq brightnessctl wayland wlroots qt5-wayland qt6-wayland imv wl-clipboard gnome-polkit --needed
      yay -S hyprland-git waybar-hyprland-git xdg-desktop-portal-hyprland-git emptty
    fi
 
