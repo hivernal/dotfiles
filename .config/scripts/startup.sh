@@ -26,17 +26,17 @@ for number in $numbers; do
   fi
 
   if [[ $number = 3 ]]; then
-    sudo pacman -S xorg xorg-server xorg-apps xorg-xinit xclip xcb-util-cursor xorg-xbacklight feh gpicview --needed
+    sudo pacman -S xorg dunst xorg-server xorg-apps xorg-xinit xclip xcb-util-cursor xorg-xbacklight feh gpicview --needed
   fi
 
    if [[ $number = 4 ]]; then
-     sudo pacman -S bemenu-wayland grim slurp jq brightnessctl wayland wlroots qt5-wayland qt6-wayland imv wl-clipboard gnome-polkit --needed
+     sudo pacman -S bemenu-wayland dunst grim slurp jq brightnessctl wayland wlroots qt5-wayland qt6-wayland imv wl-clipboard gnome-polkit --needed
      yay -S hyprland-git waybar-hyprland-git xdg-desktop-portal-hyprland-git emptty
    fi
 
 
    if [[ $number = 5 ]]; then
-    sudo pacman -S xdg-user-dirs nm-connection-editor lightdm lightdm-gtk-greeter  flameshot lxsession-gtk3 qt5ct qt6ct alacritty lxappearance-gtk3 samba --needed
+    sudo pacman -S xdg-user-dirs dunst nm-connection-editor lightdm lightdm-gtk-greeter  flameshot lxsession-gtk3 qt5ct qt6ct alacritty lxappearance-gtk3 samba --needed
     sudo systemctl enable lightdm
     # cd ~ && git clone https://aur.archlinux.org/lightdm-settings.git && cd lightdm-settings && makepkg -sric && cd ~ && rm -rf lightdm-settings
    fi

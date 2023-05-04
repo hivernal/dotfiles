@@ -4,7 +4,7 @@
     "height": 33,
     "modules-left": ["sway/workspaces", "sway/window"],
     "modules-center": ["clock"],
-    "modules-right": ["sway/language", "pulseaudio",  "battery", "custom/mem", "network"],
+    "modules-right": ["sway/mode", "sway/language", "pulseaudio",  "battery", "custom/mem", "network"],
     "sway/window": {
         "max-length": 55
     },

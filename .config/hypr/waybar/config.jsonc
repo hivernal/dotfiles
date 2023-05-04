@@ -6,12 +6,15 @@
   "modules-center": ["clock"],
   "modules-right": ["hyprland/language", "pulseaudio",  "battery", "custom/mem", "network"],
 
-  "sway/window": {
-    "max-length": 45
+  "wlr/workspaces": {
+    "on-click": "activate",
+    "all-outputs": true,
+    "active-only": false
   },
 
   "hyprland/language": {
-    "format": "<span font_desc='JetBrainsMono Nerd Font Medium 16'>󰌌 </span><span rise='2000'>{}  </span>",
+    "format": "{}  ",
+    // "format": "<span font_desc='JetBrainsMono Nerd Font Medium 16'>󰌌 </span><span rise='2000'>{}  </span>",
     "format-ru": "RU",
     "format-en": "EN"
   },
@@ -30,10 +33,6 @@
   "clock": {
     "format": "<span font_desc='JetBrainsMono Nerd Font Medium 16'> </span><span rise='2000'>{:%H:%M}  </span>",
     "timezone": "Asia/Krasnoyarsk"
-  },
-
-  "sway/language": {
-    "format": "<span font_desc='JetBrainsMono Nerd Font Medium 16'>󰌌 </span><span rise='2000'>{short}  </span>" 
   },
 
   "network": {
