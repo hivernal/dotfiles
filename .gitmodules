@@ -4,3 +4,21 @@
 [submodule ".config/awesome"]
 	path = .config/awesome
 	url = https://github.com/hivernal/awesome
+[submodule ".config/dwm"]
+	path = .config/dwm
+	url = https://github.com/hivernal/dwm
+[submodule ".config/xmonad"]
+	path = .config/xmonad
+	url = https://github.com/hivernal/xmonad
+[submodule ".config/nvim"]
+	path = .config/nvim
+	url = https://github.com/hivernal/nvim
+[submodule ".config/sway"]
+	path = .config/sway
+	url = https://github.com/hivernal/sway
+[submodule ".config/river"]
+	path = .config/river
+	url = https://github.com/hivernal/river
+[submodule ".config/hypr"]
+	path = .config/hypr
+	url = https://github.com/hivernal/hypr
