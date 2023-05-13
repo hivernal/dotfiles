@@ -1,3 +1,6 @@
 [submodule ".config/polybar"]
 	path = .config/polybar
 	url = https://github.com/hivernal/polybar
+[submodule ".config/awesome"]
+	path = .config/awesome
+	url = https://github.com/hivernal/awesome
