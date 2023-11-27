@@ -1,0 +1,8 @@
+[Unit]
+Description=Battery low
+
+[Service]
+ExecStart=/home/nikita/.config/systemd/user/battery.sh
+
+[Install]
+WantedBy=default.target
