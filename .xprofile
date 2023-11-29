@@ -1,6 +1,4 @@
 #!/bin/bash
 
-export GOPATH=/home/nikita/go
-export GOBIN=$GOPATH/bin
-export PATH=$PATH:/home/nikita/.local/bin:/usr/local/go/bin:$GOBIN
-export QT_QPA_PLATFORMTHEME=qt5ct
+export PATH=$PATH:/home/nikita/.local/bin
+export QT_QPA_PLATFORMTHEME=qt6ct
