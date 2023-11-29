@@ -2,6 +2,7 @@
 
 [global]
     ### Display ###
+    highlight = "#d2d9f8"
 
     # Which monitor should the notifications be displayed on.
     monitor = 0
