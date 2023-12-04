@@ -7,7 +7,7 @@ TAP="-nic tap,helper=/usr/lib/qemu/qemu-bridge-helper,mac=52:54:00:12:34:$(($NUM
 SOCKET="-nic socket,mcast=230.0.0.1:1234,mac=52:54:00:12:34:$(($NUMBER*3+57))"
 USER="-nic user,smb=/home/nikita,mac=52:54:00:12:34:$(($NUMBER*3+58))"
 
-DISPLAY=$SPICE
+DISP=$SPICE
 VGA="-vga qxl"
 NET=$USER
 MEM="-m 1G"
@@ -21,10 +21,10 @@ while [[ -n $1 ]]; do
     -cdrom) CDROM="-cdrom $2"; shift;;
     -vga) VGA="-vga $2"; shift;;
     -boot) BOOT="-boot once=d -cdrom $2"; shift;;
-    -display) DISPLAY="-display $2"; shift;;
+    -display) DISP="-display $2"; shift;;
     *) DISK="-hda $1"
   esac
   shift
 done
 
-qemu-system-x86_64 -accel kvm -cpu host -smp 2 $DISPLAY $VGA $NET $MEM $BOOT $CDROM $DISK
+qemu-system-x86_64 -accel kvm -cpu host -smp 2 $DISP $VGA $NET $MEM $BOOT $CDROM $DISK
