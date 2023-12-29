@@ -12,7 +12,7 @@ font:
   bold_italic:
     family: "JetBrainsMono NF"
     style: Bold Italic
-  size: 7.5
+  size: 8.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -77,7 +77,7 @@ colors:
   # Default colors
   primary:
     background: '0x1a1b26'
-    foreground: '0xc0caf5'
+    foreground: '0xd2d9f8'
 
   # Normal colors
   normal:
