@@ -22,3 +22,6 @@
 [submodule ".config/hypr"]
 	path = .config/hypr
 	url = https://github.com/hivernal/hypr
+[submodule ".config/dwl"]
+	path = .config/dwl
+	url = https://github.com/hivernal/dwl.git
