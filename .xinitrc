@@ -55,11 +55,10 @@ fi
 # exec xterm -geometry 80x66+0+0 -name login
 
 export PATH=$PATH:/home/nikita/.local/bin
-export QT_QPA_PLATFORMTHEME=qt5ct
+export QT_QPA_PLATFORMTHEME=qt6ct
 session=${1:-dwm}
 case $session in
     dwm               ) exec dwm;;
     xmonad            ) exec xmonad;;
-    # Не известная сессия, попробуйте запустить в качестве команды
     *) exec $1;;
 esac

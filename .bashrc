@@ -18,12 +18,11 @@ export VISUAL=/usr/bin/nvim
 export EDITOR=/usr/bin/nvim
 export NNN_BMS="p:~/documents/projects;d:~/downloads;c:~/.config;q:~/documents/qemu;o:~/documents/office;h:~;/:/;l:~/.local"
 export NNN_PLUG='o:fzopen;x:!chmod +x $nnn;c:fzcd;s:suedit'
-export NNN_OPTS=AaioeEHU
+export NNN_OPTS=AaioeEU
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
 set -o vi
-. ~/.config/nnn/misc/quitcd/quitcd.bash_sh_zsh
-. "$HOME/.cargo/env"
+# . ~/.config/nnn/misc/quitcd/quitcd.bash_sh_zsh
 
 export FZF_DEFAULT_OPTS='--height 40%'
 function fcd ()
