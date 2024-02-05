@@ -17,11 +17,11 @@ for number in ${numbers}; do
   fi
   
   if [[ ${number} = 2 ]]; then
-    sudo pacman -S qemu-desktop docker docker-compose virt-viewer make fakeroot firefox gimp firefox-i18n-ru firefox-i18n-en-us firefox-spell-ru gcc fd ripgrep fzf go gdb neovim python-pip libreoffice-still libreoffice-still-ru hunspell hunspell-ru hunspell-en_us thunderbird thunderbird-i18n-ru thunderbird-i18n-en-us rsync git gtk-engine-murrine sassc transmission-gtk gparted cmake unzip zip wget evince unrar curl bash-completion samba htop neofetch speech-dispatcher yt-dlp --needed
+    sudo pacman -S qemu-desktop docker docker-compose virt-viewer make fakeroot firefox gimp firefox-i18n-ru firefox-i18n-en-us firefox-spell-ru gcc fd ripgrep fzf go gdb neovim python obs-studio python-pip libreoffice-still libreoffice-still-ru hunspell hunspell-ru hunspell-en_us thunderbird thunderbird-i18n-ru thunderbird-i18n-en-us rsync git gtk-engine-murrine sassc transmission-gtk cmake unzip zip wget evince unrar curl bash-completion samba htop neofetch speech-dispatcher pkg-config yt-dlp --needed
   fi
 
   if [[ ${number} = 3 ]]; then
-    sudo pacman -S dunst polkit-gnome picom xclip brightnessctl feh imv mpv obs-studio flameshot nm-connection-editor qt5ct qt6ct lxappearance-gtk3 xdg-user-dirs gtk3 gtk4 --needed
+    sudo pacman -S libnotify dunst polkit-gnome picom xclip brightnessctl feh imv mpv flameshot nm-connection-editor qt5ct qt6ct lxappearance-gtk3 xdg-user-dirs gtk3 gtk4 --needed
   fi
 
    if [[ ${number} = 4 ]]; then
