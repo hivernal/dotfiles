@@ -16,7 +16,6 @@ programs=(
   fd
   ripgrep
   fzf
-  go
   gdb
   neovim
   python
@@ -119,6 +118,7 @@ bluetooth_packages=(
 
 LOG="install.log"
 HIVERNAL="https://github.com/hivernal"
+CONFIG_PATH="${HOME}/.config"
 
 show_progress() {
   while ps | grep $1 &> /dev/null; do
@@ -129,30 +129,31 @@ show_progress() {
   sleep 2
 }
 
-install_packages() {
-  packages=("$@")
-  if ! yay -S --needed --noconfirm "${packages[@]}" &>> "${LOG}"; then
-    return 1
-  fi
-  return 0
-}
-
 install_yay() {
   if [[ -f /bin/yay ]]; then
     return 0
   fi
-  sudo pacman -S --noconfirm --needed git base-devel &>> "${LOG}"
+  sudo pacman -S --noconfirm --needed go git base-devel &>> "${LOG}"
   git clone https://aur.archlinux.org/yay.git &>> "${LOG}"
   cd yay
   makepkg -si --noconfirm &>> "${LOG}" &
   show_progress $!
   cd ..
   rm -rf yay
+  yay -Sy &> /dev/null
   if [[ -f /bin/yay ]]; then
     return 0
   else
     return 1
   fi
+}
+
+install_packages() {
+  packages=("$@")
+  if ! yay -S --needed --noconfirm "${packages[@]}" &>> "${LOG}"; then
+    return 1
+  fi
+  return 0
 }
 
 install_dwm() {
@@ -162,15 +163,30 @@ install_dwm() {
   return 0
   cp .xinitrc "${HOME}"
   cp .xprofile "${HOME}"
-  cp -r .config/picom "${HOME}/.config"
-  git clone "${HIVERNAL}/dwm.git" "${HOME}/.config/dwm" &>> "${LOG}"
-  dir="$(pwd)"
-  cd "${HOME}/.config/dwm/dmenu" && sudo make install && make clean && rm -f config.h
-  cd "${HOME}/.config/dwm/slstatus" && sudo make install && make clean && rm -f config.h
-  cd "${HOME}/.config/dwm/st/scroll" && sudo make install && make clean && rm -f config.h
-  cd "${HOME}/.config/dwm/st" && sudo make install && make clean && rm -f config.h
-  cd "${HOME}/.config/dwm" && sudo make install && make clean && rm -f config.h
-  cd "${dir}"
+  cp -r .config/picom "${CONFIG_PATH}"
+
+  dwm_path="${CONFIG_PATH}/dwm"
+  git clone "${HIVERNAL}/dwm.git" "${dwm_path}" &>> "${LOG}"
+
+  sudo make -C "${dwm_path}" install &>> "${LOG}" &&
+  make -C "${dwm_path}" clean &>> "${LOG}" &&
+  rm -f "${dwm_path}/config.h"
+
+  sudo make -C "${dwm_path}/slstatus" install &>> "${LOG}" &&
+  make -C "${dwm_path}/slstatus" clean &>> "${LOG}" &&
+  rm -f "${dwm_path}/slstatus/config.h"
+
+  sudo make -C "${dwm_path}/dmenu" install &>> "${LOG}" &&
+  make -C "${dwm_path}/dmenu" clean &>> "${LOG}" &&
+  rm -f "${dwm_path}/dmenu/config.h"
+
+  sudo make -C "${dwm_path}/st" install &>> "${LOG}" &&
+  make -C "${dwm_path}/st" clean &>> "${LOG}" &&
+  rm -f "${dwm_path}/st/config.h"
+
+  sudo make -C "${dwm_path}/st/scroll" install &>> "${LOG}" &&
+  make -C "${dwm_path}/st/scroll" clean &>> "${LOG}" &&
+  rm -f "${dwm_path}/st/scroll/config.h"
 }
 
 install_hyprland() {
@@ -185,8 +201,8 @@ install_hyprland() {
   sudo cp sddm/theme.conf sddm-chili/theme.conf
   cp pictures/groot-dark.png sddm-chili/assets
   sudo mv sddm-chili /usr/share/sddm/themes
-  git clone "${HIVERNAL}/hypr.git" "${HOME}/.config/hypr"  &>> "${LOG}"
-  cp -r .config/foot "${HOME}/.config"
+  git clone "${HIVERNAL}/hypr.git" "${CONFIG_PATH}/hypr"  &>> "${LOG}"
+  cp -r .config/foot "${CONFIG_PATH}"
   cp .wprofile "${HOME}"
   return 0
 }
@@ -200,9 +216,10 @@ install_themes() {
   cd Qogir-icon-theme
   ./install.sh
   cd .. && rm -rf Qogir*
-  mkdir -p "${HOME}/.local/share/fonts/JetBrainsMono"
+  font_path="${HOME}/.local/share/fonts/JetBrainsMono"
+  mkdir -p "${font_path}"
   wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip &>> "${LOG}"
-  unzip -d "${HOME}/.local/share/fonts/JetBrainsMono" JetBrainsMono.zip &>> "${LOG}"
+  unzip -d "${font_path}" JetBrainsMono.zip &>> "${LOG}"
   rm JetBrainsMono.zip
 }
 
@@ -213,7 +230,6 @@ if ! install_yay; then
   echo -en "Failed to install yay\n"
   exit
 fi
-yay -Sy &> /dev/null
 echo -en "Yay has been installed\n"
 
 echo -en "Copying pictures and scripts\n"
@@ -224,8 +240,8 @@ mkdir -p "${HOME}/pictures"
 cp pictures/* "${HOME}/pictures/"
 mkdir -p "${HOME}/documents/qemu"
 cp scripts/run.sh "${HOME}/documents/qemu/"
-mkdir -p "${HOME}/.config/"
-cp -r .config/systemd .config/user-dirs.dirs .config/dunst "${HOME}/.config/"
+mkdir -p "${CONFIG_PATH}/"
+cp -r .config/systemd .config/user-dirs.dirs .config/dunst "${CONFIG_PATH}"
 mkdir -p "${HOME}/music" "${HOME}/desktop" "${HOME}/videos" "${HOME}/templates" "${HOME}/downloads"
 echo -en "Copying has been finished\n"
 
