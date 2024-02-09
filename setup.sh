@@ -196,13 +196,13 @@ install_themes() {
   cd Qogir-theme
   ./install.sh
   cd ..
-  git clone https://github.com/vinceliuice/Qogir-icon-theme.git
+  git clone https://github.com/vinceliuice/Qogir-icon-theme.git &>> "${LOG}"
   cd Qogir-icon-theme
   ./install.sh
   cd .. && rm -rf Qogir*
   mkdir -p "${HOME}/.local/share/fonts/JetBrainsMono"
-  wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
-  unzip -d "${HOME}/.local/share/fonts/JetBrainsMono" JetBrainsMono.zip
+  wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip &>> "${LOG}"
+  unzip -d "${HOME}/.local/share/fonts/JetBrainsMono" JetBrainsMono.zip &>> "${LOG}"
   rm JetBrainsMono.zip
 }
 
