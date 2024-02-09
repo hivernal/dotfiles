@@ -6,20 +6,20 @@ programs=(
   docker-compose
   virt-viewer
   make
-  fakeroot
+  cmake
+  gcc
+  gdb
   firefox
-  gimp
   firefox-i18n-ru
   firefox-i18n-en-us
   firefox-spell-ru
-  gcc
+  gimp
+  obs-studio
   fd
   ripgrep
   fzf
-  gdb
   neovim
   python
-  obs-studio
   python-pip
   libreoffice-still
   libreoffice-still-ru
@@ -34,13 +34,12 @@ programs=(
   gtk-engine-murrine
   sassc
   transmission-gtk
-  cmake
   zip
   unzip
   unrar
   wget
-  evince
   curl
+  evince
   bash-completion
   samba
   htop
@@ -48,6 +47,10 @@ programs=(
   speech-dispatcher
   pkg-config
   yt-dlp
+  gtk3
+  gtk4
+  qt5ct
+  qt6ct
 )
 
 hyprland_packages=(
@@ -66,12 +69,8 @@ hyprland_packages=(
   mpv
   sddm-git
   nwg-look-bin
-  gtk3
-  gtk4
   qt5-wayland
   qt6-wayland
-  qt5ct
-  qt6ct
   qt5-quickcontrols
   qt5-graphicaleffects
 )
@@ -90,10 +89,6 @@ dwm_packages=(
   imv
   mpv
   lxappearance-gtk3
-  gtk3
-  gtk4
-  qt5ct
-  qt6ct
 )
 
 alsa_packages=(
@@ -105,8 +100,8 @@ pipewire_packages=(
   wireplumber
   pipewire
   pipewire-audio
-  pipewire-jack
   pipewire-alsa
+  pipewire-jack
   pipewire-pulse
 )
 
