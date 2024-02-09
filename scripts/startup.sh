@@ -1,5 +1,11 @@
 #!/bin/bash
 
+install_yay() {
+  if pacman -Q yay &>> /dev/null; then
+  else
+  fi
+}
+
 echo "1) install xorg and intel drivers"
 echo "2) install usual packages"
 echo "3) install xorg wm tools"
@@ -25,8 +31,7 @@ for number in ${numbers}; do
   fi
 
    if [[ ${number} = 4 ]]; then
-     sudo pacman -S bemenu-wayland dunst grim slurp jq brightnessctl wayland wlroots qt5-wayland qt6-wayland imv wl-clipboard gnome-polkit --needed
-     yay -S hyprland-git waybar-hyprland-git xdg-desktop-portal-hyprland-git emptty
+     sudo pacman -S hyprland waybar xdg-desktop-portal-hyprland bemenu-wayland dunst grim slurp jq brightnessctl qt5-wayland qt6-wayland imv mpv wl-clipboard gnome-polkit --needed
    fi
 
    if [[ ${number} = 5 ]]; then
