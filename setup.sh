@@ -282,7 +282,7 @@ for number in "${numbers}"; do
       echo -en "Dwm has been installed\n"
       ;;
     3)
-      echo -en "Installing hyprland packages\n"
+      echo -en "Installing hyprland packages"
       if ! progress_wrapper install_hyprland; then
         echo -en "Failed to install hyprland packages\n"
         exit
@@ -290,7 +290,7 @@ for number in "${numbers}"; do
       echo -en "Hyprland packages has been installed\n"
       ;;
     4)
-      echo -en "Installing alsa\n"
+      echo -en "Installing alsa"
       if ! progress_wrapper install_packages "${alsa_packages[@]}"; then
         echo -en "Failed to install alsa\n"
         exit
@@ -298,7 +298,7 @@ for number in "${numbers}"; do
       echo -en "Alsa has been installed\n"
       ;;
     5)
-      echo -en "Installing pipewire\n"
+      echo -en "Installing pipewire"
       if ! progress_wrapper install_packages "${pipewire_packages[@]}"; then
         echo -en "Failed to install pipewire\n"
         exit
@@ -306,7 +306,7 @@ for number in "${numbers}"; do
       echo -en "Pipewire has been installed\n"
       ;;
     6)
-      echo -en "Installing bluetooth\n"
+      echo -en "Installing bluetooth"
       if ! progress_wrapper install_packages "${bluetooth_packages[@]}"; then
         echo -en "Failed to install bluetooth\n"
         exit
@@ -315,7 +315,7 @@ for number in "${numbers}"; do
       echo -en "Pipewire has been installed\n"
       ;;
     7)
-      echo -en "Installing themes\n"
+      echo -en "Installing themes"
       if ! progress_wrapper install_themes; then
         echo -en "Failed to install themes\n"
         exit
@@ -323,7 +323,7 @@ for number in "${numbers}"; do
       echo -en "Themes has been installed\n"
       ;;
     8)
-      echo -en "Installing pandoc\n"
+      echo -en "Installing pandoc"
       if ! progress_wrapper install_packages "${pandoc_packages[@]}"; then
         echo -en "Failed to install pandoc\n"
         exit
