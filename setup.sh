@@ -140,7 +140,7 @@ show_progress() {
 
 progress_wrapper() {
   func="$1"
-  "${func}" "$@" &
+  "${func}" "$@" &>> ${LOG} &
   pid=$!
   show_progress ${pid}
   wait ${pid}
@@ -151,20 +151,23 @@ install_yay() {
   if [[ -f /bin/yay ]]; then
     return 0
   fi
-  sudo pacman -S --noconfirm --needed go git base-devel &>> "${LOG}" &&
-  git clone https://aur.archlinux.org/yay.git &>> "${LOG}" &&
+  sudo pacman -S --noconfirm --needed go git base-devel &&
+  git clone https://aur.archlinux.org/yay.git &&
   cd yay &&
-  makepkg -si --noconfirm &>> "${LOG}" &&
+  makepkg -si --noconfirm &&
   cd .. && rm -rf yay &&
   yay -Sy &> /dev/null
 }
 
 install_packages() {
   packages=("$@")
-  yay -S --needed --noconfirm "${packages[@]}" &>> "${LOG}"
+  yay -S --needed --noconfirm "${packages[@]}"
 }
 
 install_dwm() {
+  if [[ -d "${CONFIG_PATH}/dwm" ]]; then
+    rm -rf "${CONFIG_PATH}/dwm"
+  fi
   install_packages "${dwm_packages[@]}" &&
   cp .xinitrc "${HOME}" &&
   cp .xprofile "${HOME}" &&
@@ -173,60 +176,66 @@ install_dwm() {
   sudo cp -r xorg.conf.d/* "/usr/share/X11/xorg.conf.d" &&
 
   dwm_path="${CONFIG_PATH}/dwm" &&
-  git clone "${HIVERNAL}/dwm.git" "${dwm_path}" &>> "${LOG}" &&
+  git clone "${HIVERNAL}/dwm.git" "${dwm_path}" &&
 
-  sudo make -C "${dwm_path}" install &>> "${LOG}" &&
-  make -C "${dwm_path}" clean &>> "${LOG}" &&
+  sudo make -C "${dwm_path}" install &&
+  make -C "${dwm_path}" clean &&
   rm -f "${dwm_path}/config.h" &&
   mkdir -p "${HOME}/.dwm" &&
   cp "${dwm_path}/autostart.sh" "${HOME}/.dwm/" &&
 
-  sudo make -C "${dwm_path}/slstatus" install &>> "${LOG}" &&
-  make -C "${dwm_path}/slstatus" clean &>> "${LOG}" &&
+  sudo make -C "${dwm_path}/slstatus" install &&
+  make -C "${dwm_path}/slstatus" clean &&
   rm -f "${dwm_path}/slstatus/config.h" &&
 
-  sudo make -C "${dwm_path}/dmenu" install &>> "${LOG}" &&
-  make -C "${dwm_path}/dmenu" clean &>> "${LOG}" &&
+  sudo make -C "${dwm_path}/dmenu" install &&
+  make -C "${dwm_path}/dmenu" clean &&
   rm -f "${dwm_path}/dmenu/config.h" &&
 
-  sudo make -C "${dwm_path}/st" install &>> "${LOG}" &&
-  make -C "${dwm_path}/st" clean &>> "${LOG}" &&
+  sudo make -C "${dwm_path}/st" install &&
+  make -C "${dwm_path}/st" clean &&
   rm -f "${dwm_path}/st/config.h" &&
 
-  sudo make -C "${dwm_path}/st/scroll" install &>> "${LOG}" &&
-  make -C "${dwm_path}/st/scroll" clean &>> "${LOG}" &&
+  sudo make -C "${dwm_path}/st/scroll" install &&
+  make -C "${dwm_path}/st/scroll" clean &&
   rm -f "${dwm_path}/st/scroll/config.h"
 }
 
 install_hyprland() {
+  if [[ -d /usr/share/sddm/themes/sddm-chili ]]; then
+    sudo rm -rf /usr/share/sddm/themes/sddm-chili
+  fi
+  if [[ -d "${CONFIG_PATH}/hypr" ]]; then
+    rm -rf "${CONFIG_PATH}/hypr"
+  fi
   install_packages "${hyprland_packages[@]}" &&
-  sudo systemctl enable sddm &>> "${LOG}" &&
-  sudo mkdir /etc/sddm.conf.d &&
+  sudo systemctl enable sddm &&
+  sudo mkdir -p /etc/sddm.conf.d &&
   sudo cp sddm/default.conf /etc/sddm.conf.d &&
   sudo cp sddm/wayland-session /usr/share/sddm/scripts/ &&
-  git clone https://github.com/MarianArlt/sddm-chili.git  &>> "${LOG}" &&
+  git clone https://github.com/MarianArlt/sddm-chili.git  &&
   sudo cp sddm/theme.conf sddm-chili/theme.conf &&
   cp pictures/groot-dark.png sddm-chili/assets &&
   sudo mv sddm-chili /usr/share/sddm/themes &&
-  git clone "${HIVERNAL}/hypr.git" "${CONFIG_PATH}/hypr"  &>> "${LOG}" &&
+  git clone "${HIVERNAL}/hypr.git" "${CONFIG_PATH}/hypr"  &&
   cp -r .config/foot "${CONFIG_PATH}" &&
   cp .wprofile "${HOME}"
 }
 
 install_themes() {
   install_packages "${themes_packages[@]}" &&
-  git clone https://github.com/vinceliuice/Qogir-theme.git &>> "${LOG}" &&
+  git clone https://github.com/vinceliuice/Qogir-theme.git &&
   cd Qogir-theme &&
-  sudo bash install.sh -d /usr/share/themes &>> "${LOG}" &&
+  sudo bash install.sh -d /usr/share/themes &&
   cd .. &&
-  git clone https://github.com/vinceliuice/Qogir-icon-theme.git &>> "${LOG}" &&
+  git clone https://github.com/vinceliuice/Qogir-icon-theme.git &&
   cd Qogir-icon-theme &&
-  sudo bash install.sh -d /usr/share/icons &>> "${LOG}" &&
+  sudo bash install.sh -d /usr/share/icons &&
   cd .. && rm -rf Qogir* &&
   font_path="${HOME}/.local/share/fonts/JetBrainsMono" &&
   mkdir -p "${font_path}" &&
-  wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip &>> "${LOG}" &&
-  unzip -d "${font_path}" JetBrainsMono.zip &>> "${LOG}" &&
+  wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip &&
+  unzip -d "${font_path}" JetBrainsMono.zip &&
   rm JetBrainsMono.zip
 }
 
@@ -252,18 +261,19 @@ cp -r .config/systemd .config/user-dirs.dirs .config/dunst "${CONFIG_PATH}"
 mkdir -p "${HOME}/music" "${HOME}/desktop" "${HOME}/videos" "${HOME}/templates" "${HOME}/downloads"
 echo -en "Copying has been finished\n\n"
 
-echo "1) install programs"
-echo "2) install dwm"
-echo "3) install hyprland"
-echo "4) install alsa"
-echo "5) install pipewire"
-echo "6) install bluetooth"
-echo "7) install themes and icons"
-echo "8) install pandoc"
-echo "choose: "
+echo -en "1) install programs\n"
+echo -en "2) install dwm\n"
+echo -en "3) install hyprland\n"
+echo -en "4) install alsa\n"
+echo -en "5) install pipewire\n"
+echo -en "6) install bluetooth\n"
+echo -en "7) install themes and icons\n"
+echo -en "8) install pandoc\n"
+echo -en "choose: "
 read numbers
+echo -en "\n"
 
-for number in "${numbers}"; do
+for number in ${numbers}; do
   case "${number}" in
     1)
       echo -en "Installing programs"
@@ -311,7 +321,7 @@ for number in "${numbers}"; do
         echo -en "Failed to install bluetooth\n"
         exit
       fi
-      sudo systemctl enable bluetooth &>> "${LOG}"
+      sudo systemctl enable bluetooth
       echo -en "Pipewire has been installed\n"
       ;;
     7)
