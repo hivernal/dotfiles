@@ -15,15 +15,15 @@ cdrom=
 boot=
 disk="-hda clear.qcow2"
 
-while [[ -n ${1} ]]; do
-  case ${1} in
-    -display) display="-display ${2}"; shift;;
+while [[ -n "$1" ]]; do
+  case "$1" in
+    -display) display="-display $2"; shift;;
     -vga) vga="-vga $2"; shift;;
-    -net) net="-nic ${2}"; shift;;
-    -m) mem="-m ${2}"; shift;;
-    -cdrom) cdrom="-cdrom ${2}"; shift;;
-    -boot) boot="-boot once=d -cdrom ${2}"; shift;;
-    *) disk="-hda ${1}"
+    -net) net="-nic $2"; shift;;
+    -m) mem="-m $2"; shift;;
+    -cdrom) cdrom="-cdrom $2"; shift;;
+    -boot) boot="-boot once=d -cdrom $2"; shift;;
+    *) disk="-hda $1"
   esac
   shift
 done
