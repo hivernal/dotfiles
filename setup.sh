@@ -257,7 +257,7 @@ cp pictures/* "${HOME}/pictures/"
 mkdir -p "${HOME}/documents/qemu"
 cp scripts/run.sh "${HOME}/documents/qemu/"
 mkdir -p "${CONFIG_PATH}/"
-cp -r .config/systemd .config/user-dirs.dirs .config/dunst "${CONFIG_PATH}"
+cp -r .config/mpv .config/mvi .config/systemd .config/user-dirs.dirs .config/dunst "${CONFIG_PATH}"
 mkdir -p "${HOME}/music" "${HOME}/desktop" "${HOME}/videos" "${HOME}/templates" "${HOME}/downloads"
 echo -en "Copying has been finished\n\n"
 
