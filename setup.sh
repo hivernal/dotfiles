@@ -173,7 +173,7 @@ install_dwm() {
   cp .xprofile "${HOME}" &&
   cp -r .config/picom "${CONFIG_PATH}" &&
   sudo mkdir -p /usr/share/X11/xorg.conf.d &&
-  sudo cp -r xorg.conf.d/* "/usr/share/X11/xorg.conf.d" &&
+  sudo cp -r xorg.conf.d/* /etc/X11/xorg.conf.d/ &&
 
   dwm_path="${CONFIG_PATH}/dwm" &&
   git clone "${HIVERNAL}/dwm.git" "${dwm_path}" &&
