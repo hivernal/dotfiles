@@ -164,6 +164,7 @@ install_yay() {
 
 install_packages() {
   packages=("$@")
+  install_yay &&
   yay -S --needed --noconfirm "${packages[@]}"
 }
 
@@ -242,48 +243,52 @@ install_themes() {
   rm JetBrainsMono.zip
 }
 
+copy_files() {
+  cp .bashrc "${HOME}" &&
+  cp pictures/* "${HOME}/pictures/" &&
+  cp scripts/grimblast scripts/backup.sh "${HOME}/.local/bin" &&
+  cp -r .config/mpv .config/mvi .config/systemd .config/user-dirs.dirs \
+        .config/dunst .config/gtk-3.0 "${CONFIG_PATH}" &&
+  cp scripts/run.sh "${HOME}/documents/qemu/" &&
+  cp -r .config/nvim_simple "${CONFIG_PATH}/nvim" &&
+  xdg-user-dirs-update &&
+  systemctl enable --user --now battery.timer
+}
+
 > "${LOG}"
 
-echo -en "Installing yay"
-if ! progress_wrapper install_yay; then
-  echo -en "Failed to install yay\n"
-  exit
-fi
-echo -en "Yay has been installed\n\n"
-
-echo -en "Copying files\n"
 mkdir -p "${HOME}/music" "${HOME}/desktop" "${HOME}/videos" \
          "${HOME}/templates" "${HOME}/downloads/git" \
          "${HOME}/downloads/iso" "${HOME}/downloads/browser" \
          "${HOME}/downloads/telegram" "${HOME}/pictures"
-cp .bashrc "${HOME}"
-cp pictures/* "${HOME}/pictures/"
-mkdir -p "${HOME}/.local/bin" &&
-cp scripts/grimblast scripts/backup.sh "${HOME}/.local/bin"
-mkdir -p "${HOME}/documents/qemu" && cp scripts/run.sh "${HOME}/documents/qemu/"
+mkdir -p "${HOME}/.local/bin"
+mkdir -p "${HOME}/documents/qemu"
 mkdir -p "${CONFIG_PATH}/"
-cp -r .config/mpv .config/mvi .config/systemd .config/user-dirs.dirs \
-      .config/dunst .config/gtk-3.0 "${CONFIG_PATH}"
-xdg-user-dirs-update
-systemctl enable --user --now battery.timer
-cp -r .config/nvim_simple "${CONFIG_PATH}/nvim"
-echo -en "Copying has been finished\n\n"
 
-echo -en "1) install programs\n"
-echo -en "2) install dwm\n"
-echo -en "3) install hyprland\n"
-echo -en "4) install alsa\n"
-echo -en "5) install pipewire\n"
-echo -en "6) install bluetooth\n"
-echo -en "7) install themes and icons\n"
-echo -en "8) install pandoc\n"
+echo -en "1) install yay\n"
+echo -en "2) install programs\n"
+echo -en "3) install dwm\n"
+echo -en "4) install hyprland\n"
+echo -en "5) install alsa\n"
+echo -en "6) install pipewire\n"
+echo -en "7) install bluetooth\n"
+echo -en "8) install themes and icons\n"
+echo -en "9) install pandoc\n"
+echo -en "10) Copy files\n"
 echo -en "choose: "
 read numbers
 echo -en "\n"
 
 for number in ${numbers}; do
-  case "${number}" in
+  case ${number} in
     1)
+      echo -en "Installing yay"
+      if ! progress_wrapper install_yay; then
+        echo -en "Failed to install yay\n"
+        exit
+      fi
+      echo -en "Yay has been installed\n"
+    2)
       echo -en "Installing programs"
       if ! progress_wrapper install_packages "${programs[@]}"; then
         echo -en "Failed to install programs\n"
@@ -291,7 +296,7 @@ for number in ${numbers}; do
       fi
       echo -en "Programs has been installed\n"
       ;;
-    2)
+    3)
       echo -en "Installing dwm"
       if ! progress_wrapper install_dwm; then
         echo -en "Failed to install dwm\n"
@@ -299,7 +304,7 @@ for number in ${numbers}; do
       fi
       echo -en "Dwm has been installed\n"
       ;;
-    3)
+    4)
       echo -en "Installing hyprland packages"
       if ! progress_wrapper install_hyprland; then
         echo -en "Failed to install hyprland packages\n"
@@ -307,7 +312,7 @@ for number in ${numbers}; do
       fi
       echo -en "Hyprland packages has been installed\n"
       ;;
-    4)
+    5)
       echo -en "Installing alsa"
       if ! progress_wrapper install_packages "${alsa_packages[@]}"; then
         echo -en "Failed to install alsa\n"
@@ -315,7 +320,7 @@ for number in ${numbers}; do
       fi
       echo -en "Alsa has been installed\n"
       ;;
-    5)
+    6)
       echo -en "Installing pipewire"
       if ! progress_wrapper install_packages "${pipewire_packages[@]}"; then
         echo -en "Failed to install pipewire\n"
@@ -323,7 +328,7 @@ for number in ${numbers}; do
       fi
       echo -en "Pipewire has been installed\n"
       ;;
-    6)
+    7)
       echo -en "Installing bluetooth"
       if ! progress_wrapper install_packages "${bluetooth_packages[@]}"; then
         echo -en "Failed to install bluetooth\n"
@@ -332,7 +337,7 @@ for number in ${numbers}; do
       sudo systemctl enable bluetooth
       echo -en "Pipewire has been installed\n"
       ;;
-    7)
+    8)
       echo -en "Installing themes"
       if ! progress_wrapper install_themes; then
         echo -en "Failed to install themes\n"
@@ -340,13 +345,21 @@ for number in ${numbers}; do
       fi
       echo -en "Themes has been installed\n"
       ;;
-    8)
+    9)
       echo -en "Installing pandoc"
       if ! progress_wrapper install_packages "${pandoc_packages[@]}"; then
         echo -en "Failed to install pandoc\n"
         exit
       fi
       echo -en "Pandoc has been installed\n"
+      ;;
+    10)
+      echo -en "Copying files\n"
+      if ! copy_files; then
+        echo -en "Failed to copy files\n"
+        exit
+      fi
+      echo -en "Copying has been finished\n\n"
       ;;
   esac
 done
