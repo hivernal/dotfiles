@@ -76,12 +76,12 @@ hyprland_packages=(
 )
 
 dwm_packages=(
-  # xorg-server
+  xorg-server-git
+  xorg-xinit
   brightnessctl
   mesa
   feh
   vulkan-intel
-  xorg-xinit
   intel-media-driver
   libva-vdpau-driver
   libvdpau-va-gl
