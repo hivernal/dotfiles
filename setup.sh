@@ -49,6 +49,7 @@ programs=(
   gtk4
   qt5ct
   qt6ct
+  xdg-user-dirs
 )
 
 hyprland_packages=(
@@ -71,10 +72,12 @@ hyprland_packages=(
   qt6-wayland
   qt5-quickcontrols
   qt5-graphicaleffects
+  brightnessctl
 )
 
 dwm_packages=(
-  xorg-server
+  # xorg-server
+  brightnessctl
   mesa
   feh
   vulkan-intel
@@ -248,17 +251,22 @@ if ! progress_wrapper install_yay; then
 fi
 echo -en "Yay has been installed\n\n"
 
-echo -en "Copying pictures and scripts\n"
+echo -en "Copying files\n"
+mkdir -p "${HOME}/music" "${HOME}/desktop" "${HOME}/videos" \
+         "${HOME}/templates" "${HOME}/downloads/git" \
+         "${HOME}/downloads/iso" "${HOME}/downloads/browser" \
+         "${HOME}/downloads/telegram" "${HOME}/pictures"
 cp .bashrc "${HOME}"
-mkdir -p "${HOME}/.local/bin"
-cp scripts/grimblast scripts/backup.sh "${HOME}/.local/bin"
-mkdir -p "${HOME}/pictures"
 cp pictures/* "${HOME}/pictures/"
-mkdir -p "${HOME}/documents/qemu"
-cp scripts/run.sh "${HOME}/documents/qemu/"
+mkdir -p "${HOME}/.local/bin" &&
+cp scripts/grimblast scripts/backup.sh "${HOME}/.local/bin"
+mkdir -p "${HOME}/documents/qemu" && cp scripts/run.sh "${HOME}/documents/qemu/"
 mkdir -p "${CONFIG_PATH}/"
-cp -r .config/mpv .config/mvi .config/systemd .config/user-dirs.dirs .config/dunst "${CONFIG_PATH}"
-mkdir -p "${HOME}/music" "${HOME}/desktop" "${HOME}/videos" "${HOME}/templates" "${HOME}/downloads"
+cp -r .config/mpv .config/mvi .config/systemd .config/user-dirs.dirs \
+      .config/dunst .config/gtk-3.0 "${CONFIG_PATH}"
+xdg-user-dirs-update
+systemctl enable --user --now battery.timer
+cp -r .config/nvim_simple "${CONFIG_PATH}/nvim"
 echo -en "Copying has been finished\n\n"
 
 echo -en "1) install programs\n"
