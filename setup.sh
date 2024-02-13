@@ -31,7 +31,7 @@ programs=(
   thunderbird-i18n-en-us
   rsync
   git
-  transmission-gtk
+  transmission-cli
   zip
   unzip
   unrar
@@ -73,11 +73,14 @@ hyprland_packages=(
   qt5-quickcontrols
   qt5-graphicaleffects
   brightnessctl
+  nm-connection-editor
 )
 
 dwm_packages=(
-  xorg-server-git
+  xorg-server
   xorg-xinit
+  picom
+  nm-connection-editor
   brightnessctl
   mesa
   feh
@@ -223,7 +226,8 @@ install_hyprland() {
   sudo mv sddm-chili /usr/share/sddm/themes &&
   git clone "${HIVERNAL}/hypr.git" "${CONFIG_PATH}/hypr"  &&
   cp -r .config/foot "${CONFIG_PATH}" &&
-  cp .wprofile "${HOME}"
+  cp .wprofile "${HOME}" &&
+  cp scripts/grimblast "${HOME}/.local/bin"
 }
 
 install_themes() {
@@ -246,7 +250,7 @@ install_themes() {
 copy_files() {
   cp .bashrc "${HOME}" &&
   cp pictures/* "${HOME}/pictures/" &&
-  cp scripts/grimblast scripts/backup.sh "${HOME}/.local/bin" &&
+  cp scripts/backup.sh scripts/telegram scripts/updater "${HOME}/.local/bin" &&
   cp -r .config/mpv .config/mvi .config/systemd .config/user-dirs.dirs \
         .config/dunst .config/gtk-3.0 "${CONFIG_PATH}" &&
   cp scripts/run.sh "${HOME}/documents/qemu/" &&
@@ -263,7 +267,7 @@ mkdir -p "${HOME}/music" "${HOME}/desktop" "${HOME}/videos" \
          "${HOME}/downloads/telegram" "${HOME}/pictures"
 mkdir -p "${HOME}/.local/bin"
 mkdir -p "${HOME}/documents/qemu"
-mkdir -p "${CONFIG_PATH}/"
+mkdir -p "${CONFIG_PATH}"
 
 echo -en "1) install yay\n"
 echo -en "2) install programs\n"
@@ -288,6 +292,7 @@ for number in ${numbers}; do
         exit
       fi
       echo -en "Yay has been installed\n"
+      ;;
     2)
       echo -en "Installing programs"
       if ! progress_wrapper install_packages "${programs[@]}"; then
