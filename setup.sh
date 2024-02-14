@@ -1,6 +1,7 @@
 #!/bin/bash
 
 programs=(
+  tmux
   qemu-desktop
   docker
   docker-compose
@@ -53,6 +54,7 @@ programs=(
 )
 
 hyprland_packages=(
+  tmux
   hyprland
   xdg-desktop-portal-hyprland
   waybar
@@ -80,6 +82,7 @@ dwm_packages=(
   xorg-server
   xorg-xinit
   picom
+  tmux
   nm-connection-editor
   brightnessctl
   mesa
@@ -201,11 +204,7 @@ install_dwm() {
 
   sudo make -C "${dwm_path}/st" install &&
   make -C "${dwm_path}/st" clean &&
-  rm -f "${dwm_path}/st/config.h" &&
-
-  sudo make -C "${dwm_path}/st/scroll" install &&
-  make -C "${dwm_path}/st/scroll" clean &&
-  rm -f "${dwm_path}/st/scroll/config.h"
+  rm -f "${dwm_path}/st/config.h"
 }
 
 install_hyprland() {
@@ -248,14 +247,14 @@ install_themes() {
 }
 
 copy_files() {
-  cp .bashrc "${HOME}" &&
+  cp .bashrc .tmux.conf "${HOME}" &&
   cp pictures/* "${HOME}/pictures/" &&
-  cp scripts/backup.sh scripts/telegram scripts/updater "${HOME}/.local/bin" &&
+  cp scripts/backup.sh "${HOME}/.local/bin" &&
   cp -r .config/mpv .config/mvi .config/systemd .config/user-dirs.dirs \
         .config/dunst .config/gtk-3.0 "${CONFIG_PATH}" &&
   cp scripts/run.sh "${HOME}/documents/qemu/" &&
-  cp -r .config/nvim_simple "${CONFIG_PATH}/nvim" &&
-  xdg-user-dirs-update &&
+  mkdir -p "${CONFIG_PATH}/nvim" &&
+  cp -r .config/nvim_simple/* "${CONFIG_PATH}/nvim/" &&
   systemctl enable --user --now battery.timer
 }
 
