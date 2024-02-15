@@ -1,16 +1,4 @@
 #################################
-#          Animations           #
-#################################
-# requires https://github.com/jonaburg/picom
-# (These are also the default values)
-transition-length = 300
-transition-pow-x = 0.05
-transition-pow-y = 0.05
-transition-pow-w = 0.05
-transition-pow-h = 0.05
-size-transition = true
-
-#################################
 #             Shadows           #
 #################################
 
@@ -84,8 +72,8 @@ shadow-exclude = [
 
 # Fade windows in/out when opening/closing and when opacity changes,
 #  unless no-fading-openclose is used.
-# fading = false;
-fading = true;
+fading = false;
+# fading = true;
 
 # Opacity change between steps while fading in. (0.01 - 1.0, defaults to 0.028)
 # fade-in-step = 0.028
@@ -96,16 +84,16 @@ fade-in-step = 0.03;
 fade-out-step = 0.03;
 
 # The time between steps in fade step, in milliseconds. (> 0, defaults to 10)
-fade-delta = 5;
+fade-delta = 4;
 
 # Specify a list of conditions of windows that should not be faded.
 # fade-exclude = []
 
 # Do not fade on window open/close.
-no-fading-openclose = false;
+no-fading-openclose = true;
 
 # Do not fade destroyed ARGB windows with WM frame. Workaround of bugs in Openbox, Fluxbox, etc.
-no-fading-destroyed-argb = false;
+no-fading-destroyed-argb = true;
 
 
 #################################
@@ -229,8 +217,8 @@ rounded-corners-exclude = [
 # Specify the backend to use: `xrender`, `glx`, or `xr_glx_hybrid`.
 # `xrender` is the default one.
 #
-backend = "glx";
-# backend = "xrender";
+# backend = "glx";
+backend = "xrender";
 
 # Enable/disable VSync.
 # vsync = false
@@ -243,23 +231,23 @@ vsync = true;
 # child that has 'WM_STATE') and mark them as active.
 #
 # mark-wmwin-focused = false
-mark-wmwin-focused = true;
+# mark-wmwin-focused = true;
 
 # Mark override-redirect windows that doesn't have a child window with 'WM_STATE' focused.
 # mark-ovredir-focused = false
-mark-ovredir-focused = true;
+# mark-ovredir-focused = true;
 
 # Try to detect windows with rounded corners and don't consider them
 # shaped windows. The accuracy is not very high, unfortunately.
 #
 # detect-rounded-corners = false
-detect-rounded-corners = false;
+# detect-rounded-corners = true;
 
 # Detect '_NET_WM_WINDOW_OPACITY' on client windows, useful for window managers
 # not passing '_NET_WM_WINDOW_OPACITY' of client windows to frame windows.
 #
 # detect-client-opacity = false
-detect-client-opacity = true;
+# detect-client-opacity = true;
 
 # Use EWMH '_NET_ACTIVE_WINDOW' to determine currently focused window,
 # rather than listening to 'FocusIn'/'FocusOut' event. Might have more accuracy,
@@ -283,7 +271,7 @@ detect-client-opacity = true;
 # in the same group focused at the same time.
 #
 # detect-transient = false
-detect-transient = true;
+# detect-transient = true;
 
 # Use 'WM_CLIENT_LEADER' to group windows, and consider windows in the same
 # group focused at the same time. This usually means windows from the same application
@@ -315,7 +303,7 @@ detect-transient = true;
 # practically happened) and may not work with blur-background.
 # My tests show a 15% performance boost. Recommended.
 #
-# glx-no-stencil = false
+# glx-no-stencil = false;
 
 # GLX backend: Avoid rebinding pixmap on window damage.
 # Probably could improve performance on rapid window content changes,
@@ -335,7 +323,6 @@ use-damage = true;
 # Use X Sync fence to sync clients' draw calls, to make sure all draw
 # calls are finished before picom starts drawing. Needed on nvidia-drivers
 # with GLX backend for some users.
-#
 # xrender-sync-fence = false
 
 # GLX backend: Use specified GLSL fragment shader for rendering window
@@ -437,7 +424,7 @@ log-level = "warn";
 #
 wintypes:
 {
-  tooltip = { fade = true; shadow = false; opacity = 1.0; focus = true; full-shadow = false; };
+  tooltip = { fade = false; shadow = false; opacity = 1.0; focus = true; full-shadow = false; };
   dock = { shadow = false; clip-shadow-above = true; }
   dnd = { shadow = false; }
   popup_menu = { opacity = 1.0; }
