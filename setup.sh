@@ -54,6 +54,7 @@ programs=(
 )
 
 hyprland_packages=(
+  kvantum
   tmux
   hyprland
   xdg-desktop-portal-hyprland
@@ -82,6 +83,7 @@ dwm_packages=(
   xorg-server
   xorg-xinit
   picom
+  kvantum
   tmux
   nm-connection-editor
   brightnessctl
@@ -99,21 +101,15 @@ dwm_packages=(
   lxappearance-gtk3
 )
 
-alsa_packages=(
+pipewire_packages=(
   alsa-utils
   alsa-tools
-)
-
-pipewire_packages=(
   wireplumber
   pipewire
   pipewire-audio
   pipewire-alsa
   pipewire-jack
   pipewire-pulse
-)
-
-bluetooth_packages=(
   bluez
   bluez-utils
   blueberry
@@ -272,12 +268,10 @@ echo -en "1) install yay\n"
 echo -en "2) install programs\n"
 echo -en "3) install dwm\n"
 echo -en "4) install hyprland\n"
-echo -en "5) install alsa\n"
-echo -en "6) install pipewire\n"
-echo -en "7) install bluetooth\n"
-echo -en "8) install themes and icons\n"
-echo -en "9) install pandoc\n"
-echo -en "10) Copy files\n"
+echo -en "5) install pipewire and bluetooth\n"
+echo -en "6) install themes and icons\n"
+echo -en "7) install pandoc\n"
+echo -en "8) Copy files\n"
 echo -en "choose: "
 read numbers
 echo -en "\n"
@@ -294,7 +288,7 @@ for number in ${numbers}; do
       ;;
     2)
       echo -en "Installing programs"
-      if ! progress_wrapper install_packages "${programs[@]}"; then
+      if ! progress_wrapper install_packages "${pipewire_packages[@]} ${programs[@]}"; then
         echo -en "Failed to install programs\n"
         exit
       fi
@@ -317,31 +311,14 @@ for number in ${numbers}; do
       echo -en "Hyprland packages has been installed\n"
       ;;
     5)
-      echo -en "Installing alsa"
-      if ! progress_wrapper install_packages "${alsa_packages[@]}"; then
-        echo -en "Failed to install alsa\n"
+      echo -en "Installing pipewire and bluetooth"
+      if ! progress_wrapper install_packages "${pipewire_packages[@]}"; then
+        echo -en "Failed to install pipewire and bluetooth\n"
         exit
       fi
-      echo -en "Alsa has been installed\n"
+      echo -en "Pipewire and bluetooth have been installed\n"
       ;;
     6)
-      echo -en "Installing pipewire"
-      if ! progress_wrapper install_packages "${pipewire_packages[@]}"; then
-        echo -en "Failed to install pipewire\n"
-        exit
-      fi
-      echo -en "Pipewire has been installed\n"
-      ;;
-    7)
-      echo -en "Installing bluetooth"
-      if ! progress_wrapper install_packages "${bluetooth_packages[@]}"; then
-        echo -en "Failed to install bluetooth\n"
-        exit
-      fi
-      sudo systemctl enable bluetooth
-      echo -en "Pipewire has been installed\n"
-      ;;
-    8)
       echo -en "Installing themes"
       if ! progress_wrapper install_themes; then
         echo -en "Failed to install themes\n"
@@ -349,7 +326,7 @@ for number in ${numbers}; do
       fi
       echo -en "Themes has been installed\n"
       ;;
-    9)
+    7)
       echo -en "Installing pandoc"
       if ! progress_wrapper install_packages "${pandoc_packages[@]}"; then
         echo -en "Failed to install pandoc\n"
@@ -357,7 +334,7 @@ for number in ${numbers}; do
       fi
       echo -en "Pandoc has been installed\n"
       ;;
-    10)
+    8)
       echo -en "Copying files\n"
       if ! copy_files; then
         echo -en "Failed to copy files\n"
