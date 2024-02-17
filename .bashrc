@@ -8,6 +8,7 @@
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 alias mvi="mpv --player-operation-mode=pseudo-gui --config-dir=${HOME}/.config/mvi"
+alias xclip="xclip -selection clipboard"
 
 GREEN="\[$(tput setaf 2)\]"
 BLUE="\[$(tput setaf 4)\]"
@@ -27,8 +28,8 @@ set -o vi
 
 function fcd()
 {
-  root=${1:-.}
-  dir="$(fd -E snapshots -Ha -t d . ${root} | fzf)"
+  local root=${1:-.}
+  local dir="$(fd -E snapshots -Ha -t d . ${root} | fzf)"
   if [[ ${dir} != "" ]]; then
     cd ${dir}
   fi
@@ -36,8 +37,8 @@ function fcd()
 
 function fcdedit()
 {
-  root=${1:-.}
-  file="$(fd -E snapshots -Ha -t f . ${root} | fzf)"
+  local root=${1:-.}
+  local file="$(fd -E snapshots -Ha -t f . ${root} | fzf)"
   if [[ ${file} != "" ]]; then
     cd ${file%/*} && ${EDITOR} ${file}
   fi
@@ -45,8 +46,8 @@ function fcdedit()
 
 function fedit()
 {
-  root=${1:-.}
-  file="$(fd -E snapshots -Ha -t f . ${root} | fzf)"
+  local root=${1:-.}
+  local file="$(fd -E snapshots -Ha -t f . ${root} | fzf)"
   if [[ ${file} != "" ]]; then
     ${EDITOR} ${file}
   fi

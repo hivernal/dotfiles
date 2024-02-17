@@ -1,7 +1,36 @@
 #!/bin/bash
 
+pipewire_packages=(
+  alsa-utils
+  alsa-tools
+  wireplumber
+  pipewire
+  pipewire-audio
+  pipewire-alsa
+  pipewire-jack
+  pipewire-pulse
+  bluez
+  bluez-utils
+  blueberry
+)
+
+themes_packages=(
+  wget
+  unzip
+  gtk-engine-murrine
+  sassc
+)
+
+pandoc_packages=(
+  pandoc-cli
+  texlive-xetex
+  texlive-fontsrecommended
+  texlive-latex
+  texlive-latexrecommended
+)
+
 programs=(
-  tmux
+  pipewire-jack
   qemu-desktop
   docker
   docker-compose
@@ -34,9 +63,7 @@ programs=(
   git
   transmission-cli
   zip
-  unzip
   unrar
-  wget
   curl
   evince
   bash-completion
@@ -51,83 +78,70 @@ programs=(
   qt5ct
   qt6ct
   xdg-user-dirs
+  "${themes_packages[@]}"
+)
+
+wm_packages=(
+  tmux
+  kvantum
+  dunst
+  libnotify
+  imv
+  mpv
+  brightnessctl
+  nm-connection-editor
 )
 
 hyprland_packages=(
-  kvantum
-  tmux
+  pipewire-jack
   hyprland
   xdg-desktop-portal-hyprland
   waybar
   bemenu-wayland
-  dunst
   foot
   swaybg
   grim
   slurp
   jq
   wl-clipboard
-  imv
-  mpv
   sddm-git
   nwg-look-bin
   qt5-wayland
   qt6-wayland
   qt5-quickcontrols
   qt5-graphicaleffects
-  brightnessctl
-  nm-connection-editor
+  "${wm_packages[@]}"
+)
+
+xorg_packages=(
+  pipewire-jack
+  meson
+  ninja
+  mesa
+  xorgproto
+  xtrans
+  pixman
+  libxkbfile
+  libxfont2
+  libxcvt
+  libepoxy
+  xorg-xkbcomp
+  xf86-input-libinput
 )
 
 dwm_packages=(
-  xorg-server
+  pipewire-jack
   xorg-xinit
-  picom
-  kvantum
-  tmux
-  nm-connection-editor
-  brightnessctl
   mesa
   feh
   vulkan-intel
   intel-media-driver
   libva-vdpau-driver
   libvdpau-va-gl
-  dunst
   flameshot
   xclip
-  imv
-  mpv
   lxappearance-gtk3
-)
-
-pipewire_packages=(
-  alsa-utils
-  alsa-tools
-  wireplumber
-  pipewire
-  pipewire-audio
-  pipewire-alsa
-  pipewire-jack
-  pipewire-pulse
-  bluez
-  bluez-utils
-  blueberry
-)
-
-themes_packages=(
-  wget
-  unzip
-  gtk-engine-murrine
-  sassc
-)
-
-pandoc_packages=(
-  pandoc-cli
-  texlive-xetex
-  texlive-fontsrecommended
-  texlive-latex
-  texlive-latexrecommended
+  "${wm_packages[@]}"
 )
 
 LOG="install.log"
@@ -170,18 +184,26 @@ install_packages() {
   yay -S --needed --noconfirm "${packages[@]}"
 }
 
+install_xorg() {
+  install_packages "${xorg_packages[@]}" &&
+  git clone https://gitlab.freedesktop.org/xorg/xserver.git &&
+  cd xserver &&
+  meson setup --prefix /usr build &&
+  sudo meson install -C build &&
+  cd .. && rm -rf xserver &&
+  sudo mkdir -p /usr/share/X11/xorg.conf.d &&
+  sudo cp -r xorg.conf.d/* /etc/X11/xorg.conf.d/ &&
+}
+
 install_dwm() {
-  if [[ -d "${CONFIG_PATH}/dwm" ]]; then
-    rm -rf "${CONFIG_PATH}/dwm"
+  dwm_path="${CONFIG_PATH}/dwm"
+  if [[ -d "${dwm_path}" ]]; then
+    rm -rf "${dwm_path}"
   fi
+  install_xorg &&
   install_packages "${dwm_packages[@]}" &&
   cp .xinitrc "${HOME}" &&
   cp .xprofile "${HOME}" &&
-  cp -r .config/picom "${CONFIG_PATH}" &&
-  sudo mkdir -p /usr/share/X11/xorg.conf.d &&
-  sudo cp -r xorg.conf.d/* /etc/X11/xorg.conf.d/ &&
-
-  dwm_path="${CONFIG_PATH}/dwm" &&
   git clone "${HIVERNAL}/dwm.git" "${dwm_path}" &&
 
   sudo make -C "${dwm_path}" install &&
@@ -226,6 +248,10 @@ install_hyprland() {
 }
 
 install_themes() {
+  font_path="${HOME}/.local/share/fonts/JetBrainsMono"
+  if [[ -d "${font_path}" ]]; then
+    rm -rf "${font_path}"
+  fi
   install_packages "${themes_packages[@]}" &&
   git clone https://github.com/vinceliuice/Qogir-theme.git &&
   cd Qogir-theme &&
@@ -235,7 +261,6 @@ install_themes() {
   cd Qogir-icon-theme &&
   sudo bash install.sh -d /usr/share/icons &&
   cd .. && rm -rf Qogir* &&
-  font_path="${HOME}/.local/share/fonts/JetBrainsMono" &&
   mkdir -p "${font_path}" &&
   wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip &&
   unzip -d "${font_path}" JetBrainsMono.zip &&
@@ -281,15 +306,15 @@ for number in ${numbers}; do
     1)
       echo -en "Installing yay"
       if ! progress_wrapper install_yay; then
-        echo -en "Failed to install yay\n"
+        echo -en "Failed to install yay. Check ${PWD}/${LOG}\n"
         exit
       fi
       echo -en "Yay has been installed\n"
       ;;
     2)
       echo -en "Installing programs"
-      if ! progress_wrapper install_packages "${pipewire_packages[@]} ${programs[@]}"; then
-        echo -en "Failed to install programs\n"
+      if ! progress_wrapper install_packages "${programs[@]}"; then
+        echo -en "Failed to install programs. Check ${PWD}/${LOG}\n"
         exit
       fi
       echo -en "Programs has been installed\n"
@@ -297,7 +322,7 @@ for number in ${numbers}; do
     3)
       echo -en "Installing dwm"
       if ! progress_wrapper install_dwm; then
-        echo -en "Failed to install dwm\n"
+        echo -en "Failed to install dwm. Check ${PWD}/${LOG}\n"
         exit
       fi
       echo -en "Dwm has been installed\n"
@@ -305,7 +330,7 @@ for number in ${numbers}; do
     4)
       echo -en "Installing hyprland packages"
       if ! progress_wrapper install_hyprland; then
-        echo -en "Failed to install hyprland packages\n"
+        echo -en "Failed to install hyprland packages. Check ${PWD}/${LOG}\n"
         exit
       fi
       echo -en "Hyprland packages has been installed\n"
@@ -313,7 +338,7 @@ for number in ${numbers}; do
     5)
       echo -en "Installing pipewire and bluetooth"
       if ! progress_wrapper install_packages "${pipewire_packages[@]}"; then
-        echo -en "Failed to install pipewire and bluetooth\n"
+        echo -en "Failed to install pipewire and bluetooth. Check ${PWD}/${LOG}\n"
         exit
       fi
       echo -en "Pipewire and bluetooth have been installed\n"
@@ -321,7 +346,7 @@ for number in ${numbers}; do
     6)
       echo -en "Installing themes"
       if ! progress_wrapper install_themes; then
-        echo -en "Failed to install themes\n"
+        echo -en "Failed to install themes. Check ${PWD}/${LOG}\n"
         exit
       fi
       echo -en "Themes has been installed\n"
@@ -329,7 +354,7 @@ for number in ${numbers}; do
     7)
       echo -en "Installing pandoc"
       if ! progress_wrapper install_packages "${pandoc_packages[@]}"; then
-        echo -en "Failed to install pandoc\n"
+        echo -en "Failed to install pandoc. Check ${PWD}/${LOG}\n"
         exit
       fi
       echo -en "Pandoc has been installed\n"
@@ -337,7 +362,7 @@ for number in ${numbers}; do
     8)
       echo -en "Copying files\n"
       if ! copy_files; then
-        echo -en "Failed to copy files\n"
+        echo -en "Failed to copy files. Check ${PWD}/${LOG}\n"
         exit
       fi
       echo -en "Copying has been finished\n\n"
