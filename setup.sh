@@ -78,6 +78,7 @@ programs=(
   qt5ct
   qt6ct
   xdg-user-dirs
+  ttf-times-new-roman
   "${themes_packages[@]}"
 )
 
@@ -188,11 +189,26 @@ install_xorg() {
   install_packages "${xorg_packages[@]}" &&
   git clone https://gitlab.freedesktop.org/xorg/xserver.git &&
   cd xserver &&
-  meson setup --prefix /usr build &&
+  meson setup --prefix /usr build
+    -D ipv6=true \
+    -D xvfb=true \
+    -D xnest=true \
+    -D xcsecurity=true \
+    -D xorg=true \
+    -D xephyr=true \
+    -D glamor=true \
+    -D udev=true \
+    -D dtrace=false \
+    -D systemd_logind=true \
+    -D suid_wrapper=true \
+    -D xkb_dir=/usr/share/X11/xkb \
+    -D xkb_output_dir=/var/lib/xkb \
+    -D libunwind=true &&
+
   sudo meson install -C build &&
   cd .. && rm -rf xserver &&
   sudo mkdir -p /usr/share/X11/xorg.conf.d &&
-  sudo cp -r xorg.conf.d/* /etc/X11/xorg.conf.d/ &&
+  sudo cp -r xorg.conf.d/* /etc/X11/xorg.conf.d/
 }
 
 install_dwm() {
