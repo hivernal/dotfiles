@@ -1,6 +1,7 @@
 local opt = vim.opt
 local g = vim.g
 
+opt.path = opt.path + "**"
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
 
