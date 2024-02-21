@@ -189,7 +189,7 @@ install_xorg() {
   install_packages "${xorg_packages[@]}" &&
   git clone https://gitlab.freedesktop.org/xorg/xserver.git &&
   cd xserver &&
-  meson setup --prefix /usr build
+  meson setup --prefix /usr build \
     -D ipv6=true \
     -D xvfb=true \
     -D xnest=true \
