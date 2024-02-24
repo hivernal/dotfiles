@@ -132,7 +132,9 @@ xorg_packages=(
 
 dwm_packages=(
   pipewire-jack
+  xorg-server
   xorg-xinit
+  picom
   mesa
   feh
   vulkan-intel
@@ -216,7 +218,7 @@ install_dwm() {
   if [[ -d "${dwm_path}" ]]; then
     rm -rf "${dwm_path}"
   fi
-  install_xorg &&
+  # install_xorg &&
   install_packages "${dwm_packages[@]}" &&
   cp .xinitrc "${HOME}" &&
   cp .xprofile "${HOME}" &&
