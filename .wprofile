@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export PATH=$PATH:/home/nikita/.local/bin
-export QT_QPA_PLATFORMTHEME=qt6ct
 export QT_SELECT=6
 export QT_QPA_PLATFORM="wayland"
 export BEMENU_BACKEND=wayland

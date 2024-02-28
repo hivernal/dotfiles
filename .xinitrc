@@ -54,8 +54,6 @@ fi
 # xterm -geometry 80x20+494-0 &
 # exec xterm -geometry 80x66+0+0 -name login
 
-export PATH=$PATH:/home/nikita/.local/bin
-export QT_QPA_PLATFORMTHEME=qt6ct
 session=${1:-dwm}
 case $session in
     dwm               ) exec dwm;;

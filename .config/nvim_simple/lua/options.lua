@@ -4,6 +4,7 @@ local g = vim.g
 opt.path = opt.path + "**"
 opt.laststatus = 3 -- global statusline
 opt.showmode = false
+opt.colorcolumn = "80"
 
 opt.clipboard = "unnamedplus"
 opt.cursorline = true

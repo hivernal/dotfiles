@@ -1,4 +1,1 @@
 #!/bin/bash
-
-export PATH=$PATH:/home/nikita/.local/bin
-export QT_QPA_PLATFORMTHEME=qt6ct

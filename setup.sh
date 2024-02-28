@@ -48,6 +48,8 @@ programs=(
   fd
   ripgrep
   fzf
+  bat
+  tree
   neovim
   python
   python-pip
@@ -105,7 +107,7 @@ hyprland_packages=(
   slurp
   jq
   wl-clipboard
-  sddm-git
+  sddm
   nwg-look-bin
   qt5-wayland
   qt6-wayland
@@ -286,11 +288,12 @@ install_themes() {
 }
 
 copy_files() {
-  cp .bashrc .tmux.conf "${HOME}" &&
+  cp .bashrc .bash_profile .tmux.conf "${HOME}" &&
   cp pictures/* "${HOME}/pictures/" &&
   cp scripts/backup.sh "${HOME}/.local/bin" &&
-  cp -r .config/mpv .config/mvi .config/systemd .config/user-dirs.dirs \
-        .config/dunst .config/gtk-3.0 "${CONFIG_PATH}" &&
+  cp -r .config/bat .config/mpv .config/mvi .config/systemd \
+        .config/user-dirs.dirs .config/dunst .config/gtk-3.0 "${CONFIG_PATH}" &&
+  bat cache --build &&
   cp scripts/run.sh "${HOME}/documents/qemu/" &&
   mkdir -p "${CONFIG_PATH}/nvim" &&
   cp -r .config/nvim_simple/* "${CONFIG_PATH}/nvim/" &&
