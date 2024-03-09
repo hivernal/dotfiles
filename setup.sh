@@ -99,6 +99,7 @@ hyprland_packages=(
   pipewire-jack
   hyprland
   xdg-desktop-portal-hyprland
+  polkit-gnome
   waybar
   bemenu-wayland
   foot
@@ -134,7 +135,7 @@ xorg_packages=(
 
 dwm_packages=(
   pipewire-jack
-  xorg-server
+  xorg-server-git
   xorg-xinit
   picom
   mesa

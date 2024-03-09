@@ -3,5 +3,5 @@
 export QT_SELECT=6
 export QT_QPA_PLATFORM="wayland"
 export BEMENU_BACKEND=wayland
-export BEMENU_OPTS='-p ">" -n -H 26 --fn "JetBrainsMono NF Medium 12" --tb #1a1b26 --tf #d2d9f8 --fb #1a1b26 --ff #d2d9f8 --nf #d2d9f8 --nb #1a1b26 --hf #d2d9f8 --hb #5e5f67 --sb #1a1b26 --sf #d2d9f8 --af #d2d9f8 --ab #1a1b26' # TokyoNight
+export BEMENU_OPTS='-p ">" -n -H 26 --fn "JetBrainsMono NF Medium 13" --tb #1a1b26 --tf #d2d9f8 --fb #1a1b26 --ff #d2d9f8 --nf #d2d9f8 --nb #1a1b26 --hf #d2d9f8 --hb #5e5f67 --sb #1a1b26 --sf #d2d9f8 --af #d2d9f8 --ab #1a1b26' # TokyoNight
 # export BEMENU_OPTS='-p ">" -n -H 26 --fn "JetBrainsMono NF Medium 12" --tb #2e3440 --tf #d8dee9 --fb #2e3440 --ff #d8dee9 --nf #d8dee9 --nb #2e3440 --hf #d8dee9 --hb #575c66 --sb #2e3440 --sf #d8dee9 --af #d8dee9 --ab #2e3440' # Nord

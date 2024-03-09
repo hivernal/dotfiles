@@ -1,9 +1,9 @@
 super + p
-  dmenu_run -nf '#fcfcfc' -nb '#282c34' -sb '#646870' -sf '#fcfcfc' -fn 'JetBrainsMonoMedium Nerd Font-13'
+  dmenu_run
 super + shift + Return
-  alacritty
+  st tmux
 super + shift + q
-  shutdown -h now
+  systemctl poweroff
 Print
   flameshot gui
 
@@ -36,10 +36,9 @@ super + {_,shift} + {1-9}
 super + Tab
   bspc desktop -l next
 
-
 XF86Audio{Raise,Lower}Volume
   pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
 XF86AudioMute
   pactl set-sink-mute @DEFAULT_SINK@ toggle
 XF86MonBrightness{Up,Down}
-  xbacklight -{inc,dec} 5
+  brightnessctl set {+5%,5%-}
