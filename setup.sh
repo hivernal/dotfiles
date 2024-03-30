@@ -135,7 +135,7 @@ xorg_packages=(
 
 dwm_packages=(
   pipewire-jack
-  xorg-server-git
+  xorg-server
   xorg-xinit
   picom
   mesa
@@ -225,6 +225,8 @@ install_dwm() {
   install_packages "${dwm_packages[@]}" &&
   cp .xinitrc "${HOME}" &&
   cp .xprofile "${HOME}" &&
+  sudo mkdir -p /usr/share/X11/xorg.conf.d &&
+  sudo cp -r xorg.conf.d/* /etc/X11/xorg.conf.d/
   git clone "${HIVERNAL}/dwm.git" "${dwm_path}" &&
 
   sudo make -C "${dwm_path}" install &&
@@ -294,7 +296,6 @@ copy_files() {
   cp scripts/backup.sh "${HOME}/.local/bin" &&
   cp -r .config/bat .config/mpv .config/mvi .config/systemd \
         .config/user-dirs.dirs .config/dunst .config/gtk-3.0 "${CONFIG_PATH}" &&
-  bat cache --build &&
   cp scripts/run.sh "${HOME}/documents/qemu/" &&
   mkdir -p "${CONFIG_PATH}/nvim" &&
   cp -r .config/nvim_simple/* "${CONFIG_PATH}/nvim/" &&
@@ -339,6 +340,7 @@ for number in ${numbers}; do
         echo -en "Failed to install programs. Check ${PWD}/${LOG}\n"
         exit
       fi
+      bat cache --build &> /dev/null
       echo -en "Programs has been installed\n"
       ;;
     3)

@@ -1,19 +1,24 @@
 #!/bin/bash
 
-NUMBER=0
+SCRIPT_DIR="$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+[[ ! -f "${SCRIPT_DIR}/mac" ]] && printf "52:54:00:%02X:%02X\n" $[RANDOM%256] $[RANDOM%256] > mac
+MAC="$(<"${SCRIPT_DIR}/mac")" 
+TAP="-nic tap,helper=/usr/lib/qemu/qemu-bridge-helper,mac=${MAC}:56"
+USER="-nic user,smb=/home/nikita,mac=${MAC}:57"
+for i in {0..4}; do
+  SOCKET[${i}]="-nic socket,mcast=230.0.0.1:$(( ${i} + 1234 )),mac=${MAC}:$(( 58 + ${i} ))"
+done
 
 SPICE="-display spice-app,gl=on -device virtio-serial -chardev spicevmc,id=vdagent,debug=0,name=vdagent -device virtserialport,chardev=vdagent,name=com.redhat.spice.0"
-TAP="-nic tap,helper=/usr/lib/qemu/qemu-bridge-helper,mac=52:54:00:12:34:$(( ${NUMBER}*3 + 56 ))"
-SOCKET="-nic socket,mcast=230.0.0.1:1234,mac=52:54:00:12:34:$(( ${NUMBER}*3 + 57 ))"
-USER="-nic user,smb=/home/nikita,mac=52:54:00:12:34:$(( ${NUMBER}*3 + 58 ))"
 
-display=${SPICE}
+display="${SPICE}"
 vga="-vga qxl"
-net=${USER}
+net="${SOCKET[0]}"
 mem="-m 1G"
 cdrom=
 boot=
-disk="-hda clear.qcow2"
+disk="-hda ${SCRIPT_DIR}/kali.qcow2"
+cpu="-accel kvm -cpu host -smp 2"
 
 while [[ -n "$1" ]]; do
   case "$1" in
@@ -28,4 +33,4 @@ while [[ -n "$1" ]]; do
   shift
 done
 
-qemu-system-x86_64 -accel kvm -cpu host -smp 2 ${display} ${vga} ${net} ${mem} ${boot} ${cdrom} ${disk}
+qemu-system-x86_64 ${cpu} ${display} ${vga} ${net} ${mem} ${boot} ${cdrom} ${disk}
