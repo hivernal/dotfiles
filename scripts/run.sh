@@ -17,7 +17,7 @@ net="${SOCKET[0]}"
 mem="-m 1G"
 cdrom=
 boot=
-disk="-hda ${SCRIPT_DIR}/kali.qcow2"
+disk="-hda ${SCRIPT_DIR}/clear.qcow2"
 cpu="-accel kvm -cpu host -smp 2"
 
 while [[ -n "$1" ]]; do
