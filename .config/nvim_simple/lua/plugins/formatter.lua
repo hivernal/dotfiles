@@ -3,6 +3,7 @@ return {
 	keys = {
 		{ "<leader>f", "<cmd>Format<cr>", desc = "Formatting" },
 	},
+  enabled = true,
 	config = function(_, opts)
 		require("formatter").setup({
 			filetype = {

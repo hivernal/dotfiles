@@ -1,9 +1,11 @@
 local opt = vim.opt
 local g = vim.g
 
+opt.statusline = opt.statusline + "%F"
+opt.laststatus = 2
+
 opt.path = opt.path + "**"
-opt.laststatus = 3 -- global statusline
-opt.showmode = false
+-- opt.showmode = false
 opt.colorcolumn = "80"
 
 opt.clipboard = "unnamedplus"
@@ -47,8 +49,8 @@ opt.whichwrap:append "<>[]hl"
 
 g.mapleader = " "
 
-g.loaded_netrw = 1
-g.loaded_netrwPlugin = 1
+-- g.loaded_netrw = 1
+-- g.loaded_netrwPlugin = 1
 g.barbar_auto_setup = false
 
 -- disable some default providers
