@@ -16,12 +16,13 @@
 [submodule ".config/hypr"]
 	path = .config/hypr
 	url = https://github.com/hivernal/hypr
-[submodule ".config/dwl"]
-	path = .config/dwl
-	url = https://github.com/hivernal/dwl.git
 [submodule ".config/nvim"]
 	path = .config/nvim
 	url = https://github.com/hivernal/nvim.git
 [submodule ".config/dwm"]
 	path = .config/dwm
 	url = https://github.com/hivernal/dwm.git
+	branch = custom_dwm
+[submodule ".config/dwl"]
+	path = .config/dwl
+	url = https://github.com/hivernal/dwl.git
