@@ -22,7 +22,6 @@
 [submodule ".config/dwm"]
 	path = .config/dwm
 	url = https://github.com/hivernal/dwm.git
-	branch = custom_dwm
 [submodule ".config/dwl"]
 	path = .config/dwl
 	url = https://github.com/hivernal/dwl.git
