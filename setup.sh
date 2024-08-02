@@ -233,7 +233,7 @@ install_dwm() {
   make -C "${dwm_path}" clean &&
   rm -f "${dwm_path}/config.h" &&
   mkdir -p "${HOME}/.dwm" &&
-  cp "${dwm_path}/autostart.sh" "${HOME}/.dwm/" &&
+  cp "${dwm_path}/scripts/autostart.sh" "${HOME}/.dwm/" &&
 
   sudo make -C "${dwm_path}/slstatus" install &&
   make -C "${dwm_path}/slstatus" clean &&
