@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# AUTHOR: koalagang (https://github.com/koalagang)
+# Dependencies: doas
+# You can find the doasedit repository at https://github.com/koalagang/doasedit
+
+# handle errors
+error () {
+    echo "doasedit: $1" && exit 0
+}
+
+if [ -f "$1" ]; then
+    no_file=1
+elif [ -d "$1" ]; then
+    error "$1: Is a directory"
+fi
+
+[ -z "$1" ] && error 'no file path provided'
+[ -n "$2" ] && error 'expected only one argument'
+[ "$(whoami)" = 'root' ] && error 'cannot be run as root'
+[ -w "$1" ] && error 'editing files in a writeable directory is not permitted'
+
+# create a temporary file which is named with the following format:
+# if source file = '/etc/pacman.conf' then
+# the temporary file with be '/tmp/pacmanxyz.conf' where xyz is a random string of letters and numbers
+# if there is no extension then it will not contain the extension obviously
+orig_temp="$(mktemp)"
+test "${1#*'.'}" != "$1" &&
+temp="/var$(echo "$orig_temp" | sed "s@/tmp/tmp.@/tmp/"$(echo "${1%%.*}" | awk -F'/' '{print $NF}')"@").${1#*.}" ||
+temp="/var$(echo "$orig_temp" | sed "s@/tmp/tmp.@/tmp/"$(echo "${1%%.*}" | awk -F'/' '{print $NF}')"@")"
+mv "$orig_temp" "$temp"
+
+# if the source file does not exist then create a new file and give the temporary file the relevant permissions
+# if the source file does exist then simply copy its contents over to the temporary file
+[ -n "$no_file" ] && cat "$1" > "$temp" && $EDITOR "$temp"
+[ -z "$no_file" ] && $EDITOR "$temp"
+
+cmp "$1" "$temp" -s && echo "$1 unchanged" && exit 0 # if the file is unchanged then exit
+
+# replace the source file with the temporary file (but retain the name of the source file)
+# repeats if it fails (i.e. the user typed the password in wrong)
+# even if it fails, the temp is deleted before it repeats
+# therefore, we create backups
+cp "$temp" "$temp.bak" && cp "$temp" "$temp.bak2"
+doas mv "$temp" "$1" || doas mv "$temp.bak" "$1" || doas mv "$temp.bak2" "$1"
+doas chown root:root "$1" && doas chmod 0444 "$1"
+# clean up any backups made which didn't get removed
+rm "$temp"*
