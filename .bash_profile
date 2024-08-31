@@ -6,16 +6,19 @@
 
 [[ -f "${HOME}/.config/nnn/misc/quitcd/quitcd.bash_sh_zsh" ]] && . "${HOME}/.config/nnn/misc/quitcd/quitcd.bash_sh_zsh"
 
-export MANROFFOPT="-c"
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-export BAT_PAGER="less -RFXSM +Gg"
-export BAT_THEME="tokyonight_night"
+export MANPAGER='nvim +Man!'
+export MANWIDTH=999
+
+# export MANROFFOPT="-c"
+# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+# export BAT_PAGER="less -RFXSM +Gg"
+# export BAT_THEME="tokyonight_night"
 
 export PATH=$PATH:/home/nikita/.local/bin
 export QT_QPA_PLATFORMTHEME=qt6ct
 
-export VISUAL="/usr/bin/nvim"
-export EDITOR="/usr/bin/nvim"
+export VISUAL="/etc/profiles/per-user/nikita/bin/nvim"
+export EDITOR="/etc/profiles/per-user/nikita/bin/nvim"
 
 export NNN_BMS="p:~/documents/projects;d:~/downloads;c:~/.config;q:~/documents/qemu;o:~/documents/office;h:~;/:/;l:~/.local"
 export NNN_PLUG="o:fzopen;x:!chmod +x ${nnn};c:fzcd;s:suedit"
