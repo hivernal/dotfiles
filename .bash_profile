@@ -16,9 +16,10 @@ export MANWIDTH=999
 
 export PATH=$PATH:/home/nikita/.local/bin
 export QT_QPA_PLATFORMTHEME=qt6ct
+export GTK_THEME=Qogir-Dark
 
-export VISUAL="/etc/profiles/per-user/nikita/bin/nvim"
-export EDITOR="/etc/profiles/per-user/nikita/bin/nvim"
+export VISUAL="/usr/bin/nvim"
+export EDITOR="/usr/bin/nvim"
 
 export NNN_BMS="p:~/documents/projects;d:~/downloads;c:~/.config;q:~/documents/qemu;o:~/documents/office;h:~;/:/;l:~/.local"
 export NNN_PLUG="o:fzopen;x:!chmod +x ${nnn};c:fzcd;s:suedit"

@@ -1,0 +1,3 @@
+app-containers/docker btrfs apparmor
+app-containers/runc apparmor
+app-containers/containerd apparmor btrfs

@@ -18,6 +18,10 @@ alias mvi="mpv --player-operation-mode=pseudo-gui \
   --config-dir=${HOME}/.config/mvi"
 alias xclip="xclip -selection clipboard"
 alias bathelp="bat -p -l help"
+# alias cpuwatch="watch -n 1 'grep MHz /proc/cpuinfo'"
+alias cpuwatch="watch -n 1 'doas cpupower -c 0,1 frequency-info -mf'"
+alias picom="picom --config /dev/null --backend xrender --vsync --no-frame-pacing --no-fading-openclose --no-fading-destroyed-argb --use-ewmh-active-win"
+alias tnvim="nvim -c 'set nonumber | set norelativenumber | set signcolumn=no | set cmdheight=0 | set laststatus=0 | term' -c startinsert"
 
 help() {
   "$@" --help 2>&1 | bathelp
@@ -42,3 +46,5 @@ fedit() {
   fd -E snapshots -Ha -t f . "${1:-.}" | fzf -q  "${2:-}" -m --height 70% \
     --preview "bat {} --color=always" --bind "enter:become(${EDITOR} {+})"
 }
+
+complete -F _root_command doas
