@@ -11,6 +11,9 @@ keymap.set("n", "<leader>s", "<cmd>wa<cr>", { desc = "Save buffers" })
 keymap.set("n", "<leader>c", "<cmd>bd!<cr>", { desc = "Close buffer" })
 keymap.set("n", "<leader>q", "<cmd>qa<cr>", { desc = "Close window" })
 
+keymap.set("n", "<m-u>", "<c-u>")
+keymap.set("n", "<m-d>", "<c-d>")
+
 keymap.set("n", "<Tab>", "<cmd>bn<cr>")
 keymap.set("n", "<S-Tab>", "<cmd>bp<cr>")
 
