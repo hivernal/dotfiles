@@ -53,12 +53,12 @@ usb="-device ich9-usb-ehci1,id=usb \
 -chardev spicevmc,name=usbredir,id=usbredirchardev3 \
 -device usb-redir,chardev=usbredirchardev3,id=usbredirdev3"
 file_sharing=("${FILE_SHARING_VIRTFS[@]}")
-disk=("${SCRIPT_DIR}/${IMAGE}")
+disk="${SCRIPT_DIR}/${IMAGE}"
 
 args=()
 for (( i=1; i <= ${#@}; i++ )); do
   case "${!i}" in
-    "-d") ((i++)); disk=("${!i}") ;;
+    "-d") ((i++)); disk="${!i}" ;;
     "-b") ((i++)); boot=(-boot once=d -cdrom "${!i}") ;;
     "-n") nic=(-nic none) ;;
     *) args+=("${!i}");;
@@ -74,7 +74,7 @@ args=(
   ${cpu}
   # ${usb}
   # "${file_sharing[@]}"
-  "${disk[@]}"
+  ${disk}
   "${args[@]}"
 )
 

@@ -1,2 +1,3 @@
 #!/bin/bash
-sudo rsync -aAXHv --delete --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","/home/*","/snapshots/*"} $1 $2
+
+rsync -aAXHv --delete --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found","/home/*","/snapshots/*"} $1 $2
