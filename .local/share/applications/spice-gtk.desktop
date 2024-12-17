@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Spicy
+Type=Application
+Comment=Set of GObject and Gtk objects for connecting to Spice servers and a client GUI
+Exec=spicy --spice-shared-dir=/tmp/qemu_share --uri=%u
+TryExec=spicy
+Icon=utilities-terminal
+Categories=Network;RemoteAccess;
