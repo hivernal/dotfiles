@@ -1,0 +1,8 @@
+[Unit]
+Description=GPU configuration
+
+[Service]
+ExecStart=gpu_undervolt.sh
+
+[Install]
+WantedBy=default.target

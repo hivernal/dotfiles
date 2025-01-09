@@ -1,0 +1,11 @@
+[Unit]
+Description=GPU Fan Curve every second
+
+[Timer]
+OnBootSec=10s
+OnUnitActiveSec=1s
+Persistent=true
+AccuracySec=1ms
+
+[Install]
+WantedBy=timers.target

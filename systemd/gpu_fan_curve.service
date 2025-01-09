@@ -1,0 +1,8 @@
+[Unit]
+Description=GPU Fan Curve
+
+[Service]
+ExecStart=gpu_fan_curve.sh
+
+[Install]
+WantedBy=default.target

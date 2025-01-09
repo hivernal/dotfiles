@@ -16,6 +16,7 @@ export MANWIDTH=999
 
 export PATH=$PATH:/home/nikita/.local/bin
 export QT_QPA_PLATFORMTHEME=qt6ct
+# export GTK_THEME=Qogir-Dark
 
 export VISUAL="/usr/bin/nvim"
 export EDITOR="/usr/bin/nvim"

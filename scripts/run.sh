@@ -11,7 +11,8 @@ MAC_HALF="52:54:00"
 [[ ! -f "${SCRIPT_DIR}/${IMAGE}" ]] && qemu-img create -f ${IMAGE_TYPE} "${SCRIPT_DIR}/${IMAGE}" "${IMAGE_SIZE}"
 MAC="$(<"${SCRIPT_DIR}/mac")" 
 NET_TAP="-nic tap,helper=/usr/lib/qemu/qemu-bridge-helper,mac=${MAC}:56"
-NET_USER=(-nic "user,smb=${FILE_TO_SHARE},mac=${MAC}:57")
+NET_BRIDGE="-nic bridge,br=br0,mac=${MAC}:56"
+NET_USER=(-nic "user,smb=${FILE_TO_SHARE},mac=${MAC}:57,hostfwd=tcp:127.0.0.1:55552-:22")
 for i in $(seq 0 ${SOCKET_NUM}); do
   NET_SOCKET[${i}]="-nic socket,mcast=230.0.0.1:$(( ${i} + 1234 )),mac=${MAC}:$(( 58 + ${i} ))"
 done
@@ -33,13 +34,14 @@ FILE_SHARING_VIRTIOFSD=(
 
 display="-display spice-app,gl=on ${SPICE}"
 vga="-vga qxl"
-monitor="-monitor stdio"
+# monitor="-monitor stdio"
 net=(
-  "${NET_USER[@]}"
+  # "${NET_USER[@]}"
   # ${NET_TAP}
+  ${NET_BRIDGE}
   # ${NET_SOCKET[0]}
 )
-mem="-m 1G"
+mem="-m 2G"
 boot=()
 cpu="-accel kvm -cpu host -smp 2"
 usb="-device ich9-usb-ehci1,id=usb \
@@ -53,12 +55,12 @@ usb="-device ich9-usb-ehci1,id=usb \
 -chardev spicevmc,name=usbredir,id=usbredirchardev3 \
 -device usb-redir,chardev=usbredirchardev3,id=usbredirdev3"
 file_sharing=("${FILE_SHARING_VIRTFS[@]}")
-disk="${SCRIPT_DIR}/${IMAGE}"
+disk=("${SCRIPT_DIR}/${IMAGE}")
 
 args=()
 for (( i=1; i <= ${#@}; i++ )); do
   case "${!i}" in
-    "-d") ((i++)); disk="${!i}" ;;
+    "-d") ((i++)); disk=("${!i}") ;;
     "-b") ((i++)); boot=(-boot once=d -cdrom "${!i}") ;;
     "-n") nic=(-nic none) ;;
     *) args+=("${!i}");;
@@ -72,9 +74,9 @@ args=(
   ${mem}
   "${boot[@]}"
   ${cpu}
-  # ${usb}
-  # "${file_sharing[@]}"
-  ${disk}
+  ${usb}
+  "${file_sharing[@]}"
+  "${disk[@]}"
   "${args[@]}"
 )
 
