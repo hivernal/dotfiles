@@ -6,7 +6,7 @@ static const unsigned int borderpx = 3;
 static const unsigned int snap		 = 32;
 static const int showbar					 = 1;
 static const int topbar						 = 1;
-static const char *fonts[]				 = { "JetBrainsMono NF:style=Bold:size=12" };
+static const char *fonts[]				 = { "JetBrainsMono NF:style=Bold:size=11" };
 static const char white[]					 = "#d2d9f8";
 static const char black[]					 = "#1a1b26";
 static const char gray[]					 = "#5e5f67";
@@ -31,10 +31,12 @@ static const Rule rules[] = {
 	{ "libreoffice-writer",       NULL,      NULL,   1 << 1,    0,           -1 },
 	{ "libreoffice-startcenter",  NULL,      NULL,   1 << 1,    0,           -1 },
 	{ "Evince",                   NULL,      NULL,   1 << 2,    0,           -1 },
-  	{ "Zathura",         NULL,      NULL,   1 << 2,         0,           -1 },
+  	{ "Zathura",         	      NULL,      NULL,   1 << 2,    0,           -1 },
 	{ "TelegramDesktop",          NULL,      NULL,   1 << 3,    0,           -1 },
 	{ "thunderbird",              NULL,      NULL,   1 << 4,    0,           -1 },
 	{ "obs",                      NULL,      NULL,   1 << 4,    0,           -1 },
+	{ "steam",                    NULL,      NULL,   1 << 4,    0,           -1 },
+	{ "heroic",                   NULL,      NULL,   1 << 4,    0,           -1 },
 };
 
 /* layout(s) */
@@ -64,7 +66,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", NULL };
-static const char *termcmd[]  = { "st", "tmux", NULL };
+static const char *termcmd[]  = { "alacritty", NULL };
 static const char *volume_up[] = { "volume.sh", "up",	   NULL };
 static const char *volume_down[] = { "volume.sh", "down",	   NULL };
 static const char *volume_mute[] = { "volume.sh", "mute",	   NULL };

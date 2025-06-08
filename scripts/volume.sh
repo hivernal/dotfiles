@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ICONS_DIR="${SCRIPT_DIR}/icons"
+ICONS_DIR="/usr/share/icons/Qogir/32/status"
 
 if [[ "$1" == "up" ]] then
   wpctl set-volume @DEFAULT_SINK@ 5%+
@@ -14,6 +14,15 @@ fi
 volume="$(wpctl get-volume @DEFAULT_SINK@)"
 muted="$(echo "${volume}" | grep MUTED)"
 volume="${volume##*.}"; volume=${volume% *}; volume=${volume#0}
+if [[ $# -eq 0 ]]; then
+  if [[ ! -z "${muted}" ]]; then
+    echo "muted"
+  else
+    echo "${volume}%"
+  fi
+  exit 0
+fi
+
 if [[ ! -z "${muted}" ]]; then
     icon="audio-volume-muted-panel.svg"
 else

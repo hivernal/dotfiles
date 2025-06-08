@@ -1,0 +1,81 @@
+#!/sbin/openrc-run
+
+INTERVAL="0.5"
+TEMPS=( 40000 70000 80000 )
+PWMS=( 70 150 255 )
+DEVICE="/sys/devices/pci0000:00/0000:00:03.0/0000:03:00.0"
+HWMON="$(echo ${DEVICE}/hwmon/hwmon[0-9])"
+PWM_FILE="${HWMON}/pwm1"
+FANMODE_FILE="${HWMON}/pwm1_enable"
+TEMP_FILE="${HWMON}/temp1_input"
+CLK_VOLTAGE_FILE="${DEVICE}/pp_od_clk_voltage"
+
+write_file() {
+  echo "$2" > "$1"
+}
+
+read_file() {
+  echo "$(< $1)"
+}
+
+set_fanmode() {
+  mode=$1
+  write_file "${FANMODE_FILE}" "${mode}"
+}
+
+set_pwm() {
+  new_pwm=$1
+  write_file "${PWM_FILE}" "${new_pwm}"
+}
+
+get_temp() {
+  echo "$(read_file "${TEMP_FILE}")"
+}
+
+interpolate_pwm() {
+  current_temp=$1
+  if [[ ${current_temp} -le ${TEMPS[0]} ]]; then
+    echo ${PWMS[0]}
+    return
+  elif [[ ${current_temp} -gt ${TEMPS[-1]} ]]; then
+    echo "${PWMS[-1]}"
+    return
+  fi
+
+  i=0
+  for i in "${!TEMPS[@]}"; do
+    if [[ ${current_temp} -gt ${TEMPS[$i]} ]]; then
+      continue
+    fi
+    lower_temp=${TEMPS[i-1]}
+    higher_temp=${TEMPS[i]}
+    lower_pwm=${PWMS[i-1]}
+    higher_pwm=${PWMS[i]}
+    pwm=$(echo "((${current_temp} - ${lower_temp}) * (${higher_pwm} - ${lower_pwm}) / (${higher_temp} - ${lower_temp})) + ${lower_pwm}" | bc)
+    echo ${pwm}
+    return
+  done
+}
+
+control_gpu_fan() {
+  set_fanmode 1
+  while true; do
+    temp=$(get_temp)
+    pwm=$(interpolate_pwm $temp)
+    # echo ${pwm}
+    set_pwm ${pwm}
+    sleep ${INTERVAL}
+  done
+}
+
+start() {
+  echo "s 3 1145 876" > "${CLK_VOLTAGE_FILE}" &&
+  echo "s 4 1215 930" > "${CLK_VOLTAGE_FILE}" &&
+  echo "s 5 1257 940" > "${CLK_VOLTAGE_FILE}" &&
+  # echo "s 6 1270 950" > "${CLK_VOLTAGE_FILE}" &&
+  # echo "s 7 1280 950" > "${CLK_VOLTAGE_FILE}" &&
+  echo "s 6 1300 995" > "${CLK_VOLTAGE_FILE}" &&
+  echo "s 7 1340 1025" > "${CLK_VOLTAGE_FILE}" &&
+  echo "c" > "${CLK_VOLTAGE_FILE}"
+  control_gpu_fan &
+}

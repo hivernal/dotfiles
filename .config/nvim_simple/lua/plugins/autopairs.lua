@@ -49,7 +49,7 @@ local function brackets_rules(bracket)
 end
 
 return {
-  enabled = true,
+  enabled = false,
   "windwp/nvim-autopairs",
   event = "InsertEnter",
   opts = {

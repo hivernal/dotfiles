@@ -5,26 +5,16 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-GREEN="\[$(tput setaf 2)\]"
-BLUE="\[$(tput setaf 4)\]"
-RESET="\[$(tput sgr0)\]"
-PS1="\n$BLUE\w $GREEN> $RESET"
-
-set -o vi
-
-alias ls="ls --color=auto"
-alias grep="grep --color=auto"
-alias mvi="mpv --player-operation-mode=pseudo-gui \
-  --config-dir=${HOME}/.config/mvi"
-alias xclip="xclip -selection clipboard"
-alias bathelp="bat -p -l help"
-alias cpuwatch="watch -n 1 'grep MHz /proc/cpuinfo'"
-alias cputemp="watch -n 1 'sudo sensors | grep Core'"
-alias gputemp="watch -n 1 'sudo sensors | tail -n 7'"
-# alias cpuwatch="watch -n 1 'sudo cpupower -c 0,1 frequency-info -mf'"
-alias torwatch="watch -n 1 transmission-remote -l"
-# alias picom="picom --config /dev/null --backend xrender --vsync --no-frame-pacing --no-fading-openclose --no-fading-destroyed-argb --use-ewmh-active-win"
-# alias tnvim="nvim -c 'set nonumber | set norelativenumber | set signcolumn=no | set cmdheight=0 | set laststatus=0 | term' -c startinsert"
+setup_gpg_agent_for_ssh () {
+  export GPG_TTY="$(tty)"
+  unset SSH_AGENT_PID
+  if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+    export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+  fi
+  # alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null && ssh"
+  gpgconf --launch gpg-agent
+  gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
+}
 
 help() {
   "$@" --help 2>&1 | bathelp
@@ -50,4 +40,31 @@ fedit() {
     --preview "bat {} --color=always" --bind "enter:become(${EDITOR} {+})"
 }
 
-# complete -F _root_command doas
+# man() {
+#   nvim "+hide Man $1"
+# }
+
+GREEN="\[$(tput setaf 2)\]"
+BLUE="\[$(tput setaf 4)\]"
+RESET="\[$(tput sgr0)\]"
+PS1="\n$BLUE\w $GREEN> $RESET"
+
+set -o vi
+
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+alias mvi="mpv --player-operation-mode=pseudo-gui \
+  --config-dir=${HOME}/.config/mvi"
+alias xclip="xclip -selection clipboard"
+alias bathelp="bat -p -l help"
+# alias cpuwatch="watch -n 1 'grep MHz /proc/cpuinfo'"
+# alias cpuwatch="watch -n 1 'doas cpupower -c all frequency-info -mf'"
+alias cpuwatch="watch -n 1 'doas sensors | grep Core'"
+alias amdwatch="watch -n 1 sensors amdgpu-pci-0500"
+alias torwatch="watch -n 1 transmission-remote -l"
+# alias picom="picom --config /dev/null --backend xrender --vsync --no-frame-pacing --no-fading-openclose --no-fading-destroyed-argb --use-ewmh-active-win"
+# alias tnvim="nvim -c 'set nonumber | set norelativenumber | set signcolumn=no | set cmdheight=0 | set laststatus=0 | term' -c startinsert"
+
+complete -F _root_command doas
+
+setup_gpg_agent_for_ssh

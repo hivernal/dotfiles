@@ -1,0 +1,93 @@
+#!/sbin/openrc-run
+
+INTERVAL="0.5"
+TEMPS=( 45000 55000 65000 75000 85000 110000)
+PWMS=( 0 42 60 80 100 255)
+# PWMS=( 0 51 77 102 128 255)
+DEVICE="/sys/devices/pci0000:00/0000:00:03.0/0000:03:00.0/0000:04:00.0/0000:05:00.0"
+HWMON="$(echo ${DEVICE}/hwmon/hwmon[0-9])"
+PWM_FILE="${HWMON}/pwm1"
+FANMODE_FILE="${HWMON}/pwm1_enable"
+TEMP_FILE="${HWMON}/temp2_input"
+CLK_VOLTAGE_FILE="${DEVICE}/pp_od_clk_voltage"
+POWER_DPM_FILE="${DEVICE}/power_dpm_force_performance_level"
+CACHE="/root/.rx5700-undervolt-cache"
+
+write_file() {
+  echo "$2" > "$1"
+}
+
+read_file() {
+  echo "$(< $1)"
+}
+
+set_fanmode() {
+  local mode=$1
+  write_file "${FANMODE_FILE}" "${mode}"
+}
+
+set_pwm() {
+  local new_pwm=$1
+  write_file "${PWM_FILE}" "${new_pwm}"
+}
+
+get_temp() {
+  read_file "${TEMP_FILE}"
+}
+
+interpolate_pwm() {
+  local current_temp=$1
+  local -n temps=$2
+  local -n pwms=$3
+  if [[ ${current_temp} -le ${temps[0]} ]]; then
+    echo ${pwms[0]}
+    return
+  elif [[ ${current_temp} -gt ${temps[-1]} ]]; then
+    echo ${pwms[-1]}
+    return
+  fi
+
+  i=0
+  for i in "${!temps[@]}"; do
+    if [[ ${current_temp} -gt ${temps[$i]} ]]; then
+      continue
+    fi
+    local lower_temp=${temps[i-1]}
+    local higher_temp=${temps[i]}
+    local lower_pwm=${pwms[i-1]}
+    local higher_pwm=${pwms[i]}
+    local pwm=$(echo "((${current_temp} - ${lower_temp}) * (${higher_pwm} - ${lower_pwm}) / (${higher_temp} - ${lower_temp})) + ${lower_pwm}" | bc)
+    echo ${pwm}
+    return
+  done
+}
+
+control_gpu_fan() {
+  set_fanmode 1
+  while true; do
+    local temp=$(get_temp)
+    local pwm=$(interpolate_pwm ${temp} TEMPS PWMS)
+    set_pwm ${pwm}
+    sleep ${INTERVAL}
+  done
+}
+
+set_power_dpm() {
+  mode="$1"
+  write_file "${POWER_DPM_FILE}" "${mode}"
+}
+
+start() {
+  set_power_dpm "manual"
+  write_file "${CLK_VOLTAGE_FILE}" "vc 2 1750 850" &&
+  write_file "${CLK_VOLTAGE_FILE}" "c"
+  control_gpu_fan &
+  write_file "${CACHE}" "$(jobs -p)" 
+}
+
+stop() {
+  kill $(< "${CACHE}")
+  set_power_dpm "auto"
+  set_fanmode 2
+  write_file "${CLK_VOLTAGE_FILE}" "r"
+}

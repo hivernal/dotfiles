@@ -1,0 +1,34 @@
+#!/sbin/openrc-run
+
+DEVICE="/sys/devices/pci0000:00/0000:00:03.0/0000:03:00.0/0000:04:00.0/0000:05:00.0"
+POWER_LEVEL_FILE="${DEVICE}/power_dpm_force_performance_level"
+CLK_VOLTAGE_FILE="${DEVICE}/pp_od_clk_voltage"
+FAN_CURVE_FILE="${DEVICE}/gpu_od/fan_ctrl/fan_curve"
+HWMON_FILE="$(echo ${DEVICE}/hwmon/hwmon[0-9])"
+POWER_FILE="${HWMON_FILE}/power1_cap"
+POWER_DEFAULT_FILE="${POWER_FILE}_default"
+TEMPERATURES=(50 60 70 80 90)
+FAN_SPEED_PERC=(20 25 30 40 50)
+MAX_CORE_CLOCK=2500
+MAX_MEM_CLOCK=1125
+VOLTAGE_OFFSET=-70
+MAX_POWER=145
+
+start() {
+  for (( i = 0; i < ${#TEMPERATURES[@]}; i++ )); do
+    echo "$i ${TEMPERATURES[$i]} ${FAN_SPEED_PERC[$i]}" > "${FAN_CURVE_FILE}"
+  done
+
+  echo "manual" > "${POWER_LEVEL_FILE}"
+  echo "s 1 ${MAX_CORE_CLOCK}" > "${CLK_VOLTAGE_FILE}"
+  echo "m 1 ${MAX_MEM_CLOCK}" > "${CLK_VOLTAGE_FILE}"
+  echo "vo ${VOLTAGE_OFFSET}" > "${CLK_VOLTAGE_FILE}"
+  echo "$(( ${MAX_POWER} * 1000000 ))" > "${POWER_FILE}"
+
+  echo "c" | tee "${CLK_VOLTAGE_FILE}" | tee "${FAN_CURVE_FILE}" &> /dev/null
+}
+
+stop() {
+  echo "r" | tee "${CLK_VOLTAGE_FILE}" | tee "${FAN_CURVE_FILE}" &> /dev/null
+  echo "$(< ${POWER_DEFAULT_FILE})" > "${POWER_FILE}"
+}

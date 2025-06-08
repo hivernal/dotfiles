@@ -1,54 +1,59 @@
-[[colors.indexed_colors]]
-color = "0xff9e64"
-index = 16
-
-[[colors.indexed_colors]]
-color = "0xdb4b4b"
-index = 17
-
 [colors.bright]
-black = "0x414868"
-blue = "0x7aa2f7"
-cyan = "0x7dcfff"
-green = "0x9ece6a"
-magenta = "0xbb9af7"
-red = "0xf7768e"
-white = "0xc0caf5"
-yellow = "0xe0af68"
+  black = "0x414868"
+  blue = "0x7aa2f7"
+  cyan = "0x7dcfff"
+  green = "0x9ece6a"
+  magenta = "0xbb9af7"
+  red = "0xf7768e"
+  white = "0xc0caf5"
+  yellow = "0xe0af68"
 
 [colors.normal]
-black = "0x15161e"
-blue = "0x7aa2f7"
-cyan = "0x7dcfff"
-green = "0x9ece6a"
-magenta = "0xbb9af7"
-red = "0xf7768e"
-white = "0xa9b1d6"
-yellow = "0xe0af68"
+  black = "0x15161e"
+  blue = "0x7aa2f7"
+  cyan = "0x7dcfff"
+  green = "0x9ece6a"
+  magenta = "0xbb9af7"
+  red = "0xf7768e"
+  white = "0xa9b1d6"
+  yellow = "0xe0af68"
 
 [colors.primary]
-background = "0x1a1b26"
-foreground = "0xd2d9f8"
+  background = "0x1a1b26"
+  foreground = "0xd2d9f8"
 
 [font]
-size = 8.0
+  size = 11.0
 
 [font.bold]
-family = "JetBrainsMono NF"
-style = "Bold"
+  family = "JetBrainsMono NF"
+  style = "Bold"
 
 [font.bold_italic]
-family = "JetBrainsMono NF"
-style = "Bold Italic"
+  family = "JetBrainsMono NF"
+  style = "Bold Italic"
 
 [font.italic]
-family = "JetBrainsMono NF"
-style = "Italic"
+  family = "JetBrainsMono NF"
+  style = "Italic"
 
 [font.normal]
-family = "JetBrainsMono NF"
-style = "Medium"
+  family = "JetBrainsMono NF"
+  style = "Regular"
 
 [window.padding]
-x = 10
-y = 0
+  x = 0
+  y = 0
+
+[cursor]
+# vi_mode_style = {shape = "Block"
+  style = { shape = "Block", blinking = "Off" }
+
+[keyboard]
+  bindings = [
+    { key = "P", mods = "Alt", action = "Paste" },
+    { key = "T", mods = "Alt", action = "ToggleViMode" },
+    { key = "D", mode = "Vi|~Search", action = "ScrollHalfPageDown" },
+    { key = "U", mode = "Vi|~Search", action = "ScrollHalfPageUp" },
+    { key = "Q", mode = "Vi|~Search", action = "ToggleViMode" },
+  ]
