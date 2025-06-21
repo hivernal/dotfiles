@@ -8,6 +8,9 @@ opt.path = opt.path + "**"
 -- opt.showmode = false
 opt.colorcolumn = "80"
 
+g.netrw_winsize = -30
+g.netrw_keepdir = 0
+
 opt.clipboard = "unnamedplus"
 opt.cursorline = true
 
