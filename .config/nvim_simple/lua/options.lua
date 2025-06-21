@@ -10,6 +10,7 @@ opt.colorcolumn = "80"
 
 g.netrw_winsize = -30
 g.netrw_keepdir = 0
+g.netrw_banner = 0
 
 opt.clipboard = "unnamedplus"
 opt.cursorline = true
