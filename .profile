@@ -1,6 +1,8 @@
 export LANG="en_US.UTF-8"
 export LC_COLLATE="C.UTF-8"
 
+export XDG_CACHE_HOME="/run/user/${UID}/cache"
+
 # export AMD_VULKAN_ICD=AMDVLK
 export WINE="${HOME}/downloads/git/wine-ntsync/bin/wine"
 
