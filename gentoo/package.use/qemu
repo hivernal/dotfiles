@@ -1,4 +1,0 @@
-app-emulation/qemu fuse virtfs ssh smartcard multipath glusterfs iscsi gtk nfs usb spice sdl ncurses vte usbredir xen
-app-emulation/virt-viewer -libvirt vte
-net-misc/spice-gtk usbredir webdav
-x11-drivers/xf86-video-qxl xspice

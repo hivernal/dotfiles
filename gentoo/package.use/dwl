@@ -1,6 +1,0 @@
-gui-wm/dwl -X savedconfig
-gui-libs/wlroots -X liftoff
-dev-libs/bemenu -X
-gui-apps/yambar -X sway-xkb
-media-libs/libsdl2 gles2
-gui-apps/swaybg gdk-pixbuf

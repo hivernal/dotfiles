@@ -1,4 +1,0 @@
-x11-wm/dwm xinerama savedconfig
-x11-misc/dmenu savedconfig xinerama
-x11-terms/st savedconfig
-x11-misc/slstatus savedconfig
