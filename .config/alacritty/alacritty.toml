@@ -23,7 +23,7 @@
   foreground = "0xd2d9f8"
 
 [font]
-  size = 11.0
+  size = 11.2
 
 [font.bold]
   family = "JetBrainsMono NF"

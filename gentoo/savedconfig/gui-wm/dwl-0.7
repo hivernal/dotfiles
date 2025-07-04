@@ -13,6 +13,9 @@ static const char *fonts[]                   = {"JetBrainsMono NF:style=Bold:siz
 static const float rootcolor[]             = COLOR(0x000000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.1f, 0.1f, 0.1f, 1.0f}; /* You can also use glsl colors */
+/* keyboard layout change notification for status bar */
+static const char  kblayout_file[] = "/tmp/dwl-keymap";
+static const char *kblayout_cmd[]  = {NULL};
 static const uint32_t white = 0xd2d9f8ff;
 static const uint32_t black = 0x1a1b26ff;
 static const uint32_t gray = 0x5e5f67ff;
@@ -33,12 +36,11 @@ static int log_level = WLR_ERROR;
 static const Rule rules[] = {
 	/* app_id             title       tags mask     isfloating   monitor */
 	/* examples: */
-	{ "Gimp_EXAMPLE",     NULL,       0,            1,           -1 }, /* Start on currently visible tags floating, not tiled */
-	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           -1 }, /* Start on ONLY tag "9" */
-
   	{ "firefox-esr",              NULL,   1,         0,           -1 },
-	{ "libreoffice-writer",       NULL,   1 << 1,    0,           -1 },
+  	{ "firefox",                  NULL,   1,         0,           -1 },
 	{ "libreoffice-startcenter",  NULL,   1 << 1,    0,           -1 },
+	{ "libreoffice-writer",       NULL,   1 << 1,    0,           -1 },
+	{ "libreoffice-impress",      NULL,   1 << 1,    0,           -1 },
 	{ "evince",                   NULL,   1 << 2,    0,           -1 },
   	{ "Zathura",         	      NULL,   1 << 2,    0,           -1 },
 	{ "org.telegram.desktop",     NULL,   1 << 3,    0,           -1 },
@@ -64,11 +66,8 @@ static const Layout layouts[] = {
 /* NOTE: ALWAYS add a fallback rule, even if you are completely sure it won't be used */
 static const MonitorRule monrules[] = {
 	/* name       mfact  nmaster scale layout       rotate/reflect                x    y */
-	/* example of a HiDPI laptop monitor:
-	{ "eDP-1",    0.5f,  1,      2,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
-	*/
 	/* defaults */
-	{ NULL,       0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
+	{ NULL,       0.55f, 1,      1,    &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL,   0,  0 },
 };
 
 /* keyboard */
@@ -155,7 +154,7 @@ static const Key keys[] = {
 	{ 0 ,              XKB_KEY_XF86AudioLowerVolume, spawn,          {.v = volume_down} },
 	{ 0 ,              XKB_KEY_XF86AudioMute,        spawn,          {.v = volume_mute} },
 	{ 0,               XKB_KEY_Print,      		 spawn,          {.v = screenshot} },
-	{ MODKEY,                    XKB_KEY_p,          spawn,          {.v = menucmd} },
+	{ MODKEY,         	     XKB_KEY_p,          spawn,          {.v = menucmd} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,     spawn,          {.v = termcmd} },
 	{ MODKEY,                    XKB_KEY_b,          togglebar,      {0} },
 	{ MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
