@@ -36,14 +36,14 @@ display="-display spice-app,gl=on ${SPICE}"
 vga="-vga qxl"
 # monitor="-monitor stdio"
 net=(
-  # "${NET_USER[@]}"
+  "${NET_USER[@]}"
   # ${NET_TAP}
-  ${NET_BRIDGE}
+  # ${NET_BRIDGE}
   # ${NET_SOCKET[0]}
 )
-mem="-m 2G"
+mem="-m 4G"
 boot=()
-cpu="-accel kvm -cpu host -smp 2"
+cpu="-accel kvm -cpu host -smp 4"
 usb="-device ich9-usb-ehci1,id=usb \
 -device ich9-usb-uhci1,masterbus=usb.0,firstport=0,multifunction=on \
 -device ich9-usb-uhci2,masterbus=usb.0,firstport=2 \
@@ -62,7 +62,7 @@ for (( i=1; i <= ${#@}; i++ )); do
   case "${!i}" in
     "-d") ((i++)); disk=("${!i}") ;;
     "-b") ((i++)); boot=(-boot once=d -cdrom "${!i}") ;;
-    "-n") nic=(-nic none) ;;
+    "-n") net=(-nic none) ;;
     *) args+=("${!i}");;
   esac
 done
