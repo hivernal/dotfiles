@@ -1,0 +1,8 @@
+#!/bin/bash
+
+feh --bg-scale /usr/share/pixmaps/summit.png
+dbus-update-activation-environment DISPLAY XDG_CURRENT_DESKTOP=dwm
+/usr/libexec/polkit-gnome-authentication-agent-1 &
+slstatus &
+sleep 2
+ps -C wireplumber > /dev/null 2>&1 || gentoo-pipewire-launcher restart &
