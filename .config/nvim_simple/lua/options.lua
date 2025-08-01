@@ -1,6 +1,10 @@
 local opt = vim.opt
 local g = vim.g
 
+opt.list = true
+opt.listchars = { tab = "│ ", leadmultispace = "│ ", eol = "↲", space = "·" }
+opt.textwidth = 80
+
 -- opt.statusline = opt.statusline + "%F"
 -- opt.laststatus = 2
 
@@ -13,7 +17,7 @@ g.netrw_keepdir = 0
 g.netrw_banner = 0
 
 opt.clipboard = "unnamedplus"
-opt.cursorline = true
+-- opt.cursorline = true
 
 -- Indenting
 opt.expandtab = false
