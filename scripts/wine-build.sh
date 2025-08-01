@@ -23,7 +23,7 @@ build64() {
   export CPPFLAGS="${CFLAGS_X64}"
   mkdir -p "${BUILD_DIR}/build64" &&
   cd "${BUILD_DIR}/build64" &&
-  "${WINE_SRC}/configure" --prefix="${WINE_DIR}" --libdir="${WINE_DIR}/lib64" --enable-win64 ${WINE_BUILD_OPTIONS} &&
+  "${WINE_SRC}/configure" --prefix="${WINE_DIR}" --enable-win64 ${WINE_BUILD_OPTIONS} &&
   make -j$(nproc)
 }
 
@@ -34,7 +34,7 @@ build32() {
   export CPPFLAGS="${CFLAGS_X32}"
   mkdir -p "${BUILD_DIR}"/build32 &&
   cd "${BUILD_DIR}/build32" &&
-  PKG_CONFIG_PATH=/usr/lib/pkgconfig "${WINE_SRC}/configure" --prefix="${WINE_DIR}" --libdir="${WINE_DIR}/lib" --with-wine64="${BUILD_DIR}/build64" ${WINE_BUILD_OPTIONS} &&
+  PKG_CONFIG_PATH=/usr/lib/pkgconfig "${WINE_SRC}/configure" --prefix="${WINE_DIR}" --with-wine64="${BUILD_DIR}/build64" ${WINE_BUILD_OPTIONS} &&
   make -j$(nproc)
 }
 
