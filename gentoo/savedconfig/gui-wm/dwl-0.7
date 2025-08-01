@@ -140,8 +140,8 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 /* commands */
 static const char *termcmd[] = { "alacritty", NULL };
 static const char *menucmd[] = { "bemenu-run", NULL };
-static const char *poweroff[] = { "doas", "poweroff", NULL };
-static const char *reboot[] = { "doas", "reboot", NULL };
+static const char *poweroff[] = { "loginctl", "poweroff", NULL };
+static const char *reboot[] = { "loginctl", "reboot", NULL };
 static const char *volume_up[] = { "volume.sh", "up", NULL };
 static const char *volume_down[] = { "volume.sh", "down", NULL };
 static const char *volume_mute[] = { "volume.sh", "mute", NULL };
