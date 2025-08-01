@@ -1,0 +1,27 @@
+* {
+  font-size: 17px;
+  font-family: "JetBrainsMono NF";
+  font-weight: 700;
+}
+
+window#waybar {
+  background: #1a1b26;
+  color: #d2d9f8;
+}
+
+#workspaces {
+  padding-right: 10px;
+  background: #1a1b26;
+  color: #d2d9f8;
+}
+
+#workspaces button {
+  padding: 0 5px;
+  background: #1a1b26;
+  color: #d2d9f8;
+}
+
+#workspaces button.active {
+  background: #5e5f67;
+  color: #d2d9f8;
+}

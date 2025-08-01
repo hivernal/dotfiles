@@ -1,0 +1,50 @@
+Config
+  { overrideRedirect = False
+  , additionalFonts = [ "JetBrainsMono Nerd Font Bold 14"
+                      , "JetBrainsMono Nerd Font Bold 17"
+                      , "JetBrainsMono Nerd Font Bold 21"
+											, "JetBrainsMono Nerd Font Bold 15" ]
+  , font     = "JetBrainsMono Nerd Font Bold 12"
+  , bgColor  = "#1a1b26"
+  , fgColor  = "#d2d9f8"
+  , position = TopH 26
+  , commands =
+      [ Run BatteryP ["BAT0"]
+         [ "-t", "<acstatus>"
+         , "-S", "On", "-d", "0"
+         , "-L", "10", "-H", "90"
+         , "-W", "0"
+         , "-f", "\xf244\xf243\xf243\xf243\xf242\xf242\xf242\xf241\xf241\xf240"
+         , "--"
+         , "-a", "empty!"
+         , "-A", "10"
+         , "-i", "<fn=1>\xf240<hspace=20/></fn>full" -- Full carge
+         , "-O", "<fn=1>\xf1e6<hspace=15/><leftbar><hspace=20/></fn><left>" -- Battery charging format
+         , "-o", "<fn=1><leftbar><hspace=20/></fn><left>" -- Battery discharging format
+         , "-H", "10", "-L", "7"
+         ] 60
+
+      , Run Kbd [ ("us(dvorak)", "DV"), ("us", "<fn=2>\xf030c<hspace=15/></fn>us")
+                , ("ru(dvorak)", "DV"), ("ru", "<fn=2>\xf030c<hspace=15/></fn>ru")
+                ]
+      , Run Memory ["-t", "<fn=1>\xf1c0<hspace=10/></fn><used><hspace=5/>Mi"] 20
+      , Run Date "<fn=1>\xf017<hspace=10/></fn>%H:%M" "date" 600
+      , Run Wireless "wlo1" ["-t", "<fn=2>\xf04a2<hspace=10/></fn><ssid>"] 50
+      , Run XMonadLog 
+			-- , Run Com "pamixer" ["--get-volume-human"] "volume" 5
+			-- , Run Com "/home/nikita/.config/xmonad/volume.sh" [] "volume-icon" 5
+			, Run Alsa "default" "Master" 
+					[ "-t", "<fn=3><volumebar><hspace=10/></fn><volumestatus>"
+					, "-S", "On"
+					, "-W", "0"
+					, "-f", "\xf057f\xf0580\xf0580\xf0580\xf057e\xf057e\xf057e\xf057e\xf057e\xf057e"
+					, "--"
+					, "-O", ""
+					, "-o", "muted"
+					, "-c", "fgColor"
+					]
+      ]
+      , sepChar  = "%"
+      , alignSep = "}{"
+      , template = "%XMonadLog%}%date%{%kbd%   %alsa:default:Master%   %battery%   %memory%   %wlo1wi% "
+    }

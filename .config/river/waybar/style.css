@@ -1,0 +1,32 @@
+* {
+  font-size: 15px;
+  font-family: "JetBrainsMono NF";
+  font-weight: 700;
+}
+
+window#waybar {
+    background: #1a1b26;
+    color: #d2d9f8;
+}
+
+#tags button {
+    padding: 0 5px;
+    background: #1a1b26;
+    color: #5e5f67;
+}
+
+#tags button.occupied {
+    background: #1a1b26;
+    color: #d2d9f8;
+}
+
+#tags button.focused {
+    background: #5e5f67;
+    color: #d2d9f8;
+}
+
+#mode {
+    padding: 0 5px;
+    background: #5e5f67;
+    color: #d2d9f8;
+}

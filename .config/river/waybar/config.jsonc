@@ -1,0 +1,52 @@
+{
+    "spacing": 0,
+    "layer": "bottom",
+    "height": 33,
+    "modules-left": ["river/tags", "river/window"],
+  // "modules-center": ["clock"],
+    "modules-right": ["backlight", "pulseaudio",  "battery", "memory", "network", "clock"],
+
+    "river/window": {
+        "max-length": 100,
+        "format": " {}"
+    },
+
+  "backlight": {
+    "format": "<span size='16pt'>{icon} </span><span rise='2700'>{percent}%</span>   ",
+    "format-icons": ["󰖨"]
+  },
+
+  "pulseaudio": {
+    "format-muted": "<span size='18pt'>{icon}</span> <span rise='2700'>muted   </span>",
+    "format-icons": ["󰕿", "󰖀", "󰕾"],
+    "format": "<span font_desc='JetBrainsMono NF Medium 18'>{icon}</span> <span rise='2700'>{volume}%   </span>"
+  },
+
+  "battery": {
+    "format": "<span size='14pt' letter_spacing='-1000'>{icon}  </span>{capacity}%   ",
+    "format-icons": ["", "", "", "", ""]
+  },
+
+  "memory": {
+    "format": "<span size='14pt' letter_spacing='1000'> </span>{used}Gi   ",
+    "interval": 2
+  },
+
+  "custom/mem": {
+    "exec": "free -h | awk '(NR==2) {print $3}'",
+    "format": "<span size='15pt' letter_spacing='-1000' rise='-1500'> </span>{}   ",
+    "interval": 2
+  },
+
+  "network": {
+    "format": "<span font_desc='JetBrainsMono NF Medium 15' letter_spacing='-1000' rise='-1500'>{icon} </span>{essid}   ",
+    "format-icons": ["󰣾", "󰣴", "󰣶", "󰣸", "󰣺"],
+    "format-disconnected": "<span font_desc='JetBrainsMono NF Medium 15' letter_spacing='-1000' rise='-1500'>󰣽 </span>disconnected   ",
+    "interval": 2
+  },
+
+  "clock": {
+    "format": "<span size='16pt'> </span><span rise='2000'>{:%H:%M} </span>",
+    "timezone": "Asia/Krasnoyarsk"
+  }
+}
