@@ -12,7 +12,7 @@ setup_gpg_agent_for_ssh () {
     export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
   fi
   # alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null && ssh"
-  gpgconf --launch gpg-agent
+  # gpgconf --launch gpg-agent
   gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
 }
 
@@ -57,9 +57,7 @@ alias mvi="mpv --player-operation-mode=pseudo-gui \
   --config-dir=${HOME}/.config/mvi"
 alias xclip="xclip -selection clipboard"
 alias bathelp="bat -p -l help"
-# alias cpuwatch="watch -n 1 'grep MHz /proc/cpuinfo'"
-# alias cpuwatch="watch -n 1 'doas cpupower -c all frequency-info -mf'"
-alias cpuwatch="watch -n 1 'doas sensors | grep Core'"
+alias cpuwatch="watch -n 1 'grep MHz /proc/cpuinfo'"
 alias amdwatch="watch -n 1 sensors amdgpu-pci-0500"
 alias torwatch="watch -n 1 transmission-remote -l"
 # alias picom="picom --config /dev/null --backend xrender --vsync --no-frame-pacing --no-fading-openclose --no-fading-destroyed-argb --use-ewmh-active-win"
