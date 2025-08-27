@@ -21,8 +21,8 @@ fi
 # export x86_64_CXX="x86_64-w64-mingw32-g++"
 CFLAGS_X64="-march=native -O2 -pipe"
 CFLAGS_X32="-march=native -O2 -pipe"
-# export LDFLAGS="-Wl,-O1,--sort-common,--as-needed"
-# export CROSSLDFLAGS="${LDFLAGS}"
+export LDFLAGS="-Wl,-O1,--sort-common,--as-needed"
+export CROSSLDFLAGS="${LDFLAGS}"
 
 build64() {
   export CFLAGS="${CFLAGS_X64}"
