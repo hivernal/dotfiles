@@ -12,7 +12,7 @@ setup_gpg_agent_for_ssh () {
     export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
   fi
   # alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null && ssh"
-  # gpgconf --launch gpg-agent
+  gpgconf --launch gpg-agent
   gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
 }
 
