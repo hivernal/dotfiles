@@ -12,7 +12,7 @@ setup_gpg_agent_for_ssh () {
     export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
   fi
   # alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null && ssh"
-  gpgconf --launch gpg-agent
+  # gpgconf --launch gpg-agent
   gpg-connect-agent updatestartuptty /bye > /dev/null 2>&1
 }
 
@@ -40,6 +40,20 @@ fedit() {
     --preview "bat {} --color=always" --bind "enter:become(${EDITOR} {+})"
 }
 
+setup_aliases() {
+alias ls="ls --color=auto"
+alias grep="grep --color=auto"
+alias mvi="mpv --player-operation-mode=pseudo-gui \
+--config-dir=${HOME}/.config/mvi"
+alias xclip="xclip -selection clipboard"
+alias bathelp="bat -p -l help"
+alias cpuwatch="watch -n 1 grep MHz /proc/cpuinfo"
+alias amdwatch="watch -n 1 sensors amdgpu-*"
+alias torwatch="watch -n 1 transmission-remote -l"
+# alias picom="picom --config /dev/null --backend xrender --vsync --no-frame-pacing --no-fading-openclose --no-fading-destroyed-argb --use-ewmh-active-win"
+# alias tnvim="nvim -c 'set nonumber | set norelativenumber | set signcolumn=no | set cmdheight=0 | set laststatus=0 | term' -c startinsert"
+}
+
 # man() {
 #   nvim "+hide Man $1"
 # }
@@ -48,21 +62,7 @@ GREEN="\[$(tput setaf 2)\]"
 BLUE="\[$(tput setaf 4)\]"
 RESET="\[$(tput sgr0)\]"
 PS1="\n$BLUE\w $GREEN> $RESET"
-
 set -o vi
-
-alias ls="ls --color=auto"
-alias grep="grep --color=auto"
-alias mvi="mpv --player-operation-mode=pseudo-gui \
-  --config-dir=${HOME}/.config/mvi"
-alias xclip="xclip -selection clipboard"
-alias bathelp="bat -p -l help"
-alias cpuwatch="watch -n 1 'grep MHz /proc/cpuinfo'"
-alias amdwatch="watch -n 1 sensors amdgpu-pci-0500"
-alias torwatch="watch -n 1 transmission-remote -l"
-# alias picom="picom --config /dev/null --backend xrender --vsync --no-frame-pacing --no-fading-openclose --no-fading-destroyed-argb --use-ewmh-active-win"
-# alias tnvim="nvim -c 'set nonumber | set norelativenumber | set signcolumn=no | set cmdheight=0 | set laststatus=0 | term' -c startinsert"
-
 complete -F _root_command doas
-
 setup_gpg_agent_for_ssh
+setup_aliases
