@@ -1,0 +1,4 @@
+#!/sbin/openrc-run
+
+supervisor=supervise-daemon
+command=/usr/libexec/polkit-gnome-authentication-agent-1

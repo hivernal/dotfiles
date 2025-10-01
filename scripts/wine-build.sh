@@ -21,16 +21,17 @@ fi
 # export x86_64_CXX="x86_64-w64-mingw32-g++"
 CFLAGS_X64="-march=native -O2 -pipe"
 CFLAGS_X32="-march=native -O2 -pipe"
-export LDFLAGS="-Wl,-O1,--sort-common,--as-needed"
-export CROSSLDFLAGS="${LDFLAGS}"
+# export LDFLAGS="-Wl,-O1,--sort-common,--as-needed"
+# export CROSSLDFLAGS="${LDFLAGS}"
 
 build64() {
   export CFLAGS="${CFLAGS_X64}"
   export CXXFLAGS="${CFLAGS_X64}"
   export CROSSCFLAGS="${CFLAGS_X64}"
+  export CROSSCXXFLAGS="${CFLAGS_X64}"
   mkdir -p "${BUILD_DIR}/build64" &&
   cd "${BUILD_DIR}/build64" &&
-  "${WINE_SRC}/configure" CFLAGS="${CFLAGS_X64}" CXXFLAGS="${CFLAGS_X64}" CROSSCFLAGS="${CFLAGS_X64}" --prefix="${WINE_DIR}" --enable-win64 ${WINE_BUILD_OPTIONS} &&
+  "${WINE_SRC}/configure" --prefix="${WINE_DIR}" --enable-win64 ${WINE_BUILD_OPTIONS} &&
   make -j$(nproc)
 }
 
@@ -40,7 +41,7 @@ build32() {
   export CROSSCFLAGS="${CFLAGS_X32}"
   mkdir -p "${BUILD_DIR}"/build32 &&
   cd "${BUILD_DIR}/build32" &&
-  PKG_CONFIG_PATH=/usr/lib/pkgconfig "${WINE_SRC}/configure" CFLAGS="${CFLAGS_X32}" CXXFLAGS="${CFLAGS_X32}" CROSSCFLAGS="${CFLAGS_X32}" --prefix="${WINE_DIR}" --with-wine64="${BUILD_DIR}/build64" ${WINE_BUILD_OPTIONS} &&
+  PKG_CONFIG_PATH=/usr/lib/pkgconfig "${WINE_SRC}/configure" --prefix="${WINE_DIR}" --with-wine64="${BUILD_DIR}/build64" ${WINE_BUILD_OPTIONS} &&
   make -j$(nproc)
 }
 

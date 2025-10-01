@@ -1,7 +1,7 @@
 * {
-  font-size: 17px;
-  font-family: "JetBrainsMono NF";
-  font-weight: 700;
+  font-size: 14px;
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: 500;
 }
 
 window#waybar {
@@ -16,7 +16,7 @@ window#waybar {
 }
 
 #workspaces button {
-  padding: 0 5px;
+  padding: 0 3px;
   background: #1a1b26;
   color: #d2d9f8;
 }

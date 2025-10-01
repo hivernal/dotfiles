@@ -13,10 +13,11 @@
 #       documentation for details on setting a label. To obtain the UUID, use
 #       the blkid(8) command.
 
-#<fs>		<mountpoint>	<type>		<opts>										<dump> <pass>
+# <fs>			<mountpoint>	<type>		<opts>		<dump> <pass>
+
 LABEL=root	/		xfs		defaults,noatime								0 1
 LABEL=boot	/boot		vfat		umask=0077									0 2
-LABEL=swap	none		swap		sw,pri=1									0 0
-LABEL=games	/opt/games	xfs		defaults,noatime,X-mount.owner=root,X-mount.group=gamers,X-mount.mode=2775	0 2
-tmpfs		/tmp		tmpfs		size=16G,noatime								0 0
-tmpfs		/var/tmp	tmpfs		size=16G,noatime								0 0
+# LABEL=swap	none		swap		sw,pri=1									0 0
+# LABEL=games	/opt/games	xfs		defaults,noatime,X-mount.owner=root,X-mount.group=gamers,X-mount.mode=2775	0 2
+tmpfs		/tmp		tmpfs		size=64G,noatime								0 0
+tmpfs		/var/tmp	tmpfs		size=32G,noatime								0 0

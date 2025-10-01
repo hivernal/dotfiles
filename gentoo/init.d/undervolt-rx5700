@@ -1,0 +1,49 @@
+#!/sbin/openrc-run
+
+DEVICE="$(find /sys/devices -iname pp_power_profile_mode)"
+DEVICE="${DEVICE%/*}"
+HWMON="$(echo ${DEVICE}/hwmon/hwmon[0-9])"
+FANMODE_FILE="${HWMON}/pwm1_enable"
+CLK_VOLTAGE_FILE="${DEVICE}/pp_od_clk_voltage"
+POWER_DPM_FILE="${DEVICE}/power_dpm_force_performance_level"
+
+export INTERVAL="0.5"
+export SKEEP_ITER=10
+export PWM_FILE="${HWMON}/pwm1"
+export TEMP_FILE="${HWMON}/temp2_input"
+export TEMPS="45000 55000 65000 75000 85000 110000"
+export PWMS="0 42 60 80 100 255"
+
+set_fanmode() {
+  local mode="$1"
+  echo "${mode}" > "${FANMODE_FILE}"
+}
+
+set_power_dpm() {
+  local mode="$1"
+  echo "${mode}" > "${POWER_DPM_FILE}"
+}
+
+set_manual_mode() {
+  set_power_dpm "manual"
+  set_fanmode 1
+}
+
+set_auto_mode() {
+  set_power_dpm "auto"
+  set_fanmode 2
+}
+
+supervisor=supervise-daemon
+command=/usr/local/bin/control-fan.sh
+
+start_pre() {
+  set_manual_mode
+  echo "vc 2 1750 850" > "${CLK_VOLTAGE_FILE}" &&
+  echo "c" > "${CLK_VOLTAGE_FILE}"
+}
+
+stop_post() {
+  set_auto_mode
+  echo "r" > "${CLK_VOLTAGE_FILE}"
+}

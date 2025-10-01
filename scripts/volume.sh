@@ -24,16 +24,16 @@ if [[ $# -eq 0 ]]; then
 fi
 
 if [[ ! -z "${muted}" ]]; then
-    icon="audio-volume-muted-panel.svg"
+    icon="audio-volume-muted.svg"
 else
   if (( ${volume} == 0 )); then
-    icon="audio-volume-zero-panel.svg"
+    icon="audio-volume-muted.svg"
   elif (( ${volume} <= 20 )); then
-    icon="audio-volume-low-panel.svg"
+    icon="audio-volume-low.svg"
   elif (( ${volume} <= 50 )); then
-    icon="audio-volume-medium-panel.svg"
+    icon="audio-volume-medium.svg"
   else
-    icon="audio-volume-high-panel.svg"
+    icon="audio-volume-high.svg"
   fi
 fi
 

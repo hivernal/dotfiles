@@ -19,9 +19,11 @@ set $term alacritty
 set $menu bemenu-run
 
 ### Output configuration
-#
-# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output *  bg /usr/share/pixmaps/summit.png fill adaptive_sync on
+
+# output *  bg /usr/share/pixmaps/summit.png fill adaptive_sync on
+output *  bg /usr/share/pixmaps/summit.png fill
+seat seat0 xcursor_theme Qogir-Dark 16
+
 #
 # Example configuration:
 #
@@ -240,7 +242,7 @@ input type:keyboard {
 
 input type:pointer {
   accel_profile flat
-  pointer_accel -0.8
+  pointer_accel -0.6
 }
 
 font "JetBrainsMono Nerd Font 11"
@@ -262,9 +264,7 @@ assign [class="steam"] 5
 assign [app_id="heroic"] 5
 
 
-exec dbus-update-activation-environment DISPLAY I3SOCK SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-exec /usr/libexec/polkit-gnome-authentication-agent-1
-exec "ps -C wireplumber > /dev/null 2>&1 || gentoo-pipewire-launcher restart"
-
+exec "dbus-update-activation-environment DISPLAY I3SOCK SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway"
+exec openrc -U sway
 
 include /etc/sway/config.d/*

@@ -8,7 +8,7 @@ SOFTWARE="${PREFIXES}/software"
 SYMLINKS_USER_FOLDERS=("Desktop" "Documents" "Downloads" "Music" "Pictures" "Videos")
 SYMLINKS_GLOBAL_FOLDERS=("Program Files" "Program Files (x86)" "ProgramData" "windows" "Games")
 
-[[ -z "${WINEPREFIX}" ]] && WINEPREFIX="${HOME}/.wine"
+WINEPREFIX="${WINEPREFIX:-${PREFIXES}/${USER}}"
 export WINEPREFIX="$(realpath "${WINEPREFIX}")"
 
 delete_symlinks_user_folders() {
@@ -40,7 +40,7 @@ create_wineprefix() {
   fi
 }
 
-DXVK_VKD3D_LIBS=(dxgi d3d8 d3d9 d3d10 d3d10core d3d11 d3d12 d3d12core)
+DXVK_VKD3D_LIBS=(dxgi d3d8 d3d9 d3d10core d3d11 d3d12 d3d12core)
 LIB_LOAD_ORDER="native"
 DXVK="${SOFTWARE}/dxvk"
 VKD3D="${SOFTWARE}/vkd3d"
@@ -80,7 +80,7 @@ setup_software() {
   setup_dxvk_vkd3d "${symlink_to_global}"
   [[ "${symlink_to_global}" == -l ]] && return
   import_dlls
-  for soft in $(ls "${SOFTWARE}"/*.exe); do
+  for soft in "${SOFTWARE}"/*.exe; do
     "${WINE}" "${soft}"
   done
 }

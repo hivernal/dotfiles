@@ -33,8 +33,9 @@ FILE_SHARING_VIRTIOFSD=(
 )
 
 display="-display spice-app,gl=on ${SPICE}"
+# display="-spice unix=on,addr=/tmp/win10.sock,gl=on,disable-ticketing=on ${SPICE}"
 vga="-vga qxl"
-# monitor="-monitor stdio"
+monitor="-nodefaults -monitor stdio"
 net=(
   "${NET_USER[@]}"
   # ${NET_TAP}
@@ -43,7 +44,7 @@ net=(
 )
 mem="-m 4G"
 boot=()
-cpu="-accel kvm -cpu host -smp 4"
+cpu="-enable-kvm -cpu host -smp 4 -machine vmport=off"
 usb="-device ich9-usb-ehci1,id=usb \
 -device ich9-usb-uhci1,masterbus=usb.0,firstport=0,multifunction=on \
 -device ich9-usb-uhci2,masterbus=usb.0,firstport=2 \
@@ -54,6 +55,14 @@ usb="-device ich9-usb-ehci1,id=usb \
 -device usb-redir,chardev=usbredirchardev2,id=usbredirdev2 \
 -chardev spicevmc,name=usbredir,id=usbredirchardev3 \
 -device usb-redir,chardev=usbredirchardev3,id=usbredirdev3"
+usb1="-usb \
+-chardev spicevmc,name=usbredir,id=usbredirchardev1 \
+-device usb-redir,chardev=usbredirchardev1,id=usbredirdev1 \
+-chardev spicevmc,name=usbredir,id=usbredirchardev2 \
+-device usb-redir,chardev=usbredirchardev2,id=usbredirdev2 \
+-chardev spicevmc,name=usbredir,id=usbredirchardev3 \
+-device usb-redir,chardev=usbredirchardev3,id=usbredirdev3"
+flydigy4="-usb -device usb-host,vendorid=0x045e,productid=0x028e,id=flydigy4"
 file_sharing=("${FILE_SHARING_VIRTFS[@]}")
 disk=("${SCRIPT_DIR}/${IMAGE}")
 
@@ -75,10 +84,12 @@ args=(
   "${boot[@]}"
   ${cpu}
   ${usb}
+  # ${flydigy4}
   "${file_sharing[@]}"
   "${disk[@]}"
   "${args[@]}"
 )
 
+ps -C Xwayland > /dev/null 2>&1 && unset DISPLAY
 mkdir -p "${FILE_TO_SHARE}"
 qemu-system-x86_64 "${args[@]}"

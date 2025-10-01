@@ -1,0 +1,10 @@
+#!/sbin/openrc-run
+
+depend() {
+  need pipewire-pulse wireplumber
+}
+
+compositor="${RC_SVCNAME#*.}"
+supervisor=supervise-daemon
+command=waybar
+command_args="-s "${HOME}/.config/${compositor}/waybar/style.css" -c "${HOME}/.config/${compositor}/waybar/config.jsonc""

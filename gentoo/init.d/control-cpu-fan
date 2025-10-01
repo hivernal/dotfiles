@@ -1,0 +1,34 @@
+#!/sbin/openrc-run
+
+NCT6775_DEVICE="/sys/devices/platform/nct6775.2592"
+NCT6775_HWMON="$(echo ${NCT6775_DEVICE}/hwmon/hwmon[0-9])"
+CORETEMP_DEVICE="/sys/devices/platform/coretemp.0"
+CORETEMP_HWMON="$(echo ${CORETEMP_DEVICE}/hwmon/hwmon[0-9])"
+
+export INTERVAL=1
+export SKEEP_ITER=10
+export PWM_FILE="${NCT6775_HWMON}/pwm1"
+export TEMP_FILE="${CORETEMP_HWMON}/temp1_input"
+export TEMPS="35000 45000 55000 65000 75000"
+export PWMS="0 80 160 220 255"
+
+set_manual_mode() {
+  echo 1 > "${PWM_FILE}_mode"
+  echo 1 > "${PWM_FILE}_enable"
+}
+
+set_auto_mode() {
+  echo 1 > "${PWM_FILE}_mode"
+  echo 5 > "${PWM_FILE}_enable"
+}
+
+supervisor=supervise-daemon
+command=/usr/local/bin/control-fan.sh
+
+start_pre() {
+  set_manual_mode
+}
+
+stop_post() {
+  set_auto_mode
+}
