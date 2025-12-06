@@ -2,8 +2,9 @@ local opt = vim.opt
 local g = vim.g
 
 opt.list = true
-opt.listchars = { tab = "│ ", leadmultispace = "│ ", eol = "↲", space = "·" }
-opt.textwidth = 80
+opt.listchars = { tab = "│ ", leadmultispace = "│ ", eol = "", space = "·" }
+-- opt.listchars = { tab = "│ ", leadmultispace = "│ ", space = "·" }
+-- opt.textwidth = 80
 
 -- opt.statusline = opt.statusline + "%F"
 -- opt.laststatus = 2
@@ -46,7 +47,7 @@ opt.splitbelow = true
 opt.splitright = true
 opt.termguicolors = true
 opt.timeout = true
-opt.timeoutlen = 1000
+opt.timeoutlen = 500
 opt.undofile = true
 
 -- interval for writing swap file to disk, also used by gitsigns

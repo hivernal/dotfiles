@@ -1,9 +1,9 @@
 #!/usr/bin/bash
 
-GAMES="/opt/games"
+GAMES="/opt/nv3000/games"
 PREFIXES="${GAMES}/prefixes"
 GLOBAL_WINEPREFIX="${GLOBAL_WINEPREFIX:-${PREFIXES}/global}"
-WINE="${WINE:-wine}"
+WINE="${WINE:-/usr/local/bin/wine}"
 SOFTWARE="${PREFIXES}/software"
 SYMLINKS_USER_FOLDERS=("Desktop" "Documents" "Downloads" "Music" "Pictures" "Videos")
 SYMLINKS_GLOBAL_FOLDERS=("Program Files" "Program Files (x86)" "ProgramData" "windows" "Games")
@@ -36,7 +36,7 @@ create_wineprefix() {
     ln -sf "${GLOBAL_WINEPREFIX}/system.reg" "${WINEPREFIX}/"
   else
     "${WINE}" wineboot
-    rm -rf "${WINEPREFIX}/dosdevices/c:/users/${USERS}"
+    rm -rf "${WINEPREFIX}/dosdevices/c:/users/${USER}"
   fi
 }
 

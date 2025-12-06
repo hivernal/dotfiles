@@ -32,6 +32,11 @@
     "format": "VOL {volume}% | "
   },
 
+  "battery": {
+    "format": "BAT {capacity}% | ",
+    "format-icons": ["", "", "", "", ""]
+  },
+
   "clock": {
     "format": "{:%T}",
     "interval": 1,
@@ -40,6 +45,13 @@
 
   "memory": {
     "format": "MEM {used}Gi | ",
+    "interval": 2
+  },
+
+  "network": {
+    "format": "NET {essid} ",
+    "format-icons": ["󰣾", "󰣴", "󰣶", "󰣸", "󰣺"],
+    "format-disconnected": "NET disconnected ",
     "interval": 2
   },
 
