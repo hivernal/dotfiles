@@ -15,9 +15,11 @@
 
 # <fs>			<mountpoint>	<type>		<opts>		<dump> <pass>
 
+# /dev/nvme0n1p2	/		xfs		defaults,noatime								0 1
+# /dev/nvme0n1p1	/boot		vfat		umask=0077									0 2
 LABEL=root	/		xfs		defaults,noatime								0 1
 LABEL=boot	/boot		vfat		umask=0077									0 2
 # LABEL=swap	none		swap		sw,pri=1									0 0
-# LABEL=games	/opt/games	xfs		defaults,noatime,X-mount.owner=root,X-mount.group=gamers,X-mount.mode=2775	0 2
+# LABEL=nv3000	/opt/nv3000	xfs		defaults,noatime,X-mount.owner=root,X-mount.group=root,X-mount.mode=0755	0 2
 tmpfs		/tmp		tmpfs		size=64G,noatime								0 0
 tmpfs		/var/tmp	tmpfs		size=32G,noatime								0 0
