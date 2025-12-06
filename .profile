@@ -1,14 +1,16 @@
 export LANG="en_US.UTF-8"
 export LC_COLLATE="C.UTF-8"
 
+export PROTON_NO_NTSYNC=1
+export PROTON_ENABLE_WAYLAND=1
+
 export XDG_CACHE_HOME="/run/user/${UID}/cache"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
 
 # export AMD_VULKAN_ICD=AMDVLK
-export WINE="${HOME}/downloads/git/wine-ntsync/bin/wine"
 
 export MANPAGER='nvim +Man!'
 # export MANWIDTH=999
-
 # export MANROFFOPT="-c"
 # export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # export BAT_PAGER="less -RFXSM +Gg"
