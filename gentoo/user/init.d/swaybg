@@ -1,0 +1,5 @@
+#!/sbin/openrc-run
+
+supervisor=supervise-daemon
+command=/usr/bin/swaybg
+command_args="-m fill -i /usr/share/pixmaps/dolomite-mountains-3840x2160-16232.png"

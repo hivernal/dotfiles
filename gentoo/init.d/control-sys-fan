@@ -5,12 +5,12 @@ NCT6775_HWMON="$(echo ${NCT6775_DEVICE}/hwmon/hwmon[0-9])"
 CORETEMP_DEVICE="/sys/devices/platform/coretemp.0"
 CORETEMP_HWMON="$(echo ${CORETEMP_DEVICE}/hwmon/hwmon[0-9])"
 
-export INTERVAL=1
-export SKEEP_ITER=10
-export PWM_FILE="${NCT6775_HWMON}/pwm2"
-export TEMP_FILE="${CORETEMP_HWMON}/temp1_input"
-export TEMPS="35000 45000 55000 65000 75000"
-export PWMS="90 90 100 128 156"
+INTERVAL=1
+SKEEP_ITER=10
+PWM_FILE="${NCT6775_HWMON}/pwm2"
+TEMP_FILE="${CORETEMP_HWMON}/temp1_input"
+TEMPS="35000 45000 55000 65000 75000"
+PWMS="90 90 100 128 156"
 
 set_manual_mode() {
   echo 1 > "${PWM_FILE}_mode"
@@ -24,6 +24,7 @@ set_auto_mode() {
 
 supervisor=supervise-daemon
 command=/usr/local/bin/control-fan.sh
+command_args="--temps '${TEMPS}' --temp-file '${TEMP_FILE}' --pwm-file '${PWM_FILE}' --pwms '${PWMS}' --interval ${INTERVAL} --skeep-iter ${SKEEP_ITER}"
 
 start_pre() {
   set_manual_mode

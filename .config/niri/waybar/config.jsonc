@@ -1,0 +1,54 @@
+{
+  "spacing": 0,
+  "layer": "bottom",
+  "height": 24,
+  "modules-left": ["niri/workspaces", "niri/window"],
+  // "modules-center": ["clock"],
+  "modules-right": ["niri/language", "wireplumber", "memory", "clock"],
+
+  "niri/workspaces": {
+    "all-outputs": true,
+    "format": "{}"
+  },
+
+  "niri/language": {
+    "format": "KEY {} | ",
+    "format-ru": "ru",
+    "format-en": "en"
+  },
+
+  "wireplumber": {
+    "format-muted": "VOL muted | ",
+    "format-icons": ["󰕿", "󰖀", "󰕾"],
+    "format": "VOL {volume}% | "
+  },
+
+  "battery": {
+    "format": "BAT {capacity}% | ",
+    "format-icons": ["", "", "", "", ""]
+  },
+
+  "clock": {
+    "format": "{:%T}",
+    "interval": 1,
+    "timezone": "Asia/Krasnoyarsk"
+  },
+
+  "memory": {
+    "format": "MEM {used}Gi | ",
+    "interval": 2
+  },
+
+  "network": {
+    "format": "NET {essid} ",
+    "format-icons": ["󰣾", "󰣴", "󰣶", "󰣸", "󰣺"],
+    "format-disconnected": "NET disconnected ",
+    "interval": 2
+  },
+
+  "custom/mem": {
+    "exec": "free -h | awk '(NR==2) {print $3}'",
+    "format": "MEM {} | ",
+    "interval": 2
+  }
+}

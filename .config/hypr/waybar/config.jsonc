@@ -19,9 +19,9 @@
   },
 
   "hyprland/windowcount": {
-    "format": "[{}]",
-    "format-empty": "[M]",
-    "format-windowed": "[]=",
+    "format": " [{}] ",
+    "format-empty": " [M] ",
+    "format-windowed": " []= ",
     // "format-fullscreen": "[{}]",
     "separate-outputs": true
   },

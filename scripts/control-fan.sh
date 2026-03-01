@@ -1,5 +1,37 @@
 #!/usr/bin/bash
 
+while [[ $# > 0 ]]; do
+  case $1 in
+    -t|--temps)
+      TEMPS=($2)
+      shift 2
+      ;;
+    -p|--pwms)
+      PWMS=($2)
+      shift 2
+      ;;
+    --temp-file)
+      TEMP_FILE=$2
+      shift 2
+      ;;
+    --pwm-file)
+      PWM_FILE=$2
+      shift 2
+      ;;
+    -s|--skeep-iter)
+      SKEEP_ITER=$2
+      shift 2
+      ;;
+    -i|--interval)
+      INTERVAL=$2
+      shift 2
+      ;;
+    *)
+      shift 1
+      ;;
+  esac
+done
+
 set_pwm() {
   local new_pwm=$1
   echo "${new_pwm}" > "${PWM_FILE}"
@@ -42,9 +74,6 @@ interpolate_pwm() {
     return
   done
 }
-
-TEMPS=($(echo "${TEMPS}" | tr ',' ' '))
-PWMS=($(echo "${PWMS}" | tr ',' ' '))
 
 previous_temp=0
 skeep_iter=${SKEEP_ITER}

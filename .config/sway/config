@@ -20,9 +20,15 @@ set $menu bemenu-run
 
 ### Output configuration
 
-# output *  bg /usr/share/pixmaps/summit.png fill adaptive_sync on
-output *  bg /usr/share/pixmaps/summit.png fill
-seat seat0 xcursor_theme Qogir-Dark 16
+# output *  bg /usr/share/pixmaps/summit.png fill adaptive_sync off
+# output * adaptive_sync on resolution 3840x2160@160Hz bg /usr/share/pixmaps/dolomite-mountains-3840x2160-16232.png fill
+output "DP-1" {
+  allow_tearing yes
+  adaptive_sync off
+  resolution 3840x2160@160Hz
+  bg /usr/share/pixmaps/dolomite-mountains-3840x2160-16232.png fill
+}
+seat seat0 xcursor_theme Qogir-Dark 24
 
 #
 # Example configuration:
@@ -208,7 +214,7 @@ bindsym --to-code $mod+r mode "resize"
     bindsym --to-code --locked XF86AudioRaiseVolume exec volume.sh up
     # Special keys to adjust brightness via brightnessctl
     # Special key to take a screenshot with grim
-    bindsym --to-code Print exec dwl-screenshot.sh
+    bindsym --to-code Print exec wayland-screenshot.sh
     bindsym --to-code Shift+Print exec sway-screenshot.sh
 
 #
@@ -216,6 +222,7 @@ bindsym --to-code $mod+r mode "resize"
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
+    font "JetBrainsMono Nerd Font 14"
     position top
 
     # When the status_command prints a new line to stdout, swaybar updates.
@@ -237,7 +244,6 @@ input type:keyboard {
   xkb_options grp:win_space_toggle
   repeat_rate 25
   repeat_delay 300
-
 }
 
 input type:pointer {
@@ -245,7 +251,7 @@ input type:pointer {
   pointer_accel -0.6
 }
 
-font "JetBrainsMono Nerd Font 11"
+font "JetBrainsMono Nerd Font 13"
 
 client.focused #d2d9f8 #5e5f67 #d2d9f8 #d2d9f8 #d2d9f8
 client.unfocused #5e5f67 #1a1b26 #d2d9f8 #5e5f67 #5e5f67

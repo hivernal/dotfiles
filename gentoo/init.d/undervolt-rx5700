@@ -7,7 +7,7 @@ FANMODE_FILE="${HWMON}/pwm1_enable"
 CLK_VOLTAGE_FILE="${DEVICE}/pp_od_clk_voltage"
 POWER_DPM_FILE="${DEVICE}/power_dpm_force_performance_level"
 
-export INTERVAL="0.5"
+export INTERVAL=1
 export SKEEP_ITER=10
 export PWM_FILE="${HWMON}/pwm1"
 export TEMP_FILE="${HWMON}/temp2_input"
@@ -36,6 +36,7 @@ set_auto_mode() {
 
 supervisor=supervise-daemon
 command=/usr/local/bin/control-fan.sh
+command_args="--temps '${TEMPS}' --temp-file '${TEMP_FILE}' --pwm-file '${PWM_FILE}' --pwms '${PWMS}' --interval ${INTERVAL} --skeep-iter ${SKEEP_ITER}"
 
 start_pre() {
   set_manual_mode
