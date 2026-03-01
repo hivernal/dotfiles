@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
-GAMES="/opt/nv3000/games"
-PREFIXES="${GAMES}/prefixes"
+GAMES="/opt/nv3000/wine"
+PREFIXES="${GAMES}"
 GLOBAL_WINEPREFIX="${GLOBAL_WINEPREFIX:-${PREFIXES}/global}"
 WINE="${WINE:-/usr/local/bin/wine}"
 SOFTWARE="${PREFIXES}/software"

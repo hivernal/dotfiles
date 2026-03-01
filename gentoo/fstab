@@ -15,11 +15,16 @@
 
 # <fs>			<mountpoint>	<type>		<opts>		<dump> <pass>
 
-# /dev/nvme0n1p2	/		xfs		defaults,noatime								0 1
-# /dev/nvme0n1p1	/boot		vfat		umask=0077									0 2
-LABEL=root	/		xfs		defaults,noatime								0 1
+#LABEL=boot		/boot		ext4		defaults	1 2
+#UUID=58e72203-57d1-4497-81ad-97655bd56494		/		xfs		defaults		0 1
+#LABEL=swap		none		swap		sw		0 0
+#/dev/cdrom		/mnt/cdrom	auto		noauto,ro	0 0
+
+LABEL=root	/		xfs		defaults,shared,noatime								0 1
 LABEL=boot	/boot		vfat		umask=0077									0 2
 # LABEL=swap	none		swap		sw,pri=1									0 0
-# LABEL=nv3000	/opt/nv3000	xfs		defaults,noatime,X-mount.owner=root,X-mount.group=root,X-mount.mode=0755	0 2
+LABEL=nv3000	/opt/nv3000	xfs		defaults,noatime,X-mount.owner=root,X-mount.group=root,X-mount.mode=0755	0 2
 tmpfs		/tmp		tmpfs		size=64G,noatime								0 0
 tmpfs		/var/tmp	tmpfs		size=32G,noatime								0 0
+
+tracefs		/sys/kernel/tracing tracefs 	defaults 									0 0
