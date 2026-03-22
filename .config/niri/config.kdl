@@ -3,7 +3,7 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
-workspace "1"
+// workspace "1"
 
 layer-rule {
   match namespace="^wallpaper$"
@@ -15,7 +15,7 @@ recent-windows {
 }
 
 overview {
-  zoom 0.3
+  zoom 0.31
   workspace-shadow {
     off
   }
@@ -31,7 +31,7 @@ gestures {
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input
 input {
-  focus-follows-mouse
+  // focus-follows-mouse
   keyboard {
     repeat-delay 300
     repeat-rate 25
@@ -100,7 +100,6 @@ output "DP-1" {
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
-
   background-color "transparent"
   // Set gaps around windows in logical pixels.
   gaps 0
@@ -139,6 +138,7 @@ layout {
 
   // You can change the default width of the new windows.
   default-column-width { proportion 0.5; }
+  empty-workspace-above-first
   // If you leave the brackets empty, the windows themselves will decide their initial width.
 
   // By default focus ring and border are rendered as a solid background rectangle
@@ -270,12 +270,11 @@ layout {
 // This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-sh-at-startup "openrc -U niri"
 
-
-
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
 environment {
+  GTK_IM_MODULE "simple"
   XCURSOR_SIZE "24"
   XCURSOR_THEME "Qogir-Dark"
 }
@@ -329,16 +328,18 @@ window-rule {
   match app-id="org.telegram.desktop"
   match app-id="firefox-esr"
   match app-id="thunderbird-esr"
-  match app-id="steam"
+  // match app-id="steam"
   open-maximized true
-  open-on-workspace "1"
-  open-focused false
+  // open-on-workspace "1"
+  // open-focused false
 }
 
+/*
 window-rule {
   match title="Media viewer"
   open-focused true
 }
+*/
 
 binds {
   // Keys consist of modifiers separated by + signs, followed by an XKB key name
@@ -377,8 +378,8 @@ binds {
 
   Mod+J { focus-window-or-workspace-down; }
   Mod+K { focus-window-or-workspace-up; }
-  Mod+H { focus-column-left-or-last; }
-  Mod+L { focus-column-right-or-first; }
+  Mod+H { focus-column-left; }
+  Mod+L { focus-column-right; }
   Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
   Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
   Mod+MouseBack { focus-column-left; }
