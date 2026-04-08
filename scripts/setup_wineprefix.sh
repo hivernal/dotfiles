@@ -36,7 +36,8 @@ create_wineprefix() {
     ln -sf "${GLOBAL_WINEPREFIX}/system.reg" "${WINEPREFIX}/"
   else
     "${WINE}" wineboot
-    rm -rf "${WINEPREFIX}/dosdevices/c:/users/${USER}"
+    # rm -rf "${WINEPREFIX}/dosdevices/c:/users/${USER}"
+    delete_symlinks_user_folders
   fi
 }
 

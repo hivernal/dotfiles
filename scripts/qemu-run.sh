@@ -96,7 +96,7 @@ args=(
   "${args[@]}"
 )
 
-ps -C sway,Hyprland > /dev/null 2>&1 && unset DISPLAY
+ps -C Xwayland > /dev/null 2>&1 && unset DISPLAY
 mkdir -p "${FILE_TO_SHARE}" &&
 echo -en "ssh port ${SSH_HOST_PORT} is forwarding\n\n"
 qemu-system-x86_64 "${args[@]}"

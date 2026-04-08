@@ -1,17 +1,14 @@
 #!/usr/bin/bash
 
-# WINE_BUILD_OPTIONS="--without-oss --disable-win16 --disable-tests"
-
-BUILD_DIR="${BUILD_DIR:-${HOME}/downloads/git}"
+BUILD_DIR="${BUILD_DIR:-${PWD}}"
+BUILD64_DIR="${BUILD_DIR}/build64"
+BUILD32_DIR="${BUILD_DIR}/build32"
+BUILD_WOW64_DIR="${BUILD_DIR}/build_wow64"
 WINE_NAME="${WINE_NAME:-amd64}"
-WINE_DIR="${BUILD_DIR}"/wine-"${WINE_NAME}"
-
-WINE_SRC="${WINE_SRC:-${BUILD_DIR}/wine}"
-if [ -z "${WINE_SRC}" ]; then
-  WINE_SRC="${BUILD_DIR}/wine"
-else
-  WINE_SRC="$(realpath ${WINE_SRC})"
-fi
+PREFIX="${PREFIX:-${BUILD_DIR}/wine-${WINE_NAME}}"
+WINE_SRC="${WINE_SRC:-${PWD}/wine}"
+WINE_BUILD_OPTIONS="--prefix="${PREFIX}""
+# WINE_BUILD_OPTIONS="--prefix='${PREFIX}' --without-oss --disable-win16 --disable-tests"
 
 # export CC="gcc"
 # export CXX="g++"
@@ -19,41 +16,62 @@ fi
 # export i386_CXX="i686-w64-mingw32-g++"
 # export x86_64_CC="x86_64-w64-mingw32-gcc"
 # export x86_64_CXX="x86_64-w64-mingw32-g++"
-CFLAGS_X64="-march=native -O2 -pipe"
-CFLAGS_X32="-march=native -O2 -pipe"
+CFLAGS64="-march=native -O2 -pipe"
+CFLAGS32="-march=native -O2 -pipe"
 # export LDFLAGS="-Wl,-O1,--sort-common,--as-needed"
 # export CROSSLDFLAGS="${LDFLAGS}"
 
-build64() {
-  export CFLAGS="${CFLAGS_X64}"
-  export CXXFLAGS="${CFLAGS_X64}"
-  export CROSSCFLAGS="${CFLAGS_X64}"
-  export CROSSCXXFLAGS="${CFLAGS_X64}"
-  mkdir -p "${BUILD_DIR}/build64" &&
-  cd "${BUILD_DIR}/build64" &&
-  "${WINE_SRC}/configure" --prefix="${WINE_DIR}" --enable-win64 ${WINE_BUILD_OPTIONS} &&
-  make -j$(nproc)
-}
-
-build32() {
-  export CFLAGS="${CFLAGS_X32}"
-  export CXXFLAGS="${CFLAGS_X32}"
-  export CROSSCFLAGS="${CFLAGS_X32}"
-  mkdir -p "${BUILD_DIR}"/build32 &&
-  cd "${BUILD_DIR}/build32" &&
-  PKG_CONFIG_PATH=/usr/lib/pkgconfig "${WINE_SRC}/configure" --prefix="${WINE_DIR}" --with-wine64="${BUILD_DIR}/build64" ${WINE_BUILD_OPTIONS} &&
+build() {
+  export CFLAGS="$1"
+  export CXXFLAGS="$1"
+  export CROSSCFLAGS="$1"
+  export CROSSCXXFLAGS="$1"
+  mkdir -p "$2" && cd "$2"
+  shift 2
+  "${WINE_SRC}/configure" "${WINE_BUILD_OPTIONS}" "${@}" &&
   make -j$(nproc)
 }
 
 install() {
-  cd "${BUILD_DIR}/build32"
-  make -j$(nproc) install
-  cd "${BUILD_DIR}/build64"
-  make -j$(nproc) install
+  cd "$1" && make -j$(nproc) install
 }
 
-rm -rf "${WINE_DIR}"
-build64 &&
-build32 &&
-install
-rm -rf "${BUILD_DIR}/build64" "${BUILD_DIR}/build32"
+build64() {
+  build "${CFLAGS64}" "${BUILD64_DIR}" --enable-win64 "${@}"
+}
+
+install64() {
+  install "${BUILD64_DIR}"
+}
+
+build32() {
+  build "${CFLAGS32}" "${BUILD32_DIR}" "${@}"
+}
+
+install32() {
+  install "${BUILD32_DIR}"
+}
+
+build_wow64() {
+  build "${CFLAGS64}" "${BUILD_WOW64_DIR}" --enable-archs=i386,x86_64 "${@}"
+}
+
+install_wow64() {
+  install "${BUILD_WOW64_DIR}"
+}
+
+rm -rf "${PREFIX}"
+if [[ "${WINEARCH}" == "wow64" ]]; then
+  build_wow64 "${@}" &&
+  install_wow64
+elif [[ "${WINEARCH}" == "win32" ]]; then
+  build32 "${@}" &&
+  install32
+else
+  build64 "${@}" &&
+  PKG_CONFIG_PATH=/usr/lib/pkgconfig build32 --with-wine64="${BUILD64_DIR}" "${@}" &&
+  install32  &&
+  install64
+fi
+
+rm -rf "${BUILD64_DIR}" "${BUILD32_DIR}" "${BUILD_WOW64_DIR}"

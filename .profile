@@ -3,9 +3,9 @@ export LC_COLLATE="C.UTF-8"
 
 export PYTHON_BASIC_REPL=1
 
-export PROTON_NO_NTSYNC=1
+export PROTON_NO_NTSYNC=0
 export PROTON_ENABLE_WAYLAND=1
-export WLR_RENDERER=vulkan
+export WINE="/usr/local/bin/wine-11.5-wow64"
 
 export XDG_CACHE_HOME="/run/user/${UID}/cache"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=${XDG_RUNTIME_DIR}/bus"
@@ -37,6 +37,6 @@ export FZF_DEFAULT_OPTS="--height 40% \
                          --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a \
                          --bind=tab:down,btab:up,ctrl-a:toggle"
 
-export BEMENU_OPTS='-p ">" -n -H 26 --fn "JetBrainsMono NF Medium 14" --tb #1a1b26 --tf #d2d9f8 --fb #1a1b26 --ff #d2d9f8 --nf #d2d9f8 --nb #1a1b26 --hf #d2d9f8 --hb #5e5f67 --sb #1a1b26 --sf #d2d9f8 --af #d2d9f8 --ab #1a1b26' # TokyoNight
+export BEMENU_OPTS='-p ">" -n -H 26 --fn "JetBrainsMono NF Medium 16" --tb #1a1b26 --tf #d2d9f8 --fb #1a1b26 --ff #d2d9f8 --nf #d2d9f8 --nb #1a1b26 --hf #d2d9f8 --hb #5e5f67 --sb #1a1b26 --sf #d2d9f8 --af #d2d9f8 --ab #1a1b26' # TokyoNight
 
 # export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
