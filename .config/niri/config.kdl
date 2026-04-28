@@ -41,6 +41,13 @@ input {
     }
   }
 
+  touchpad {
+    natural-scroll
+    tap
+    accel-profile "flat"
+    accel-speed 0.4
+  }
+
   mouse {
     // off
     // natural-scroll
@@ -368,7 +375,8 @@ binds {
   XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "volume.sh up"; }
   XF86AudioLowerVolume allow-when-locked=true { spawn-sh "volume.sh down"; }
   XF86AudioMute allow-when-locked=true { spawn-sh "volume.sh mute"; }
-
+  XF86MonBrightnessUp allow-when-locked=true { spawn-sh "brightness.sh up"; }
+  XF86MonBrightnessDown allow-when-locked=true { spawn-sh "brightness.sh down"; }
   // Open/close the Overview: a zoomed-out view of workspaces and windows.
   // You can also move the mouse into the top-left hot corner,
   // or do a four-finger swipe up on a touchpad.
@@ -394,6 +402,14 @@ binds {
   Mod+Shift+MouseBack { move-column-left; }
   Mod+Shift+MouseForward { move-column-right; }
 
+  Mod+Shift+TouchpadScrollDown cooldown-ms=150 { move-window-to-workspace-down focus=false; }
+  Mod+Shift+TouchpadScrollUp cooldown-ms=150 { move-window-to-workspace-up focus=false; }
+  Mod+Shift+TouchpadScrollLeft { move-column-left; }
+  Mod+Shift+TouchpadScrollRight { move-column-right; }
+  Mod+TouchpadScrollDown cooldown-ms=150 { focus-workspace-down; }
+  Mod+TouchpadScrollUp cooldown-ms=150 { focus-workspace-up; }
+  Mod+TouchpadScrollLeft cooldown-ms=150 { focus-column-left; }
+  Mod+TouchpadScrollRight cooldown-ms=150 { focus-column-right; }
   Mod+Shift+I { move-workspace-down; }
   Mod+Shift+U { move-workspace-up; }
 
