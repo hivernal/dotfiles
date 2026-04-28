@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 while true; do
 #   kb_layout="$(cat /tmp/dwl-keymap 2> /dev/null)"

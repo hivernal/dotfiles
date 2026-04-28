@@ -1,21 +1,21 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 while [[ $# > 0 ]]; do
   case $1 in
     -t|--temps)
-      TEMPS=($2)
+      TEMPS=($(echo "$2" | tr ',' ' '))
       shift 2
       ;;
     -p|--pwms)
-      PWMS=($2)
+      PWMS=($(echo "$2" | tr ',' ' '))
       shift 2
       ;;
     --temp-file)
-      TEMP_FILE=$2
+      TEMP_FILE="$2"
       shift 2
       ;;
     --pwm-file)
-      PWM_FILE=$2
+      PWM_FILE="$2"
       shift 2
       ;;
     -s|--skeep-iter)

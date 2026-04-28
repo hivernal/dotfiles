@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 IMAGE="clear.qcow2"
 IMAGE_TYPE="${IMAGE##*.}"

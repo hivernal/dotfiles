@@ -1,11 +1,11 @@
 super + p
   dmenu_run
 super + shift + Return
-  st tmux
+  alacritty
 super + shift + q
-  systemctl poweroff
+  loginctl poweroff
 Print
-  flameshot gui
+  dwm-screenshot.sh
 
 super + shift + {h,l}
   bspc node -s {west,east}
@@ -33,12 +33,14 @@ super + f
 
 super + {_,shift} + {1-9} 
   bspc {desktop -f,node -d} {1-9}
-super + Tab
-  bspc desktop -l next
+super + m
+  bspc desktop -l monocle
+super + t
+  bspc desktop -l tiled
 
 XF86Audio{Raise,Lower}Volume
-  pactl set-sink-volume @DEFAULT_SINK@ {+,-}5%
+  volume.sh {up,down}
 XF86AudioMute
-  pactl set-sink-mute @DEFAULT_SINK@ toggle
+  volume.sh mute
 XF86MonBrightness{Up,Down}
-  brightnessctl set {+5%,5%-}
+  brightness.sh {up,down}

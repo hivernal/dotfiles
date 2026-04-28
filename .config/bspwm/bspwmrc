@@ -1,10 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-sxhkd &
-polybar &
+openrc -U bspwm
+# polybar &
 xsetroot -cursor_name left_ptr &
-feh --bg-fill "${HOME}/pictures/groot-dark.png"
-# lxpolkit &
 
 bspc monitor -d 1 2 3 4 5 6 7 8 9
 

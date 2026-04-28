@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 DESTDIR="/etc/portage/patches/app-emulation/wine-vanilla-10.0-r1"
 PATCHES_DIR="${PATCHES_DIR:-"wine-staging/patches"}"

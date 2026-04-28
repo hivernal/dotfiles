@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 BUILD_DIR="${BUILD_DIR:-${PWD}}"
 BUILD64_DIR="${BUILD_DIR}/build64"

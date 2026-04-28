@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 SCRIPT_DIR="$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ICONS_DIR="/usr/share/icons/Qogir/32/status"
@@ -13,7 +13,10 @@ fi
 
 volume="$(wpctl get-volume @DEFAULT_SINK@)"
 muted="$(echo "${volume}" | grep MUTED)"
-volume="${volume##*.}"; volume=${volume% *}; volume=${volume#0}
+# volume="${volume##*.}"; volume=${volume% *}; volume=${volume#0}
+volume="${volume#* }"; volume="${volume% *}"
+volume=$(echo "${volume} * 100" | bc)
+volume="${volume%.*}"
 if [[ $# -eq 0 ]]; then
   if [[ ! -z "${muted}" ]]; then
     echo "muted"
@@ -37,4 +40,4 @@ else
   fi
 fi
 
-dunstify -t 2000 -i "${ICONS_DIR}/${icon}" -h string:x-canonical-private-synchronous:audio "${volume}%" -h int:value:${volume}
+dunstify -t 2000 -I "${ICONS_DIR}/${icon}" -h string:x-dunst-stack-tag:audio "${volume}%" -h int:value:${volume}

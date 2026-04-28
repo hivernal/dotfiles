@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 GAMES="/opt/nv3000/wine"
 PREFIXES="${GAMES}"
