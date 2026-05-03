@@ -332,6 +332,10 @@ async fn config() {
             device.set_accel_speed(-0.6);
         }
     });
+    input::set_xkb_config(input::XkbConfig::new()
+        .with_layout("us,ru")
+        .with_options("grp:win_space_toggle"));
+    input::set_repeat_rate(25, 300);
 
     // Enable focus borders with titlebars
     #[cfg(feature = "snowcap")]
