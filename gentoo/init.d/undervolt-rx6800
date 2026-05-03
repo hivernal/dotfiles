@@ -10,9 +10,7 @@ POWER_DPM_FILE="${DEVICE}/power_dpm_force_performance_level"
 INTERVAL=1
 SKEEP_ITER=10
 PWM_FILE="${HWMON}/pwm1"
-TEMP_FILE="${HWMON}/temp2_input"
-TEMPS="45000 55000 65000 75000 85000 110000"
-PWMS="0 42 70 80 90 255"
+TEMPS_PWMS="45000:0 55000:42 65000:70 75000:80 85000:90 110000:255"
 
 set_fanmode() {
   local mode="$1"
@@ -36,7 +34,7 @@ set_auto_mode() {
 
 supervisor=supervise-daemon
 command=/usr/local/bin/control-fan.sh
-command_args="--temps '${TEMPS}' --temp-file '${TEMP_FILE}' --pwm-file '${PWM_FILE}' --pwms '${PWMS}' --interval ${INTERVAL} --skeep-iter ${SKEEP_ITER}"
+command_args="-t '${TEMPS_PWMS}' -f '${TEMP_FILE}' -F '${PWM_FILE}' -i ${INTERVAL} -i ${SKEEP_ITER}"
 
 start_pre() {
   set_manual_mode

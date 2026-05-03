@@ -1,25 +1,26 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-while [[ $# > 0 ]]; do
+INTERVAL=1
+SKIP_ITER=5
+
+while [ $# -gt 0 ]; do
   case $1 in
-    -t|--temps)
-      TEMPS=($(echo "$2" | tr ',' ' '))
+    -t|--temps-pwms)
+      TEMPS_PWMS="$(echo "$2" | tr ',' ' ')"
+      MAX_TEMP_PWM=${TEMPS_PWMS##* }
+      MIN_TEMP_PWM=${TEMPS_PWMS%% *}
       shift 2
       ;;
-    -p|--pwms)
-      PWMS=($(echo "$2" | tr ',' ' '))
-      shift 2
-      ;;
-    --temp-file)
+    -f|--temp-file)
       TEMP_FILE="$2"
       shift 2
       ;;
-    --pwm-file)
+    -F|--pwm-file)
       PWM_FILE="$2"
       shift 2
       ;;
     -s|--skeep-iter)
-      SKEEP_ITER=$2
+      SKIP_ITER=$2
       shift 2
       ;;
     -i|--interval)
@@ -42,49 +43,45 @@ get_temp() {
 }
 
 interpolate_pwm() {
-  local current_temp=$1
-  local previous_temp=$2
-  local -n temps=$3
-  local -n pwms=$4
-  local skeep_iter=$5
-  if [[ ${previous_temp} -ge ${current_temp} ]] && [[ ${skeep_iter} -gt 0 ]]; then
-    echo -1
+  local cur_temp=$1
+  if [ ${cur_temp} -le ${MIN_TEMP_PWM%:*} ]; then
+    echo ${MIN_TEMP_PWM#*:}
+    return
+  elif [ ${cur_temp} -ge ${MAX_TEMP_PWM%:*} ]; then
+    echo ${MAX_TEMP_PWM#*:}
     return
   fi
 
-  if [[ ${current_temp} -le ${temps[0]} ]]; then
-    echo ${pwms[0]}
-    return
-  elif [[ ${current_temp} -gt ${temps[-1]} ]]; then
-    echo ${pwms[-1]}
-    return
-  fi
-
-  i=0
-  for i in "${!temps[@]}"; do
-    if [[ ${current_temp} -gt ${temps[$i]} ]]; then
+  prev_temp_pwm="0:0"
+  for temp_pwm in ${TEMPS_PWMS}; do
+    local higher_temp=${temp_pwm%:*}
+    local higher_pwm=${temp_pwm#*:}
+    if [ ${cur_temp} -eq ${higher_temp} ]; then
+      echo ${higher_pwm}
+      return
+    fi
+    if [ ${cur_temp} -gt ${higher_temp} ]; then
+      prev_temp_pwm=${temp_pwm}
       continue
     fi
-    local lower_temp=${temps[i-1]}
-    local higher_temp=${temps[i]}
-    local lower_pwm=${pwms[i-1]}
-    local higher_pwm=${pwms[i]}
-    local pwm=$(echo "((${current_temp} - ${lower_temp}) * (${higher_pwm} - ${lower_pwm}) / (${higher_temp} - ${lower_temp})) + ${lower_pwm}" | bc)
-    echo ${pwm}
+    local lower_temp=${prev_temp_pwm%:*}
+    local lower_pwm=${prev_temp_pwm#*:}
+    echo "((${cur_temp} - ${lower_temp}) * (${higher_pwm} - ${lower_pwm}) / (${higher_temp} - ${lower_temp})) + ${lower_pwm}" | bc
     return
   done
 }
 
-previous_temp=0
-skeep_iter=${SKEEP_ITER}
+prev_temp=0
+skip_iter=${SKIP_ITER}
 while true; do
-  current_temp=$(get_temp)
-  pwm=$(interpolate_pwm ${current_temp} ${previous_temp} TEMPS PWMS ${skeep_iter})
-  skeep_iter=$((--skeep_iter))
-  if [[ ${pwm} -ge 0 ]]; then
+  cur_temp=$(get_temp)
+  if [ ${cur_temp} -lt ${prev_temp} ] && [ ${skip_iter} -gt 0 ]; then
+    skip_iter=$(( ${skip_iter} - 1 ))
+  elif [ ${cur_temp} -ne ${prev_temp} ]; then
+    pwm=$(interpolate_pwm ${cur_temp})
     set_pwm ${pwm}
-    previous_temp=${current_temp}
-    skeep_iter=${SKEEP_ITER}
+    prev_temp=${cur_temp}
+    skip_iter=${SKIP_ITER}
   fi
   sleep ${INTERVAL}
 done
