@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-WINE=${WINE:-"/usr/local/bin/wine-11.0-wow64"}
+WINE=${WINE:-"/usr/local/bin/wine"}
 export WINEPREFIX="/opt/nv3000/wine/${USER}"
 GAMES="${WINEPREFIX}/dosdevices/c:/Games"
 GAME_DIR="${GAMES}/GAME_DIR"

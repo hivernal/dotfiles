@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-[[ -f "${HOME}/.wprofile" ]] && . "${HOME}/.wprofile"
+[ -f "${HOME}/.wprofile" ] && . "${HOME}/.wprofile"
 
 session="$(cat "${HOME}/.wm")"
 

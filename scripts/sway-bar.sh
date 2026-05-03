@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 while true; do
   kb_layout="$(swaymsg -t get_inputs | jq '.[1].xkb_active_layout_name')"

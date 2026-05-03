@@ -1,30 +1,34 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 GAMES="/opt/nv3000/wine"
 PREFIXES="${GAMES}"
 GLOBAL_WINEPREFIX="${GLOBAL_WINEPREFIX:-${PREFIXES}/global}"
 WINE="${WINE:-/usr/local/bin/wine}"
 SOFTWARE="${PREFIXES}/software"
-SYMLINKS_USER_FOLDERS=("Desktop" "Documents" "Downloads" "Music" "Pictures" "Videos")
-SYMLINKS_GLOBAL_FOLDERS=("Program Files" "Program Files (x86)" "ProgramData" "windows" "Games")
+SYMLINKS_USER_FOLDERS="Desktop Documents Downloads Music Pictures Videos Templates"
+SYMLINKS_GLOBAL_FOLDERS="Program Files:Program Files (x86):ProgramData:windows:Games"
 
 WINEPREFIX="${WINEPREFIX:-${PREFIXES}/${USER}}"
 export WINEPREFIX="$(realpath "${WINEPREFIX}")"
 
 delete_symlinks_user_folders() {
-  for folder in "${SYMLINKS_USER_FOLDERS[@]}"; do
+  for folder in ${SYMLINKS_USER_FOLDERS}; do
     local user_folder="${WINEPREFIX}/dosdevices/c:/users/${USER}/${folder}"
-    rm "${user_folder}"
+    rm -rf "${user_folder}"
     mkdir "${user_folder}"
   done
 }
 
 setup_symlinks_global_folders() {
+  unset saved_IFS
+  [ -n "${IFS+set}" ] && { saved_IFS="${IFS}"; IFS=":"; }
   for folder in "${SYMLINKS_GLOBAL_FOLDERS[@]}"; do
     local global_folder="${GLOBAL_WINEPREFIX}/dosdevices/c:/${folder}"
     local user_folder="${WINEPREFIX}/dosdevices/c:/${folder}"
     rm -rf "${user_folder}"
     ln -s "${global_folder}" "${user_folder}"
+  unset IFS
+  [ -n "${saved_IFS+set}" ] && { IFS="${saved_IFS}"; unset saved_IFS; }
   done
 }
 

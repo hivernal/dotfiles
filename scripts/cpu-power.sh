@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 DEVICE="/sys/class/powercap/intel-rapl/intel-rapl:0"
 ENERGY_FILE="${DEVICE}/energy_uj"
 INTERVAL="${1:-1}"
