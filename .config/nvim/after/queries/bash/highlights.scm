@@ -99,7 +99,7 @@
   "unsetenv"
 ] @keyword
 
-"export" @keyword.import
+"export" @function.builtin
 
 "function" @keyword.function
 
@@ -198,6 +198,9 @@
   (word) @variable.parameter)
 
 (number) @number
+
+(file_redirect
+  (word) @string.special.path)
 
 (herestring_redirect
   (word) @string)
