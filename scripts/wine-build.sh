@@ -9,25 +9,19 @@ PREFIX="${PREFIX:-${BUILD_DIR}/wine-${WINE_NAME}}"
 WINE_SRC="${WINE_SRC:-${PWD}/wine}"
 WINE_BUILD_OPTIONS="--prefix="${PREFIX}""
 # WINE_BUILD_OPTIONS="--prefix='${PREFIX}' --without-oss --disable-win16 --disable-tests"
-
-# export CC="gcc"
-# export CXX="g++"
-# export i386_CC="i686-w64-mingw32-gcc"
-# export i386_CXX="i686-w64-mingw32-g++"
-# export x86_64_CC="x86_64-w64-mingw32-gcc"
-# export x86_64_CXX="x86_64-w64-mingw32-g++"
-CFLAGS64="-march=native -O2 -pipe"
-CFLAGS32="-march=native -O2 -pipe"
-# export LDFLAGS="-Wl,-O1,--sort-common,--as-needed"
-# export CROSSLDFLAGS="${LDFLAGS}"
+DEFAULT_CFLAGS="-march=native -O2 -pipe"
 
 build() {
-  export CFLAGS="$1"
-  export CXXFLAGS="$1"
-  export CROSSCFLAGS="$1"
-  export CROSSCXXFLAGS="$1"
-  mkdir -p "$2" && cd "$2"
-  shift 2
+  mkdir -p "$1" && cd "$1"
+  shift 1
+  CC="${CC:-clang}" \
+  CROSSCC="${CROSSCC:-$CC}" \
+  CXX="${CXX:-clang++}" \
+  CROSSCCXX="${CROSSCCXX:-$CXX}" \
+  CFLAGS="${CFLAGS:-$DEFAULT_CFLAGS}" \
+  CROSSCFLAGS="${CROSSCXXFLAGS:-$DEFAULT_CFLAGS}" \
+  CXXFLAGS="${CXXFLAGS:-$DEFAULT_CFLAGS}" \
+  CROSSCXXFLAGS="${CROSSCXXFLAGS:-$DEFAULT_CFLAGS}" \
   "${WINE_SRC}/configure" "${WINE_BUILD_OPTIONS}" "${@}" &&
   make -j$(nproc)
 }
@@ -37,7 +31,7 @@ install() {
 }
 
 build64() {
-  build "${CFLAGS64}" "${BUILD64_DIR}" --enable-win64 "${@}"
+  build "${BUILD64_DIR}" --enable-win64 "${@}"
 }
 
 install64() {
@@ -45,7 +39,7 @@ install64() {
 }
 
 build32() {
-  build "${CFLAGS32}" "${BUILD32_DIR}" "${@}"
+  build "${BUILD32_DIR}" "${@}"
 }
 
 install32() {
@@ -53,14 +47,13 @@ install32() {
 }
 
 build_wow64() {
-  build "${CFLAGS64}" "${BUILD_WOW64_DIR}" --enable-archs=i386,x86_64 "${@}"
+  build "${BUILD_WOW64_DIR}" --enable-archs=i386,x86_64 "${@}"
 }
 
 install_wow64() {
   install "${BUILD_WOW64_DIR}"
 }
 
-rm -rf "${PREFIX}"
 if [[ "${WINEARCH}" == "wow64" ]]; then
   build_wow64 "${@}" &&
   install_wow64
@@ -69,9 +62,8 @@ elif [[ "${WINEARCH}" == "win32" ]]; then
   install32
 else
   build64 "${@}" &&
-  PKG_CONFIG_PATH=/usr/lib/pkgconfig build32 --with-wine64="${BUILD64_DIR}" "${@}" &&
+  PKG_CONFIG_PATH="${PKG_CONFIG_PATH:-/usr/lib/pkgconfig}" build32 --with-wine64="${BUILD64_DIR}" "${@}" &&
   install32  &&
   install64
 fi
-
 rm -rf "${BUILD64_DIR}" "${BUILD32_DIR}" "${BUILD_WOW64_DIR}"
