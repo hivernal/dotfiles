@@ -12,7 +12,7 @@ TEMPS_PWMS="35000:0 45000:90 55000:100 65000:120 75000:156"
 
 supervisor=supervise-daemon
 command=/usr/local/bin/control-fan.sh
-command_args="-t '${TEMPS_PWMS}' -f '${TEMP_FILE}' -F '${PWM_FILE}' -i ${INTERVAL} -i ${SKEEP_ITER}"
+command_args="-t '${TEMPS_PWMS}' -f '${TEMP_FILE}' -F '${PWM_FILE}' -i ${INTERVAL} -s ${SKEEP_ITER}"
 
 set_manual_mode() {
   echo 1 > "${PWM_FILE}_mode"
