@@ -4,12 +4,15 @@ NCT6775_DEVICE="/sys/devices/platform/nct6775.2592"
 NCT6775_HWMON="$(echo ${NCT6775_DEVICE}/hwmon/hwmon[0-9])"
 CORETEMP_DEVICE="/sys/devices/platform/coretemp.0"
 CORETEMP_HWMON="$(echo ${CORETEMP_DEVICE}/hwmon/hwmon[0-9])"
-
 INTERVAL=1
 SKEEP_ITER=10
 PWM_FILE="${NCT6775_HWMON}/pwm2"
 TEMP_FILE="${CORETEMP_HWMON}/temp1_input"
 TEMPS_PWMS="35000:0 45000:90 55000:100 65000:120 75000:156"
+
+supervisor=supervise-daemon
+command=/usr/local/bin/control-fan.sh
+command_args="-t '${TEMPS_PWMS}' -f '${TEMP_FILE}' -F '${PWM_FILE}' -i ${INTERVAL} -i ${SKEEP_ITER}"
 
 set_manual_mode() {
   echo 1 > "${PWM_FILE}_mode"
@@ -22,12 +25,17 @@ set_auto_mode() {
   echo 0 > "${PWM_FILE}"
 }
 
-supervisor=supervise-daemon
-command=/usr/local/bin/control-fan.sh
-command_args="-t '${TEMPS_PWMS}' -f '${TEMP_FILE}' -F '${PWM_FILE}' -i ${INTERVAL} -i ${SKEEP_ITER}"
+checkconfig() {
+  [ -n "${NCT6775_DEVICE}" ] && [ -n "${CORETEMP_DEVICE}" ]
+}
 
 start_pre() {
+  checkconfig || return $?
   set_manual_mode
+}
+
+stop_pre() {
+  checkconfig || return $?
 }
 
 stop_post() {
