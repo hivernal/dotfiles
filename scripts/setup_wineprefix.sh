@@ -34,7 +34,7 @@ setup_symlinks_global_folders() {
 
 create_wineprefix() {
   symlink_to_global="$1"
-  if [[ "${symlink_to_global}" == "-l" ]]; then
+  if [[ "${symlink_to_global}" = "-l" ]]; then
     mkdir -p "${WINEPREFIX}"
     ln -sf "${GLOBAL_WINEPREFIX}/dosdevices" "${WINEPREFIX}/"
     ln -sf "${GLOBAL_WINEPREFIX}/system.reg" "${WINEPREFIX}/"
@@ -83,7 +83,7 @@ import_dlls() {
 setup_software() {
   symlink_to_global="$1"
   setup_dxvk_vkd3d "${symlink_to_global}"
-  [[ "${symlink_to_global}" == -l ]] && return
+  [[ "${symlink_to_global}" = "-l" ]] && return
   import_dlls
   for soft in "${SOFTWARE}"/*.exe; do
     "${WINE}" "${soft}"

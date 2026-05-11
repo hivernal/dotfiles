@@ -9,7 +9,8 @@ PREFIX="${PREFIX:-${BUILD_DIR}/wine-${WINE_NAME}}"
 WINE_SRC="${WINE_SRC:-${PWD}/wine}"
 WINE_BUILD_OPTIONS="--prefix="${PREFIX}""
 # WINE_BUILD_OPTIONS="--prefix='${PREFIX}' --without-oss --disable-win16 --disable-tests"
-DEFAULT_CFLAGS="-march=native -O2 -pipe"
+DEFAULT_CFLAGS="-march=native -O2 -pipe -I/usr/local/include"
+DEFAULT_LDFLAGS="-L/usr/local/lib"
 
 build() {
   mkdir -p "$1" && cd "$1"
@@ -22,6 +23,7 @@ build() {
   CROSSCFLAGS="${CROSSCXXFLAGS:-$DEFAULT_CFLAGS}" \
   CXXFLAGS="${CXXFLAGS:-$DEFAULT_CFLAGS}" \
   CROSSCXXFLAGS="${CROSSCXXFLAGS:-$DEFAULT_CFLAGS}" \
+  LDFLAGS="${LDFLAGS:-$DEFAULT_LDFLAGS}" \
   "${WINE_SRC}/configure" "${WINE_BUILD_OPTIONS}" "${@}" &&
   make -j$(nproc)
 }
@@ -54,10 +56,10 @@ install_wow64() {
   install "${BUILD_WOW64_DIR}"
 }
 
-if [[ "${WINEARCH}" == "wow64" ]]; then
+if [ "${WINEARCH}" = "wow64" ]; then
   build_wow64 "${@}" &&
   install_wow64
-elif [[ "${WINEARCH}" == "win32" ]]; then
+elif [ "${WINEARCH}" = "win32" ]; then
   build32 "${@}" &&
   install32
 else

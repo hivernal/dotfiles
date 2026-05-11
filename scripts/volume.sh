@@ -3,11 +3,11 @@
 SCRIPT_DIR="$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ICONS_DIR="/usr/share/icons/Qogir/32/status"
 
-if [ "$1" == "up" ]; then
+if [ "$1" = "up" ]; then
   wpctl set-volume @DEFAULT_SINK@ 5%+
-elif [ "$1" == "down" ]; then
+elif [ "$1" = "down" ]; then
   wpctl set-volume @DEFAULT_SINK@ 5%-
-elif [ "$1"  == "mute" ]; then
+elif [ "$1"  = "mute" ]; then
   wpctl set-mute @DEFAULT_SINK@ toggle
 fi
 
