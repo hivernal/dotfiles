@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ $# -eq 0 ]; then
-  session="$(cat "${HOME}/.wm" > /dev/null 2>&1 )"
+  session="$(cat "${HOME}/.wm" 2> /dev/null)"
 else
   session="$@"
 fi
