@@ -1,0 +1,26 @@
+media-libs/gst-plugins-base abi_x86_32
+media-libs/gst-plugins-ugly abi_x86_32
+media-libs/gstreamer abi_x86_32
+media-libs/libsdl2 gles2
+media-libs/vulkan-loader abi_x86_32
+media-plugins/gst-plugins-libav abi_x86_32
+media-plugins/gst-plugins-meta abi_x86_32
+media-video/ffmpeg abi_x86_32
+sys-libs/libunwind abi_x86_32
+virtual/krb5 abi_x86_32
+x11-libs/libXv abi_x86_32
+media-libs/dav1d abi_x86_32
+media-libs/libass abi_x86_32
+media-libs/gst-plugins-good abi_x86_32
+media-plugins/gst-plugins-pulse abi_x86_32
+media-libs/gst-plugins-bad abi_x86_32
+dev-lang/orc abi_x86_32
+media-libs/graphene abi_x86_32
+app-crypt/mit-krb5 abi_x86_32
+sys-fs/e2fsprogs abi_x86_32
+sys-apps/keyutils abi_x86_32
+sys-devel/gettext abi_x86_32
+dev-libs/libverto abi_x86_32
+dev-libs/libev abi_x86_32
+
+app-emulation/wine-vanilla usb

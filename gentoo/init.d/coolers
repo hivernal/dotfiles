@@ -1,0 +1,82 @@
+#!/sbin/openrc-run
+
+INTERVAL="1"
+CACHE="/root/.coolers-cache"
+
+NCT6775_DEVICE="/sys/devices/platform/nct6775.2592"
+NCT6775_HWMON="${NCT6775_DEVICE}/hwmon/hwmon3"
+PWM1="${NCT6775_HWMON}/pwm1"
+PWM2="${NCT6775_HWMON}/pwm2"
+CPU_FAN="${PWM1}"
+SYS_FAN="${PWM2}"
+
+CORETEMP_DEVICE="/sys/devices/platform/coretemp.0"
+CORETEMP_HWMON="${CORETEMP_DEVICE}/hwmon/hwmon0"
+CPU_TEMP_FILE="${CORETEMP_HWMON}/temp1_input"
+
+CPU_TEMPS=(35000 45000 55000 65000 75000)
+CPU_FAN_PWMS=(0 80 160 220 255)
+SYS_FAN_PWMS=(0 0 0 0 0)
+
+set_manual_mode() {
+  pwm="$1"
+  echo 1 > "${pwm}_mode"
+  echo 1 > "${pwm}_enable"
+}
+
+interpolate_pwm() {
+  local -n temps=$2 pwms=$3
+  current_temp=$1
+  if [[ ${current_temp} -le ${temps[0]} ]]; then
+    echo ${pwms[0]}
+    return
+  elif [[ ${current_temp} -gt ${temps[-1]} ]]; then
+    echo ${pwms[-1]}
+    return
+  fi
+
+  i=0
+  for i in "${!temps[@]}"; do
+    if [[ ${current_temp} -gt ${temps[$i]} ]]; then
+      continue
+    fi
+    lower_temp=${temps[i-1]}
+    higher_temp=${temps[i]}
+    lower_pwm=${pwms[i-1]}
+    higher_pwm=${pwms[i]}
+    pwm=$(echo "((${current_temp} - ${lower_temp}) * (${higher_pwm} - ${lower_pwm}) / (${higher_temp} - ${lower_temp})) + ${lower_pwm}" | bc)
+    echo ${pwm}
+    return
+  done
+}
+
+get_cpu_temp() {
+  cat "${CPU_TEMP_FILE}"
+}
+
+set_pwm() {
+  new_pwm=$1
+  echo "${new_pwm}" > "$2"
+}
+
+control_cpu_pwm() {
+  set_manual_mode "${CPU_FAN}"
+  set_manual_mode "${SYS_FAN}"
+  while true; do
+    temp=$(get_cpu_temp)
+    pwm=$(interpolate_pwm ${temp} CPU_TEMPS CPU_FAN_PWMS)
+    set_pwm ${pwm} "${CPU_FAN}"
+    pwm=$(interpolate_pwm ${temp} CPU_TEMPS SYS_FAN_PWMS)
+    set_pwm ${pwm} "${SYS_FAN}"
+    sleep ${INTERVAL}
+  done
+}
+
+start() {
+  control_cpu_pwm &
+  echo "$(jobs -p)" > "${CACHE}"
+}
+
+stop() {
+  kill $(< "${CACHE}")
+}

@@ -1,0 +1,5 @@
+[Default Applications]
+application/x-virt-viewer=spice-gtk.desktop
+x-scheme-handler/spice=spice-gtk.desktop
+x-scheme-handler/spice+tls=spice-gtk.desktop
+x-scheme-handler/spice+unix=spice-gtk.desktop

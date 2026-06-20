@@ -1,0 +1,78 @@
+bar:
+  height: 30
+  location: top
+  background: 282c34ff
+  foreground: fcfcfcff
+  font: JetBrainsMono Nerd Font:weight=bold:pixelsize=16
+  spacing: 15
+
+  left:
+    - river:
+        title: {string: { text: "{title}", max: 65}}
+        content:
+          map:
+            default: 
+              string: {text: "{id}", margin: 12, foreground: 5c6667ff}
+            conditions:
+              id > 9:
+                empty: {}
+              focused:
+                string: {text: "{id}", margin: 12, deco: {background: {color: 5c6667ff}}}
+              occupied:
+                string: {text: "{id}", margin: 12, foreground: fcfcfcff}
+
+  center:
+    - clock:
+        content:
+          - string: {text: "", font: "JetBrainsMono Nerd Font:weight=bold:pixelsize=20", right-margin: 10}
+          - string: {text: "{time}"}
+
+  right:
+    - pulse:
+        content:
+          map:
+            conditions:
+              ~sink_muted:
+                - ramp:
+                    tag: sink_percent
+                    font: "JetBrainsMono Nerd Font:weight=bold:pixelsize=25"
+                    right-margin: 5
+                    items:
+                      - string: {text: "󰕿"}
+                      - string: {text: "󰖀"}
+                      - string: {text: "󰕾"}
+                - string: {text: "{sink_percent}%"}
+              sink_muted:
+                - string: {text: "󰖁", font: "JetBrainsMono Nerd Font:weight=bold:pixelsize=25", right-margin: 7}
+                - string: {text: "muted"}
+    - battery:
+        name: BAT0
+        content:
+          - ramp:
+              tag: capacity
+              font: "JetBrainsMono Nerd Font:weight=bold:pixelsize=19"
+              right-margin: 14
+              items:
+                - string: {text: ""}
+                - string: {text: ""}
+                - string: {text: ""}
+                - string: {text: ""}
+                - string: {text: ""}
+          - string: {text: "{capacity}%"}
+    - mem:
+        interval: 2000
+        content:
+          - string: {text: "", font: "JetBrainsMono Nerd Font:weight=bold:pixelsize=20", right-margin: 10}
+          - string: {text: "{used:mb}Mi"}
+    - network:
+        name: wlo1
+        poll-interval: 5
+        content:
+          map:
+            default:
+              - string: {text: "󰣼", font: "JetBrainsMono Nerd Font:weight=bold:pixelsize=20", right-margin: 7}
+              - string: {text: "disconnected", right-margin: 10}
+            conditions:
+              state == "up":
+                - string: {text: "󰣺", font: "JetBrainsMono Nerd Font:weight=bold:pixelsize=20", right-margin: 7}
+                - string: {text: "{ssid}", right-margin: 10}

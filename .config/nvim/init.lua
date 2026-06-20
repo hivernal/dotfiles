@@ -1,0 +1,6 @@
+require("options")
+require("mappings")
+require("highlight")
+-- require("plugins/colorschemes")
+-- require("plugins/autopairs")
+-- require("plugins/formatter")

@@ -1,0 +1,54 @@
+{
+  "spacing": 0,
+  "layer": "bottom",
+  "height": 33,
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["clock"],
+  "modules-right": ["hyprland/language", "pulseaudio",  "battery", "memory", "network"],
+
+  "hyprland/workspaces": {
+    "all-outputs": true,
+    "active-only": false,
+    "format": "{}"
+  },
+
+  "hyprland/language": {
+    "format": "KEY {} | ",
+    "format-ru": "RU",
+    "format-en": "EN"
+  },
+
+  "pulseaudio": {
+    "format-muted": "VOL muted | ",
+    "format-icons": ["󰕿", "󰖀", "󰕾"],
+    "format": "VOL {volume}% | "
+  },
+
+  "battery": {
+    "format": "BAT {capacity}% | ",
+    "format-icons": ["", "", "", "", ""]
+  },
+
+  "clock": {
+    "format": "{:%H:%M}",
+    "timezone": "Asia/Krasnoyarsk"
+  },
+
+  "network": {
+    "format": "NET {essid} ",
+    "format-icons": ["󰣾", "󰣴", "󰣶", "󰣸", "󰣺"],
+    "format-disconnected": "NET disconnected ",
+    "interval": 2
+  },
+
+  "memory": {
+    "format": "MEM {used}Gi | ",
+    "interval": 2
+  },
+
+  "custom/mem": {
+    "exec": "free -h | awk '(NR==2) {print $3}'",
+    "format": "MEM {} | ",
+    "interval": 2
+  }
+}

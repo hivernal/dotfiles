@@ -1,0 +1,3 @@
+#!/bin/sh
+
+niri --session
