@@ -18,9 +18,15 @@ vim.api.nvim_set_hl(0, "Function", { fg = colors.blue })
 vim.api.nvim_set_hl(0, "Operator", { fg = colors.fg })
 vim.api.nvim_set_hl(0, "Constant", { fg = colors.fg })
 vim.api.nvim_set_hl(0, "Comment", { fg = colors.gray })
+vim.api.nvim_set_hl(0, "Special", { fg = colors.cyan })
 vim.api.nvim_set_hl(0, "PreProc", {})
 
 vim.api.nvim_set_hl(0, "cMacros", { fg = colors.cyan })
+-- vim.api.nvim_set_hl(0, "cFormat", { fg = colors.green })
+
+vim.api.nvim_set_hl(0, "rustMacro", { fg = colors.cyan })
+vim.api.nvim_set_hl(0, "rustSigil", { fg = colors.fg })
+vim.api.nvim_set_hl(0, "rustCharacter", { link = "rustString" })
 
 vim.api.nvim_set_hl(0, "luaTable", { fg = colors.fg })
 
