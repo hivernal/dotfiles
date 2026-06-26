@@ -5,7 +5,7 @@ PREFIXES="${GAMES}"
 GLOBAL_WINEPREFIX="${GLOBAL_WINEPREFIX:-${PREFIXES}/global}"
 WINE="${WINE:-/usr/local/bin/wine}"
 SOFTWARE="${PREFIXES}/software"
-SYMLINKS_USER_FOLDERS="Desktop Documents Downloads Music Pictures Videos Templates"
+SYMLINKS_USER_FOLDERS="Desktop Documents Downloads Music Pictures Videos Templates Screenshots"
 SYMLINKS_GLOBAL_FOLDERS="Program Files:Program Files (x86):ProgramData:windows:Games"
 
 WINEPREFIX="${WINEPREFIX:-${PREFIXES}/${USER}}"

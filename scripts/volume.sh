@@ -1,7 +1,7 @@
 #!/bin/sh
 
-SCRIPT_DIR="$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ICONS_DIR="/usr/share/icons/Qogir/32/status"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ICONS_DIR="${SCRIPT_DIR}/icons"
 
 if [ "$1" = "up" ]; then
   wpctl set-volume @DEFAULT_SINK@ 5%+

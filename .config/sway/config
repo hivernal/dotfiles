@@ -22,13 +22,16 @@ set $menu bemenu-run
 
 # output *  bg /usr/share/pixmaps/summit.png fill adaptive_sync off
 # output * adaptive_sync on resolution 3840x2160@160Hz bg /usr/share/pixmaps/dolomite-mountains-3840x2160-16232.png fill
-output "DP-1" {
-  allow_tearing yes
+set $monitor "DP-1"
+output $monitor {
+  allow_tearing on
   adaptive_sync off
-  resolution 3840x2160@160Hz
+  max_render_time 1
+  resolution 3840x2160@144Hz
   bg /usr/share/pixmaps/dolomite-mountains-3840x2160-16232.png fill
 }
 seat seat0 xcursor_theme Qogir-Dark 24
+bindsym --to-code $mod+Shift+v exec swaymsg output $monitor adaptive_sync toggle
 
 #
 # Example configuration:
@@ -91,6 +94,7 @@ seat seat0 xcursor_theme Qogir-Dark 24
     bindsym --to-code $mod+Shift+e exec swaymsg exit
     bindsym --to-code $mod+Shift+r exec doas reboot
     bindsym --to-code $mod+Shift+q exec doas poweroff
+
 #
 # Moving around:
 #
@@ -222,7 +226,7 @@ bindsym --to-code $mod+r mode "resize"
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    font "JetBrainsMono Nerd Font 14"
+    font "JetBrainsMono Nerd Font 15"
     position top
 
     # When the status_command prints a new line to stdout, swaybar updates.
@@ -251,7 +255,7 @@ input type:pointer {
   pointer_accel -0.6
 }
 
-font "JetBrainsMono Nerd Font 13"
+font "JetBrainsMono Nerd Font 15"
 
 client.focused #d2d9f8 #5e5f67 #d2d9f8 #d2d9f8 #d2d9f8
 client.unfocused #5e5f67 #1a1b26 #d2d9f8 #5e5f67 #5e5f67
@@ -268,7 +272,6 @@ assign [app_id="thunderbird"] 5
 assign [app_id="obs"] 5
 assign [class="steam"] 5
 assign [app_id="heroic"] 5
-
 
 exec "dbus-update-activation-environment DISPLAY I3SOCK SWAYSOCK WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway"
 exec openrc -U sway

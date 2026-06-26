@@ -1,7 +1,7 @@
 #!/bin/sh
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-ICONS_DIR="/usr/local/share/icons/Qogir/32/status"
+ICONS_DIR="${SCRIPT_DIR}/icons"
 
 if [ "$1" = "up" ]; then
   mixer_info="$(mixer -o vol.volume=+5%)"
