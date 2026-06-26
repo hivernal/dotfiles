@@ -18,9 +18,10 @@
   },
 
   "wireplumber": {
-    "format-muted": "VOL muted | ",
     "format-icons": ["󰕿", "󰖀", "󰕾"],
-    "format": "VOL {volume}% | "
+    // "format": "VOL {node_name} {volume}% | "
+    "format-muted": "{node_name} muted | ",
+    "format": "{node_name} {volume}% | "
   },
 
   "battery": {

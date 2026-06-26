@@ -19,11 +19,12 @@
   yellow = "0xe0af68"
 
 [colors.primary]
-  background = "0x1a1b26"
+  # background = "0x1a1b26"
+  background = "0x14161b"
   foreground = "0xd2d9f8"
 
 [font]
-  size = 15.0
+  size = 16.0
 
 [font.bold]
   family = "JetBrainsMono Nerd Font"

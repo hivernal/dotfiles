@@ -5,7 +5,8 @@
 }
 
 window#waybar {
-  background: #1a1b26;
+  background: #14161b;
+  /* background: #1a1b26; */
   color: #d2d9f8;
 }
 
@@ -17,7 +18,8 @@ window#waybar {
 
 #workspaces button {
   padding: 0 10px;
-  background: #1a1b26;
+  background: #14161b;
+  /* background: #1a1b26; */
   color: #d2d9f8;
 }
 
