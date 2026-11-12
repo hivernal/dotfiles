@@ -40,6 +40,7 @@ GREEN="\[$(tput setaf 2)\]"
 BLUE="\[$(tput setaf 4)\]"
 RESET="\[$(tput sgr0)\]"
 PS1="\n$BLUE\w $GREEN> $RESET"
+
 set -o vi
 complete -F _root_command doas
 setup_gpg_agent_for_ssh

@@ -1,0 +1,3 @@
+# KERNEL=="sd[a-z]|sd[a-z][1-9]", ACTION=="add", RUN="/usr/bin/mount -a"
+KERNEL=="sd[a-z]|sd[a-z][1-9]", SUBSYSTEM=="block", ENV{ID_FS_LABEL}=="smartbuy", ACTION=="add", RUN+="/usr/bin/mount /dev/disk/by-label/smartbuy /media/smartbuy"
+KERNEL=="sd[a-z]|sd[a-z][1-9]", SUBSYSTEM=="block", ENV{ID_FS_LABEL}=="smartbuy", ACTION=="remove", RUN+="/usr/bin/umount /media/smartbuy"

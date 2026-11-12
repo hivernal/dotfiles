@@ -4,11 +4,12 @@
   "height": 26,
   "modules-left": ["niri/workspaces", "niri/window"],
   // "modules-center": ["clock"],
-  "modules-right": ["niri/language", "wireplumber", "memory", "clock"],
+  "modules-right": ["niri/language", "wireplumber", "memory", "network", "clock"],
 
   "niri/workspaces": {
-    "all-outputs": true,
-    "format": "{}"
+    "format": "{}",
+    "hide-empty": true,
+    "display-condition": "only-populated"
   },
 
   "niri/language": {
@@ -41,9 +42,10 @@
   },
 
   "network": {
-    "format": "NET {essid} ",
+    "format-wifi": "NET {essid} | ",
+    "format-ethernet": "NET {ifname} | ",
+    "format-disconnected": "NET disconnected | ",
     "format-icons": ["󰣾", "󰣴", "󰣶", "󰣸", "󰣺"],
-    "format-disconnected": "NET disconnected ",
     "interval": 2
   },
 

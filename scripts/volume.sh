@@ -2,6 +2,7 @@
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ICONS_DIR="${SCRIPT_DIR}/icons"
+NOTIFICATION_ID=91769196
 
 if [ "$1" = "up" ]; then
   wpctl set-volume @DEFAULT_SINK@ 5%+
@@ -26,18 +27,14 @@ if [ $# -eq 0 ]; then
   exit 0
 fi
 
-if [ ! -z "${muted}" ]; then
+if [ ! -z "${muted}" ] || [ ${volume} -eq 0 ]; then
     icon="audio-volume-muted.svg"
+elif (( ${volume} <= 20 )); then
+  icon="audio-volume-low.svg"
+elif (( ${volume} <= 50 )); then
+  icon="audio-volume-medium.svg"
 else
-  if (( ${volume} == 0 )); then
-    icon="audio-volume-muted.svg"
-  elif (( ${volume} <= 20 )); then
-    icon="audio-volume-low.svg"
-  elif (( ${volume} <= 50 )); then
-    icon="audio-volume-medium.svg"
-  else
-    icon="audio-volume-high.svg"
-  fi
+  icon="audio-volume-high.svg"
 fi
 
-dunstify -t 2000 -I "${ICONS_DIR}/${icon}" -h string:x-dunst-stack-tag:audio "${volume}%" -h int:value:${volume}
+dunstify -t 2000 -I "${ICONS_DIR}/${icon}" -h string -r ${NOTIFICATION_ID} "${volume}%" -h int:value:${volume}

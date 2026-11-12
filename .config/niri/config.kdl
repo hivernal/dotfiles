@@ -10,7 +10,7 @@ debug {
   // force-disable-connectors-on-resume
   // emulate-zero-presentation-time
   // wait-for-frame-completion-before-queueing
-  skip-cursor-only-updates-during-vrr
+  // skip-cursor-only-updates-during-vrr
 }
 
 layer-rule {
@@ -72,44 +72,39 @@ input {
   // focus-follows-mouse max-scroll-amount="0%"
 }
 
-// You can configure outputs by their name, which you can find
-// by running `niri msg outputs` while inside a niri instance.
-// The built-in laptop monitor is usually called "eDP-1".
-// Find more information on the wiki:
-// https://yalter.github.io/niri/Configuration:-Outputs
-// Remember to uncomment the node by removing "/-"!
-output "DP-1" {
-  // Uncomment this line to disable this output.
-  // off
+output "Samsung Electric Company SAMSUNG 0x01000E00" {
+  mode "3840x2160@60.000"
+  scale 1
+  // variable-refresh-rate on-demand=true
+  transform "normal"
+  position x=0 y=0
+}
 
-  // Resolution and, optionally, refresh rate of the output.
-  // The format is "<width>x<height>" or "<width>x<height>@<refresh rate>".
-  // If the refresh rate is omitted, niri will pick the highest refresh rate
-  // for the resolution.
-  // If the mode is omitted altogether or is invalid, niri will pick one automatically.
-  // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-  mode "3840x2160@143.955"
-  // mode "3840x2160@160.000"
-  // mode "1920x1080@319.998"
+output "Xiaomi Corporation Mi Monitor 0x00000007" {
+  mode "1920x1080@319.998"
   scale 1
   variable-refresh-rate on-demand=true
-
-  // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-
-  // Transform allows to rotate the output counter-clockwise, valid values are:
-  // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
   transform "normal"
-
-  // Position of the output in the global coordinate space.
-  // This affects directional monitor actions like "focus-monitor-left", and cursor movement.
-  // The cursor can only move between directly adjacent outputs.
-  // Output scale and rotation has to be taken into account for positioning:
-  // outputs are sized in logical, or scaled, pixels.
-  // For example, a 3840×2160 output with scale 2.0 will have a logical size of 1920×1080,
-  // so to put another output directly adjacent to it on the right, set its x to 1920.
-  // If the position is unset or results in an overlap, the output is instead placed
-  // automatically.
   position x=0 y=0
+}
+
+output "Xiaomi Corporation Mi Monitor 0x00000001" {
+  modeline 1222.664 3840 3848 3880 3920 2160 2300 2308 2314 "+hsync" "-vsync" // 135 hz
+  // mode "3840x2160@143.955"
+  scale 1
+  variable-refresh-rate on-demand=true
+  transform "normal"
+  position x=0 y=0
+  focus-at-startup
+}
+
+output "BOE ZEUSLAP-TYPEC 2503001" {
+  modeline 312.768 1920 1928 1960 2000 1080 1143 1151 1157 "+hsync" "-vsync" // 135 hz
+  // mode "1920x1080@144.000"
+  scale 1
+  variable-refresh-rate on-demand=true
+  transform "normal"
+  position x=0 y=2160
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -284,6 +279,7 @@ layout {
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
+spawn-sh-at-startup "dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=niri"
 spawn-sh-at-startup "openrc -U niri"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
@@ -293,6 +289,11 @@ environment {
   GTK_IM_MODULE "simple"
   XCURSOR_SIZE "24"
   XCURSOR_THEME "Qogir-Dark"
+}
+
+cursor {
+  xcursor-theme "Qogir-Dark"
+  xcursor-size 24
 }
 
 hotkey-overlay {
@@ -337,7 +338,7 @@ animations {
 
 window-rule {
   match app-id=r"^.*\.exe$"
-  exclude app-id=r"^caliber\.exe$"
+  // exclude app-id=r"^caliber\.exe$"
   // exclude app-id=r"^doomx64vk\.exe$"
   // exclude app-id=r"^vermintide2_dx12\.exe$"
   variable-refresh-rate true
@@ -346,8 +347,9 @@ window-rule {
 window-rule {
   match app-id="org.telegram.desktop"
   match app-id="firefox-esr"
+  match app-id="firefox"
   match app-id="thunderbird-esr"
-  // match app-id="steam"
+  match app-id="thunderbird"
   open-maximized true
   // open-on-workspace "1"
   // open-focused false
@@ -355,8 +357,8 @@ window-rule {
 
 /*
 window-rule {
-  match title="Media viewer"
-  open-focused true
+  match app-id="steam"
+  open-fullscreen false
 }
 */
 
@@ -379,6 +381,7 @@ binds {
   Mod+Shift+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
   Mod+P { spawn "bemenu-run"; }
   Mod+Shift+Q { spawn "loginctl" "poweroff"; }
+  Mod+Shift+C { spawn "loginctl" "reboot"; }
 
   // Example volume keys mappings for PipeWire & WirePlumber.
   // The allow-when-locked=true property makes them work even when the session is locked.
@@ -397,6 +400,25 @@ binds {
 
   Mod+Q repeat=false { close-window; }
 
+  // Monitor Keybinds
+  Mod+Alt+J { focus-monitor-down; }
+  Mod+Alt+K { focus-monitor-up; }
+  Mod+Alt+H { focus-monitor-left; }
+  Mod+Alt+L { focus-monitor-right; }
+  Mod+Alt+WheelScrollDown cooldown-ms=150 { focus-monitor-down; }
+  Mod+Alt+WheelScrollUp cooldown-ms=150 { focus-monitor-up; }
+  Mod+Alt+MouseBack { focus-monitor-left; }
+  Mod+Alt+MouseForward { focus-monitor-right; }
+  Mod+Shift+Alt+J { move-column-to-monitor-down; }
+  Mod+Shift+Alt+K { move-column-to-monitor-up; }
+  Mod+Shift+Alt+H { move-column-to-monitor-left; }
+  Mod+Shift+Alt+L { move-column-to-monitor-right; }
+  Mod+Shift+Alt+WheelScrollDown cooldown-ms=150 { move-column-to-monitor-down; }
+  Mod+Shift+Alt+WheelScrollUp cooldown-ms=150 { move-column-to-monitor-up; }
+  Mod+Shift+Alt+MouseBack { move-column-to-monitor-left; }
+  Mod+Shift+Alt+MouseForward { move-column-to-monitor-right; }
+
+  // Windows and workspaces keybinds
   Mod+J { focus-window-or-workspace-down; }
   Mod+K { focus-window-or-workspace-up; }
   Mod+H { focus-column-left; }
@@ -405,18 +427,18 @@ binds {
   Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
   Mod+MouseBack { focus-column-left; }
   Mod+MouseForward { focus-column-right; }
-
-  Mod+Shift+J { move-window-to-workspace-down focus=false; }
-  Mod+Shift+K { move-window-to-workspace-up focus=false; }
+  Mod+Shift+J { move-column-to-workspace-down focus=false; }
+  Mod+Shift+K { move-column-to-workspace-up focus=false; }
   Mod+Shift+H { move-column-left; }
   Mod+Shift+L { move-column-right; }
-  Mod+Shift+WheelScrollDown cooldown-ms=150 { move-window-to-workspace-down focus=false; }
-  Mod+Shift+WheelScrollUp cooldown-ms=150 { move-window-to-workspace-up focus=false; }
+  Mod+Shift+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down focus=false; }
+  Mod+Shift+WheelScrollUp cooldown-ms=150 { move-column-to-workspace-up focus=false; }
   Mod+Shift+MouseBack { move-column-left; }
   Mod+Shift+MouseForward { move-column-right; }
 
-  Mod+Shift+TouchpadScrollDown cooldown-ms=150 { move-window-to-workspace-down focus=false; }
-  Mod+Shift+TouchpadScrollUp cooldown-ms=150 { move-window-to-workspace-up focus=false; }
+  // Touchpad keybinds
+  Mod+Shift+TouchpadScrollDown cooldown-ms=150 { move-column-to-workspace-down focus=false; }
+  Mod+Shift+TouchpadScrollUp cooldown-ms=150 { move-column-to-workspace-up focus=false; }
   Mod+Shift+TouchpadScrollLeft { move-column-left; }
   Mod+Shift+TouchpadScrollRight { move-column-right; }
   Mod+TouchpadScrollDown cooldown-ms=150 { focus-workspace-down; }

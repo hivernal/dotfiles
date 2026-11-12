@@ -21,7 +21,7 @@ export MANPAGER='nvim +Man!'
 # export BAT_PAGER="less -RFXSM +Gg"
 # export BAT_THEME="tokyonight_night"
 
-export PATH="${HOME}/.local/bin:${PATH}"
+export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:${PATH}"
 export QT_QPA_PLATFORMTHEME=qt6ct
 # export GTK_THEME=Qogir-Dark
 
