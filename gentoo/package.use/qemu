@@ -1,3 +1,4 @@
 app-emulation/qemu bpf keyutils multipath ncurses sdl-image glusterfs gtk fuse nfs sdl spice ssh udev usb usbredir vde virgl virtfs vte # xdp  xen
 net-misc/spice-gtk usbredir webdav
 app-emulation/virt-viewer -libvirt vte
+net-libs/ngtcp2 gnutls

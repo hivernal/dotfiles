@@ -1,0 +1,43 @@
+#!/sbin/openrc-run
+
+IT8613_DEVICE="/sys/devices/platform/it87.2608"
+IT8613_HWMON="$(echo ${IT8613_DEVICE}/hwmon/hwmon[0-9])"
+SPD5118_DEVICE="/sys/devices/pci0000:00/0000:00:14.0/i2c-0/0-0052"
+SPD5118_HWMON="$(echo ${SPD5118_DEVICE}/hwmon/hwmon[0-9])"
+INTERVAL=1
+SKEEP_ITER=10
+PWM_FILE="${IT8613_HWMON}/pwm3"
+TEMP_FILE="${SPD5118_HWMON}/temp1_input"
+# TEMPS_PWMS="35000:0 40000:80 45000:120 50000:160 65000:255"
+TEMPS_PWMS="30000:22 45000:60 50000:160 65000:255"
+
+supervisor=supervise-daemon
+command=/usr/local/bin/control-fan.sh
+command_args="-t '${TEMPS_PWMS}' -f '${TEMP_FILE}' -F '${PWM_FILE}' -i ${INTERVAL} -s ${SKEEP_ITER}"
+
+set_manual_mode() {
+  echo 1 > "${PWM_FILE}_enable"
+}
+
+set_auto_mode() {
+  echo 2 > "${PWM_FILE}_enable"
+}
+
+checkconfig() {
+  [ -n "${IT8613_DEVICE}" ] && [ -n "${SPD5118_DEVICE}" ]
+}
+
+start_pre() {
+  checkconfig || return $?
+  set_manual_mode
+}
+
+stop_pre() {
+  checkconfig || return $?
+}
+
+stop_post() {
+  # set_auto_mode
+  set_manual_mode
+  echo 40 > "${PWM_FILE}"
+}

@@ -1,0 +1,3 @@
+gui-wm/niri ~amd64
+>=gui-apps/waybar-0.14.0 ~amd64
+gui-apps/xwayland-satellite ~amd64

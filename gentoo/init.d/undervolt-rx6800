@@ -2,14 +2,16 @@
 
 DEVICE="$(find /sys/devices -iname pp_power_profile_mode)"
 DEVICE="${DEVICE%/*}"
+# DEVICE="/sys/devices/pci0000:00/0000:00:01.1/0000:01:00.0/0000:02:00.0/0000:03:00.0"
 HWMON="$(echo ${DEVICE}/hwmon/hwmon[0-9])"
 CLK_VOLTAGE_FILE="${DEVICE}/pp_od_clk_voltage"
 POWER_DPM_FILE="${DEVICE}/power_dpm_force_performance_level"
+POWER_PROFILE_MODE_FILE="${DEVICE}/pp_power_profile_mode"
 INTERVAL=1
 SKEEP_ITER=5
 PWM_FILE="${HWMON}/pwm1"
 TEMP_FILE="${HWMON}/temp2_input"
-TEMPS_PWMS="50000:0 55000:42 65000:70 75000:80 85000:90 110000:255"
+TEMPS_PWMS="50000:0 60000:42 65000:70 75000:80 85000:100 95000:120 110000:255"
 
 supervisor=supervise-daemon
 command=/usr/local/bin/control-fan.sh
@@ -27,11 +29,13 @@ set_power_dpm() {
 
 set_manual_mode() {
   set_power_dpm "manual"
+  echo 1 > "${POWER_PROFILE_MODE_FILE}"
   set_fanmode 1
 }
 
 set_auto_mode() {
   set_power_dpm "auto"
+  echo 0 > "${POWER_PROFILE_MODE_FILE}"
   set_fanmode 2
 }
 
@@ -41,10 +45,10 @@ checkconfig() {
 
 start_pre() {
   checkconfig || return $?
+  set_manual_mode &&
   echo "s 1 2200" > "${CLK_VOLTAGE_FILE}" &&
-  echo "vo -100" > "${CLK_VOLTAGE_FILE}" &&
+  echo "vo -90" > "${CLK_VOLTAGE_FILE}" &&
   echo "c" > "${CLK_VOLTAGE_FILE}"
-  set_manual_mode
 }
 
 stop_pre() {
@@ -52,6 +56,6 @@ stop_pre() {
 }
 
 stop_post() {
+  echo "r" > "${CLK_VOLTAGE_FILE}" &&
   set_auto_mode
-  echo "r" > "${CLK_VOLTAGE_FILE}"
 }

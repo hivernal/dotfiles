@@ -1,3 +1,6 @@
 gui-wm/dwl savedconfig
 gui-wm/hyprland -qtutils
-gui-apps/waybar -pulseaudio
+gui-apps/waybar -pulseaudio network niri wifi
+
+media-libs/freetype harfbuzz
+# sys-auth/seatd builtin server

@@ -24,3 +24,14 @@ dev-libs/libverto abi_x86_32
 dev-libs/libev abi_x86_32
 
 app-emulation/wine-vanilla usb
+net-libs/libpcap abi_x86_32
+gui-libs/egl-wayland abi_x86_32
+media-libs/mesa opencl
+media-libs/libv4l abi_x86_32
+virtual/opencl abi_x86_32
+dev-libs/opencl-icd-loader abi_x86_32
+
+media-plugins/gst-plugins-meta ffmpeg mp3 x264 v4l
+media-plugins/gst-plugins-mpg123 abi_x86_32
+media-plugins/gst-plugins-v4l2 abi_x86_32
+media-plugins/gst-plugins-x264 abi_x86_32

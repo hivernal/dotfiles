@@ -1,0 +1,1 @@
+net-wireless/wpa_supplicant wps eap-sim eapol-test macsec p2p readline smartcard tkip uncommon-eap-types wep

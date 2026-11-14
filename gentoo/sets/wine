@@ -1,68 +1,70 @@
-media-libs/alsa-lib
-dev-util/mingw64-toolchain
-app-arch/cabextract
+# dev-util/mingw64-toolchain
+# sys-devel/crossdev
+# app-arch/cabextract # for winetricks
 # app-emulation/winetricks
-app-emulation/wine-desktop-common
-media-libs/mesa[X,abi_x86_32,wayland,vulkan]
 # app-emulation/wine-mono # mono
 # app-emulation/wine-gecko
-# sys-devel/crossdev
+# app-emulation/wine-desktop-common
 
-x11-libs/libXcursor[abi_x86_32]
-x11-libs/libXfixes[abi_x86_32]
-x11-libs/libXi[abi_x86_32]
-x11-libs/libXrandr[abi_x86_32]
-x11-libs/libXrender[abi_x86_32]
-x11-libs/libXxf86vm[abi_x86_32]
-x11-libs/libXcomposite[abi_x86_32]
-x11-libs/libXinerama[abi_x86_32]
-
-net-print/cups[abi_x86_32] # print
-sys-apps/dbus[abi_x86_32]
-media-libs/fontconfig[abi_x86_32]
-virtual/krb5[abi_x86_32] # kerberos
-# net-fs/samba[abi_x86_32] # netapi
-# dev-db/unixODBC[abi_x86_32] # odbc
-media-libs/libglvnd[abi_x86_32]
-media-libs/libsdl2[haptic,joystick,abi_x86_32,wayland,gles2]
-net-libs/gnutls[abi_x86_32]
-media-libs/freetype[abi_x86_32]
-# media-libs/libv4l[abi_x86_32] # v4l
-media-libs/vulkan-loader[X,wayland,abi_x86_32]
-
-x11-libs/libX11[abi_x86_32]
-x11-libs/libXext[abi_x86_32]
-
-media-libs/alsa-lib[abi_x86_32]
-# net-libs/libcapi[abi_x86_32] # capi
-media-video/ffmpeg[abi_x86_32] # ffmpeg
-# media-libs/libgphoto2[abi_x86_32] # gphoto2
-dev-libs/glib[abi_x86_32]
-media-libs/gst-plugins-base[abi_x86_32]
-media-plugins/gst-plugins-meta[abi_x86_32]
-media-libs/gstreamer[abi_x86_32]
-media-plugins/gst-plugins-libav[abi_x86_32]
-media-libs/gst-plugins-ugly[abi_x86_32]
-# virtual/opencl[abi_x86_32] # opencl
-# net-libs/libpcap[abi_x86_32] # pcap
+# Must have
+# media-libs/alsa-lib[abi_x86_32] # ALSA
 media-libs/libpulse[abi_x86_32] # pulseaudio
-# media-gfx/sane-backends[abi_x86_32] # scanner
-# sys-apps/pcsc-lite[abi_x86_32] # smartcard
-# virtual/libudev[abi_x86_32] #  udev
-sys-libs/libunwind[abi_x86_32] # unwind
-dev-libs/libusb[abi_x86_32]
-dev-libs/wayland[abi_x86_32]
-x11-libs/libxkbcommon[abi_x86_32]
+sys-apps/dbus[abi_x86_32] # libdbus
+media-libs/fontconfig[abi_x86_32] # libfontconfig
+media-libs/freetype[abi_x86_32] # libfreetype
+net-libs/gnutls[abi_x86_32] # libgnutls
+media-libs/mesa[abi_x86_32,vulkan,opencl] # opengl, vulkan
+sys-libs/libunwind[abi_x86_32] # libunwind
+# llvm-runtimes/libunwind[abi_x86_32] # libunwind llvm
+x11-libs/libX11[abi_x86_32] # libX11
+x11-libs/libXcomposite[abi_x86_32] # XComposite
+x11-libs/libXcursor[abi_x86_32] # XCursor
+x11-libs/libXfixes[abi_x86_32] # XFixes
+x11-libs/libXi[abi_x86_32] # XInput2
+x11-libs/libXrandr[abi_x86_32] # XRandR
+x11-libs/libXrender[abi_x86_32] # XRender
+x11-libs/libXext[abi_x86_32] # XShape, XShm
+dev-libs/wayland[abi_x86_32] # Wayland scanner and client
+media-libs/libglvnd[abi_x86_32] # libEGL
+gui-libs/egl-wayland[abi_x86_32] # Wayland EGL
+# gui-libs/egl-wayland2[abi_x86_32] # Wayland EGL
+# dev-util/wayland-scanner
+x11-libs/libxkbcommon[abi_x86_32] # libxkbcommon, libxkbregistry
 
+# Needed for many applications
+media-libs/gstreamer[abi_x86_32] # GStreamer
+media-libs/gst-plugins-base[abi_x86_32,egl,opengl] # GStreamer
+media-plugins/gst-plugins-meta[abi_x86_32,ffmpeg,mp3,v4l,x264] # GStreamer
+# media-plugins/gst-plugins-libav[abi_x86_32] # GStreamer
+# media-libs/gst-plugins-ugly[abi_x86_32] # GStreamer
+media-libs/libsdl2[abi_x86_32,haptic,joystick,gles2,opengl] # libSDL2
+sys-libs/libudev-compat[abi_x86_32] # libudev
+media-libs/vulkan-loader[X,wayland,abi_x86_32] # Vulkan
+dev-util/vulkan-headers # Vulkan
+
+# Rare or domain-specific
+# net-libs/libcapi[abi_x86_32] # libcapi20
+# net-print/cups[abi_x86_32] # libcups
+# media-libs/libgphoto2[abi_x86_32] # libgphoto2
+# media-gfx/sane-backends[abi_x86_32] # scanner
+virtual/krb5[abi_x86_32] # Kerberos
+# net-fs/samba[abi_x86_32] # libnetapi
+# net-libs/libpcap[abi_x86_32] # pcap
+dev-libs/libusb[abi_x86_32] # libusb
+media-libs/libv4l[abi_x86_32] # libv4l
+virtual/opencl[abi_x86_32] # opencl
+
+# Check if it's need
+# x11-base/xorg-proto
+# dev-db/unixODBC[abi_x86_32] # odbc
+# media-video/ffmpeg[abi_x86_32,vulkan,opengl] # ffmpeg
+# dev-libs/glib[abi_x86_32]
+# sys-apps/pcsc-lite[abi_x86_32] # smartcard
 # dev-lang/perl perl
 # dev-perl/XML-LibXML perl
 # net-fs/samba[winbind] # samba
 # sec-policy/selinux-wine # selinux
-
-x11-base/xorg-proto
-
-sys-devel/bison
-sys-devel/flex
-virtual/pkgconfig
-sys-devel/gettext
-dev-util/wayland-scanner
+# sys-devel/bison
+# sys-devel/flex
+# virtual/pkgconfig
+# sys-devel/gettext
